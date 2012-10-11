@@ -1,6 +1,8 @@
 # Henson
 
-Bundler for Puppet modules.
+Managing your Puppets.
+
+![](http://userserve-ak.last.fm/serve/_/83451/Jim+Henson.jpg)
 
 ## Installation
 
