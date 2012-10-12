@@ -1,3 +1,4 @@
+require "henson/source"
 require "henson/version"
 
 module Henson

@@ -23,5 +23,6 @@ Gem::Specification.new do |gem|
   # dependencies
 
   # development dependencies
+  gem.add_development_dependency "mocha", "~> 0.12.7"
   gem.add_development_dependency "rspec", "~> 2.11"
 end
