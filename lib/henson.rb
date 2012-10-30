@@ -1,4 +1,4 @@
-require "henson/source"
+require "henson/puppet_module"
 require "henson/version"
 
 module Henson
