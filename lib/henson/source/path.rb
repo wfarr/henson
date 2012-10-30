@@ -1,6 +1,6 @@
 module Henson
   module Source
-    class File < Generic
+    class Path < Generic
       attr_reader :path
 
       def initialize(path)

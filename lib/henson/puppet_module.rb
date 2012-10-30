@@ -8,6 +8,10 @@ module Henson
       @name    = name
       @version = version
       @source  = Henson::Source.infer_from_opts opts
+
+      if @source.nil?
+        abort "Invalid source for #{@name}"
+      end
     end
   end
 end

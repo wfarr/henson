@@ -8,9 +8,9 @@ describe Henson::Source do
       }.should raise_error Henson::InvalidSourceError
     end
 
-    it "returns a Source::File if opts includes file" do
-      source = Henson::Source.infer_from_opts :file => '/foo/bar/baz'
-      source.should be_a Henson::Source::File
+    it "returns a Source::Path if opts includes path" do
+      source = Henson::Source.infer_from_opts :path => '/foo/bar/baz'
+      source.should be_a Henson::Source::Path
     end
   end
 end

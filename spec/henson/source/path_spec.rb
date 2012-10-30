@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe Henson::Source::File do
+describe Henson::Source::Path do
   let(:instance) do
-    Henson::Source::File.new("spec/fixtures/modules/foobar")
+    Henson::Source::Path.new("spec/fixtures/modules/foobar")
   end
 
   it "can be instantiated" do

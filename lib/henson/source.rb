@@ -1,6 +1,6 @@
 require "henson/source/generic"
 
-require "henson/source/file"
+require "henson/source/path"
 
 module Henson
   class InvalidSourceError < StandardError; end
@@ -9,8 +9,8 @@ module Henson
     def self.infer_from_opts(opts = {})
       raise Henson::InvalidSourceError unless opts.any?
 
-      if file = opts.delete(:file)
-        Henson::Source::File.new file
+      if path = opts.delete(:path)
+        Henson::Source::Path.new path
       end
     end
   end
