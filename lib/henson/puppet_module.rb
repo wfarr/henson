@@ -10,7 +10,8 @@ module Henson
       @source  = Henson::Source.infer_from_opts opts
 
       if @source.nil?
-        abort "Invalid source for #{@name}"
+        raise Henson::InvalidSourceError,
+          "Source given for #{@name} is invalid: #{opts.inspect}"
       end
     end
   end

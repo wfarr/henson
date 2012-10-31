@@ -2,10 +2,8 @@ require 'spec_helper'
 
 describe Henson::Source do
   describe "infer_from_opts" do
-    it "raises an error if opts hash is empty" do
-      lambda {
-        Henson::Source.infer_from_opts
-      }.should raise_error Henson::InvalidSourceError
+    it "returns nil if opts hash is empty" do
+      Henson::Source.infer_from_opts.should be_nil
     end
 
     it "returns a Source::Path if opts includes path" do

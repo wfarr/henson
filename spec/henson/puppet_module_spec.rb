@@ -14,7 +14,10 @@ describe Henson::PuppetModule do
       it "aborts with a message" do
         lambda {
           Henson::PuppetModule.new 'example', '0', :foo => 'bar'
-        }.should raise_error(SystemExit, "Invalid source for example")
+        }.should raise_error(
+          Henson::InvalidSourceError,
+          "Source given for example is invalid: {:foo=>\"bar\"}"
+        )
       end
     end
   end
