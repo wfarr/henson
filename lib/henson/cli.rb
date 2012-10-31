@@ -36,6 +36,8 @@ module Henson
       Henson::Installer.local! if options[:local]
       Henson::Installer.no_cache! if options[:"no-cache"]
       Henson::Installer.clean! if options[:clean]
+
+      Henson::Installer.install!
     end
   end
 end

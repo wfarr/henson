@@ -1,6 +1,6 @@
 module Henson
   class Installer
-    def self.install
+    def self.install!
     end
 
     def self.local!

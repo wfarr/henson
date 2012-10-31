@@ -5,8 +5,8 @@ describe Henson::Installer do
     Henson.reset_settings
   end
 
-  it "implements install" do
-    Henson::Installer.install
+  it "implements install!" do
+    Henson::Installer.install!
   end
 
   it "local! makes local setting true" do
