@@ -2,8 +2,9 @@ module Henson
   class Settings < Hash
     def initialize
       self.merge!(
-        :quiet   => false,
-        :verbose => false
+        :quiet      => false,
+        :verbose    => false,
+        :puppetfile => "#{Dir.pwd}/Puppetfile"
       )
 
       self

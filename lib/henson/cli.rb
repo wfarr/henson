@@ -12,6 +12,9 @@ module Henson
       Henson.ui = Henson::UI.new the_shell
       Henson.ui.quiet! if options["quiet"]
       Henson.ui.debug! if options["verbose"]
+      if ENV['HENSON_PUPPETFILE']
+        Henson.settings[:puppetfile] = ENV['HENSON_PUPPETFILE']
+      end
     end
 
     check_unknown_options!

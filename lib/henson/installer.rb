@@ -1,6 +1,7 @@
 module Henson
   class Installer
     def self.install!
+      parse_puppetfile!
     end
 
     def self.local!
@@ -13,6 +14,13 @@ module Henson
 
     def self.clean!
       Henson.settings[:clean] = true
+    end
+
+    def self.parse_puppetfile!
+      unless File.exists?(Henson.settings[:puppetfile])
+        raise Henson::PuppetfileNotFound,
+          "Expected a Puppetfile at #{Henson.settings[:puppetfile]}!"
+      end
     end
   end
 end

@@ -3,6 +3,7 @@ require 'spec_helper'
 describe Henson::Installer do
   before do
     Henson.reset_settings
+    Henson.settings[:puppetfile] = File.expand_path("spec/fixtures/Puppetfile")
   end
 
   it "implements install!" do
@@ -25,5 +26,17 @@ describe Henson::Installer do
     Henson.settings[:clean].should_not be_true
     Henson::Installer.clean!
     Henson.settings[:clean].should be_true
+  end
+
+  context "parse_puppetfile!" do
+    it "raises MissingPuppetfileError if no Puppetfile" do
+      lambda {
+        Henson.settings[:puppetfile] = '/path/to/no/Puppetfile'
+        Henson::Installer.parse_puppetfile!
+      }.should raise_error(
+        Henson::PuppetfileNotFound,
+        "Expected a Puppetfile at /path/to/no/Puppetfile!"
+      )
+    end
   end
 end
