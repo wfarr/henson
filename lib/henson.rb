@@ -1,3 +1,4 @@
+require "henson/installer"
 require "henson/puppet_module"
 require "henson/version"
 
