@@ -6,4 +6,10 @@ describe Henson::Source::Generic do
   it "can be instantiated" do
     instance.should_not be_nil
   end
+
+  it "requires subclasses implement fetch!" do
+    lambda {
+      instance.fetch!
+    }.should raise_error(NotImplementedError)
+  end
 end
