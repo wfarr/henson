@@ -23,6 +23,8 @@ module Henson
         raise PuppetfileNotFound,
           "Expected a Puppetfile at #{Henson.settings[:puppetfile]}!"
       end
+
+      DSL.evaluate(Henson.settings[:puppetfile])
     end
   end
 end

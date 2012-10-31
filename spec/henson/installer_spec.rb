@@ -29,6 +29,11 @@ describe Henson::Installer do
   end
 
   context "parse_puppetfile!" do
+    it "evalutes the puppetfile in the DSL" do
+      Henson::DSL.expects(:evaluate).with(Henson.settings[:puppetfile])
+      Henson::Installer.parse_puppetfile!
+    end
+
     it "raises MissingPuppetfileError if no Puppetfile" do
       lambda {
         Henson.settings[:puppetfile] = '/path/to/no/Puppetfile'
