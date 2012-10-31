@@ -66,6 +66,12 @@ describe Henson::DSL do
       mod.should be_a Henson::PuppetModule
     end
 
+    it "adds the module to the modules array" do
+      instance.modules.should be_empty
+      mod
+      instance.modules.should include(mod)
+    end
+
     context "when source is a Path" do
       it "does not call fetch! on the module" do
         Henson::PuppetModule.any_instance.expects(:fetch!).never
