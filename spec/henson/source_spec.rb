@@ -10,5 +10,10 @@ describe Henson::Source do
       source = Henson::Source.infer_from_opts :path => '/foo/bar/baz'
       source.should be_a Henson::Source::Path
     end
+
+    it "returns a Source::Forge if opts includes forge" do
+      source = Henson::Source.infer_from_opts :forge => 'wfarr/whatever'
+      source.should be_a Henson::Source::Forge
+    end
   end
 end
