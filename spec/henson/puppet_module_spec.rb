@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe Henson::PuppetModule do
-  describe "module with opts" do
-    describe "that are valid" do
+  context "module with opts" do
+    context "that are valid" do
       let(:mod) { Henson::PuppetModule.new 'example', '0', :path => "/foo/bar/baz" }
 
       it "must have a source" do
@@ -10,7 +10,7 @@ describe Henson::PuppetModule do
       end
     end
 
-    describe "that are invalid" do
+    context "that are invalid" do
       it "aborts with a message" do
         lambda {
           Henson::PuppetModule.new 'example', '0', :foo => 'bar'
