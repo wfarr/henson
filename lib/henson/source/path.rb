@@ -10,6 +10,7 @@ module Henson
       def fetch!
       end
 
+    private
       def valid?
         path_exists?
       end
