@@ -9,7 +9,7 @@ module Henson
     def initialize(*)
       super
       the_shell = options["no-color"] ? Thor::Shell::Basic.new : shell
-      Henson.ui = Henson::UI.new the_shell
+      Henson.ui = UI.new the_shell
       Henson.ui.quiet! if options["quiet"]
       Henson.ui.debug! if options["verbose"]
       if ENV['HENSON_PUPPETFILE']
@@ -36,11 +36,11 @@ module Henson
     method_option "clean", :type => :boolean, :banner =>
       "Run henson clean automatically after install."
     def install
-      Henson::Installer.local! if options[:local]
-      Henson::Installer.no_cache! if options[:"no-cache"]
-      Henson::Installer.clean! if options[:clean]
+      Installer.local! if options[:local]
+      Installer.no_cache! if options[:"no-cache"]
+      Installer.clean! if options[:clean]
 
-      Henson::Installer.install!
+      Installer.install!
     end
   end
 end

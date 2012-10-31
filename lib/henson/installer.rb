@@ -20,7 +20,7 @@ module Henson
 
     def self.parse_puppetfile!
       unless File.exists?(Henson.settings[:puppetfile])
-        raise Henson::PuppetfileNotFound,
+        raise PuppetfileNotFound,
           "Expected a Puppetfile at #{Henson.settings[:puppetfile]}!"
       end
     end

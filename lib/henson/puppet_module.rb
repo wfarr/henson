@@ -7,10 +7,10 @@ module Henson
     def initialize name, version, opts = {}
       @name    = name
       @version = version
-      @source  = Henson::Source.infer_from_opts opts
+      @source  = Source.infer_from_opts opts
 
       if @source.nil?
-        raise Henson::PuppetfileError,
+        raise PuppetfileError,
           "Source given for #{@name} is invalid: #{opts.inspect}"
       end
     end

@@ -5,7 +5,7 @@ require "henson/version"
 
 module Henson
   def self.settings
-    @settings ||= Henson::Settings.new
+    @settings ||= Settings.new
   end
 
   def self.ui=(new_ui)

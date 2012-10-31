@@ -18,7 +18,7 @@ module Henson
     end
 
     def mod(name, version, opts = {})
-      Henson::PuppetModule.new(name, version, opts)
+      PuppetModule.new(name, version, opts)
     end
   end
 end
