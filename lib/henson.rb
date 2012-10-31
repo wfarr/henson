@@ -7,4 +7,12 @@ module Henson
   def self.settings
     @settings ||= Henson::Settings.new
   end
+
+  def self.ui=(new_ui)
+    @ui = new_ui
+  end
+
+  def self.ui
+    @ui
+  end
 end

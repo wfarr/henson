@@ -5,7 +5,8 @@ module Henson
     begin
       yield
     rescue Henson::InvalidSourceError => e
-      puts e.message
+      Henson.ui.error   e.message
+      Henson.ui.warning e.backtrace.join("\n")
       exit 1
     end
   end

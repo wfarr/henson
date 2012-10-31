@@ -1,9 +1,18 @@
+require 'henson/ui'
 require 'henson/friendly_errors'
 require 'thor'
 
 module Henson
   class CLI < Thor
     include Thor::Actions
+
+    def initialize(*)
+      super
+      the_shell = options["no-color"] ? Thor::Shell::Basic.new : shell
+      Henson.ui = Henson::UI.new the_shell
+      Henson.ui.quiet! if options["quiet"]
+      Henson.ui.debug! if options["verbose"]
+    end
 
     check_unknown_options!
 

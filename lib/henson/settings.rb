@@ -5,6 +5,8 @@ module Henson
         :quiet   => false,
         :verbose => false
       )
+
+      self
     end
 
     def [](key)
