@@ -15,7 +15,7 @@ describe Henson::PuppetModule do
         lambda {
           Henson::PuppetModule.new 'example', '0', :foo => 'bar'
         }.should raise_error(
-          Henson::InvalidSourceError,
+          Henson::PuppetfileError,
           "Source given for example is invalid: {:foo=>\"bar\"}"
         )
       end

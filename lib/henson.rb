@@ -15,4 +15,17 @@ module Henson
   def self.ui
     @ui
   end
+
+  ########
+  # Errors
+  ########
+
+  class Error < StandardError
+    def self.exit_code(i)
+      define_method(:exit_code) { i }
+    end
+  end
+
+  class PuppetfileError    < Error; exit_code(14); end
+  class PuppetfileNotFound < Error; exit_code(16); end
 end
