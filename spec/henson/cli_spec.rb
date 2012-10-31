@@ -2,14 +2,13 @@ require 'spec_helper'
 require 'henson/cli'
 
 describe Henson::CLI do
-  context "run" do
-    it "is defined" do
-      Henson::CLI.run
-    end
+  it "is a subclass of Thor" do
+    Henson::CLI.new.should be_a Thor
+  end
 
-    it "passes args onto initialize" do
-      Henson::CLI.expects(:initialize).with('foo', 'bar', 'baz')
-      Henson::CLI.run 'foo', 'bar', 'baz'
+  context "start" do
+    it "responds to start, provided by Thor" do
+      Henson::CLI.start
     end
   end
 end

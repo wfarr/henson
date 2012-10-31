@@ -21,6 +21,7 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
 
   # dependencies
+  gem.add_dependency "thor", "~> 0.16.0"
 
   # development dependencies
   gem.add_development_dependency "mocha",     "~> 0.12.7"
