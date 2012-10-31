@@ -20,6 +20,42 @@ describe Henson::DSL do
         /Puppetfile syntax error:/
       )
     end
+
+    it "raises PuppetfileError if a ScriptError is encountered" do
+      lambda {
+        Henson::DSL.evaluate('spec/fixtures/Puppetfile.with_script_error')
+      }.should raise_error(
+        Henson::PuppetfileError,
+        /There was an error in your Puppetfile, and Henson cannot continue\./
+      )
+    end
+
+    it "raises PuppetfileError if a RegexpError is encountered" do
+      lambda {
+        Henson::DSL.evaluate('spec/fixtures/Puppetfile.with_regexp_error')
+      }.should raise_error(
+        Henson::PuppetfileError,
+        /There was an error in your Puppetfile, and Henson cannot continue\./
+      )
+    end
+
+    it "raises PuppetfileError if a NameError is encountered" do
+      lambda {
+        Henson::DSL.evaluate('spec/fixtures/Puppetfile.with_name_error')
+      }.should raise_error(
+        Henson::PuppetfileError,
+        /There was an error in your Puppetfile, and Henson cannot continue\./
+      )
+    end
+
+    it "raises PuppetfileError if an ArgumentError is encountered" do
+      lambda {
+        Henson::DSL.evaluate('spec/fixtures/Puppetfile.with_argument_error')
+      }.should raise_error(
+        Henson::PuppetfileError,
+        /There was an error in your Puppetfile, and Henson cannot continue\./
+      )
+    end
   end
 
   context "mod" do
