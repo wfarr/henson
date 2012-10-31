@@ -4,4 +4,4 @@ require 'rubygems'
 require 'henson'
 require 'henson/cli'
 
-Henson::CLI.start
+Henson.with_friendly_errors { Henson::CLI.start }

@@ -1,3 +1,4 @@
+require 'henson/friendly_errors'
 require 'thor'
 
 module Henson
