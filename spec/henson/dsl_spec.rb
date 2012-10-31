@@ -61,6 +61,7 @@ describe Henson::DSL do
   context "mod" do
     let(:path) { 'spec/fixtures/modules/foobar' }
     let(:mod) { instance.mod('foobar', '0', :path => path) }
+
     it "returns a PuppetModule" do
       mod.should be_a Henson::PuppetModule
     end
