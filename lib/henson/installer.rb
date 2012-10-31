@@ -1,3 +1,5 @@
+require "henson/dsl"
+
 module Henson
   class Installer
     def self.install!
