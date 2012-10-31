@@ -18,7 +18,9 @@ module Henson
     end
 
     def mod(name, version, opts = {})
-      PuppetModule.new(name, version, opts)
+      PuppetModule.new(name, version, opts).tap do |puppet_module|
+        puppet_module.fetch! unless puppet_module.source.kind_of? Source::Path
+      end
     end
   end
 end

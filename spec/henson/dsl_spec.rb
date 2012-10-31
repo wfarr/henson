@@ -65,5 +65,19 @@ describe Henson::DSL do
     it "returns a PuppetModule" do
       mod.should be_a Henson::PuppetModule
     end
+
+    context "when source is a Path" do
+      it "does not call fetch! on the module" do
+        Henson::PuppetModule.any_instance.expects(:fetch!).never
+        instance.mod('foobar', '0', :path => path)
+      end
+    end
+
+    context "when source is not a Path" do
+      it "calls fetch! on the module" do
+        Henson::PuppetModule.expects(:fetch!).once
+        instance.mod('foobar', '0', :forge => 'wfarr/whatever')
+      end
+    end
   end
 end
