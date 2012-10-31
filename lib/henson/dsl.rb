@@ -11,6 +11,9 @@ module Henson
       raise Henson::PuppetfileError,
         ["Puppetfile syntax error:", *backtrace].join("\n")
     end
+
+    def mod(name, version, opts = {})
+      Henson::PuppetModule.new(name, version, opts)
     end
   end
 end
