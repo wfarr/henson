@@ -19,10 +19,5 @@ describe Henson::DSL do
         /Puppetfile syntax error:/
       )
     end
-    it "is defined" do
-      lambda {
-        Henson::DSL.new.evaluate('foobar')
-      }.should_not raise_error(NoMethodError)
-    end
   end
 end
