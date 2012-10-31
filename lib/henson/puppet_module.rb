@@ -14,8 +14,5 @@ module Henson
           "Source given for #{@name} is invalid: #{opts.inspect}"
       end
     end
-
-    def fetch!
-    end
   end
 end
