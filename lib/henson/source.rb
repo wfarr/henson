@@ -2,6 +2,7 @@ require "henson/source/generic"
 
 require "henson/source/forge"
 require "henson/source/git"
+require "henson/source/github_tarball"
 require "henson/source/path"
 
 module Henson
