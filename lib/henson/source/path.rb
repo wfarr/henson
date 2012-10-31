@@ -7,6 +7,9 @@ module Henson
         @path = path
       end
 
+      def fetch!
+      end
+
       def valid?
         path_exists?
       end

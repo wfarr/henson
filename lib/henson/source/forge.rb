@@ -4,6 +4,9 @@ module Henson
       def initialize(forge)
         @forge = forge
       end
+
+      def fetch!
+      end
     end
   end
 end
