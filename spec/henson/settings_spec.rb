@@ -14,8 +14,9 @@ describe Henson::Settings do
   context "[]" do
     it "delegates to fetch" do
       instance = Henson::Settings.new
-      instance.expects(:fetch).with('foo')
       instance['foo'].should be_nil
+      instance['foo'] = :bar
+      instance['foo'].should eql :bar
     end
   end
 end

@@ -10,7 +10,7 @@ module Henson
     end
 
     def [](key)
-      self.fetch(key)
+      self.fetch(key, nil)
     end
   end
 end

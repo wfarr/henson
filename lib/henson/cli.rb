@@ -33,6 +33,9 @@ module Henson
     method_option "clean", :type => :boolean, :banner =>
       "Run henson clean automatically after install."
     def install
+      Henson::Installer.local! if options[:local]
+      Henson::Installer.no_cache! if options[:"no-cache"]
+      Henson::Installer.clean! if options[:clean]
     end
   end
 end

@@ -30,3 +30,9 @@ RSpec.configure do |config|
     FileUtils.rm_rf('spec/fixtures/*.log')
   end
 end
+
+module Henson
+  def self.reset_settings
+    @settings = Henson::Settings.new
+  end
+end
