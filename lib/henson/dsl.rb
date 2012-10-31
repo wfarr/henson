@@ -12,6 +12,7 @@ module Henson
 
     def evaluate(puppetfile)
       instance_eval File.read(puppetfile)
+      self
     rescue SyntaxError => e
       backtrace = e.message.split("\n")[1..-1]
       raise PuppetfileError,
