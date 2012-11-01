@@ -26,6 +26,9 @@ module Henson
 
     def mod(name, version, opts = {})
       PuppetModule.new(name, version, opts).tap do |puppet_module|
+        unless puppet_module.satisfied?
+          raise RequirementNotSatisfied, "#{name} (#{version})"
+        end
         puppet_module.source.fetch!
 
         @modules << puppet_module
