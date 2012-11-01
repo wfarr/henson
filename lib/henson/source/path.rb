@@ -10,6 +10,12 @@ module Henson
       def fetch!
       end
 
+      def versions
+        # Obviously, when the modulespec stuff is written we'd want to try that
+        # first and then fall back to the Modulefile if necessary.
+        [version_from_modulefile]
+      end
+
     private
       def valid?
         path_exists?
