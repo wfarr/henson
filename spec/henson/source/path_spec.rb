@@ -36,4 +36,11 @@ describe Henson::Source::Path do
       source.send(:path_exists?).should be_false
     end
   end
+
+  context 'version_from_modulefile' do
+    it 'parses the Modulefile to get the version string' do
+      source = Henson::Source::Path.new('spec/fixtures/modules/foobar')
+      source.send(:version_from_modulefile).should == '0.0.1'
+    end
+  end
 end

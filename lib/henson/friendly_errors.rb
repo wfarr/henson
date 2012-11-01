@@ -11,6 +11,9 @@ module Henson
     rescue PuppetfileNotFound => e
       Henson.ui.error "Could not find Puppetfile!"
       exit e.exit_code
+    rescue ModuleNotFound => e
+      Henson.ui.error "Could not find module: #{e.message}"
+      exit e.exit_code
     end
   end
 end
