@@ -41,7 +41,7 @@ describe Henson::UI do
         Henson.settings.stubs(:[]).with(:verbose).returns(false)
       end
 
-      it "debug sends a message" do
+      it "debug does not send a message" do
         ui.expects(:log).with("noize").never
         ui.debug "noize"
       end
@@ -101,7 +101,7 @@ describe Henson::UI do
         Henson.settings.stubs(:[]).with(:verbose).returns(false)
       end
 
-      it "debug sends a message" do
+      it "debug does not send a message" do
         ui.expects(:log).with("noize").never
         ui.debug "noize"
       end
