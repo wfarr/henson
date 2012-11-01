@@ -4,6 +4,10 @@ module Henson
       def fetch!
         raise NotImplementedError
       end
+
+      def versions
+        raise NotImplementedError
+      end
     end
   end
 end
