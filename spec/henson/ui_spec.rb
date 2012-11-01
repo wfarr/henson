@@ -7,12 +7,12 @@ describe Henson::UI do
 
   context "when quiet" do
     before do
-      Henson.settings.stubs(:[]).with(:quiet).returns(true)
+      Henson.settings[:quiet] = true
     end
 
     context "when verbose" do
       before do
-        Henson.settings.stubs(:[]).with(:verbose).returns(true)
+        Henson.settings[:verbose] = true
       end
 
       it "debug sends a message" do
@@ -38,7 +38,7 @@ describe Henson::UI do
 
     context "when not verbose" do
       before do
-        Henson.settings.stubs(:[]).with(:verbose).returns(false)
+        Henson.settings[:verbose] = false
       end
 
       it "debug does not send a message" do
@@ -67,12 +67,12 @@ describe Henson::UI do
     let(:ui) { Henson::UI.new Thor::Shell::Basic.new }
 
     before do
-      Henson.settings.stubs(:[]).with(:quiet).returns(false)
+      Henson.settings[:quiet] = false
     end
 
     context "when verbose" do
       before do
-        Henson.settings.stubs(:[]).with(:verbose).returns(true)
+        Henson.settings[:verbose] = true
       end
 
       it "debug sends a message" do
@@ -98,7 +98,7 @@ describe Henson::UI do
 
     context "when not verbose" do
       before do
-        Henson.settings.stubs(:[]).with(:verbose).returns(false)
+        Henson.settings[:verbose] = false
       end
 
       it "debug does not send a message" do
@@ -120,6 +120,22 @@ describe Henson::UI do
         ui.expects(:log).with("freak out", :red).once
         ui.error "freak out"
       end
+    end
+  end
+
+  context "debug!" do
+    it "should change verbose setting to true" do
+      Henson.settings[:verbose] = false
+      ui.debug!
+      Henson.settings[:verbose].should be_true
+    end
+  end
+
+  context "quiet!" do
+    it "should change quiet setting to true" do
+      Henson.settings[:quiet] = false
+      ui.quiet!
+      Henson.settings[:quiet].should be_true
     end
   end
 end
