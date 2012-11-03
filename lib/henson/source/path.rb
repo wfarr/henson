@@ -30,14 +30,7 @@ module Henson
       end
 
       def version_from_modulefile
-        modulefile_path = File.join(path, 'Modulefile')
-        modulefile_contents = File.readlines(modulefile_path)
-        version_line = modulefile_contents.grep(/\A\s*version\s+[\d\.]+\s*\Z/).first
-        if version_line.nil?
-          # TODO raise error that modulefile didn't contain a version line
-        else
-          version_line.strip.split(/\s+/).last
-        end
+        DSL::Modulefile.evaluate(File.join(path, 'Modulefile')).version
       end
     end
   end
