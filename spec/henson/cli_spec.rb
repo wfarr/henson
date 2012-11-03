@@ -47,6 +47,12 @@ describe Henson::CLI do
         Henson::CLI.start
         Henson.settings[:clean].should be_true
       end
+
+      it "sets path if --path" do
+        ARGV = ["install", "--path", "spec/fixtures/shared"]
+        Henson::CLI.start
+        Henson.settings[:path].should eql "spec/fixtures/shared"
+      end
     end
   end
 end

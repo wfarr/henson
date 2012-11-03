@@ -35,10 +35,14 @@ module Henson
       "Don't update the existing Puppet module cache."
     method_option "clean", :type => :boolean, :banner =>
       "Run henson clean automatically after install."
+    method_option "path", :type => :string, :banner =>
+      "Path to install modules into."
     def install
       Installer.local! if options[:local]
       Installer.no_cache! if options[:"no-cache"]
       Installer.clean! if options[:clean]
+
+      Henson.settings[:path] = options[:path] if options[:path]
 
       Installer.install!
     end
