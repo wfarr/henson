@@ -5,7 +5,7 @@ begin
 
   desc "Run specs"
   RSpec::Core::RakeTask.new do |t|
-    t.rspec_opts = %w(-fs --color)
+    t.rspec_opts = %w(-fp --color)
     t.ruby_opts  = %w(-w)
   end
 rescue LoadError
