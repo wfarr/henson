@@ -6,7 +6,6 @@ module Henson
       end
 
       def fetched?;   end
-      def installed?; end
 
       def versions; []; end
 

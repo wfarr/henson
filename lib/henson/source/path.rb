@@ -16,10 +16,6 @@ module Henson
         true
       end
 
-      def installed?
-        File.directory? "#{Henson.settings[:path]}/#{name}"
-      end
-
       def fetch!
         # noop
       end
