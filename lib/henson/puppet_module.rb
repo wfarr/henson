@@ -16,8 +16,24 @@ module Henson
       end
     end
 
+    def fetched?
+      source.fetched?
+    end
+
+    def installed?
+      source.installed?
+    end
+
     def satisfied?
       source.satisfies? @requirement
+    end
+
+    def needs_fetching?
+      !fetched?
+    end
+
+    def needs_installing?
+      !satisfied? || !installed?
     end
 
     def fetch!

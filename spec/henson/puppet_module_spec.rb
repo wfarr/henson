@@ -12,6 +12,20 @@ describe Henson::PuppetModule do
         mod.source.should_not be_nil
       end
 
+      context "#fetched?" do
+        it "delegates to the source" do
+          mod.source.stubs(:fetched?).returns(true)
+          mod.fetched?.should be_true
+        end
+      end
+
+      context "#installed?" do
+        it "delegates to the source" do
+          mod.source.stubs(:installed?).returns(true)
+          mod.installed?.should be_true
+        end
+      end
+
       context "satisfied?" do
         let(:source) { Henson::Source::Generic.new }
 
@@ -27,6 +41,39 @@ describe Henson::PuppetModule do
         it "returns false if the source does not satisfy the requirement" do
           source.stubs(:satisfies?).with(mod.requirement).returns(false)
           mod.satisfied?.should be_false
+        end
+      end
+
+      context "#needs_fetching?" do
+        it "returns true if fetched? is false" do
+          mod.stubs(:fetched?).returns(false)
+          mod.needs_fetching?.should be_true
+        end
+
+        it "returns false if fetched? is true" do
+          mod.stubs(:fetched?).returns(true)
+          mod.needs_fetching?.should be_false
+        end
+      end
+
+      context "#needs_installing?" do
+        before do
+          mod.stubs(:satisfied?).returns(true)
+          mod.stubs(:installed?).returns(true)
+        end
+
+        it "returns true if not satisfied" do
+          mod.stubs(:satisfied?).returns(false)
+          mod.needs_installing?.should be_true
+        end
+
+        it "returns true if not installed" do
+          mod.stubs(:installed?).returns(false)
+          mod.needs_installing?.should be_true
+        end
+
+        it "returns false if satisfied and installed" do
+          mod.needs_installing?.should be_false
         end
       end
 
