@@ -7,7 +7,7 @@ module Henson
     def initialize name, version, opts = {}
       @name        = name
       @version     = version
-      @source      = Source.infer_from_opts opts
+      @source      = Source.infer_from_opts name, opts
       @requirement = Gem::Requirement.new(version)
 
       if @source.nil?

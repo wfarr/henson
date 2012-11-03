@@ -3,12 +3,21 @@ require "fileutils"
 module Henson
   module Source
     class Path < Generic
-      attr_reader :path
+      attr_reader :path, :name
 
-      def initialize(path)
+      def initialize(name, path)
         @path = path
+        @name = name
 
         raise ModuleNotFound, path unless valid?
+      end
+
+      def fetched?
+        true
+      end
+
+      def installed?
+        File.directory? "#{Henson.settings[:path]}/#{name}"
       end
 
       def fetch!
@@ -16,6 +25,8 @@ module Henson
       end
 
       def install!
+        Henson.ui.debug "Installing #{name} from #{path} into #{Henson.settings[:path]}..."
+        Henson.ui.info  "Installing #{name} from #{path}..."
         FileUtils.cp_r path, Henson.settings[:path]
       end
 
@@ -36,6 +47,8 @@ module Henson
 
       def version_from_modulefile
         DSL::Modulefile.evaluate(File.join(path, 'Modulefile')).version
+      rescue ModulefileNotFound
+        "0"
       end
     end
   end

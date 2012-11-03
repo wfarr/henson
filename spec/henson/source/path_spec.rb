@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Henson::Source::Path do
   let(:source) do
-    Henson::Source::Path.new("spec/fixtures/modules/foobar")
+    Henson::Source::Path.new("foobar", "spec/fixtures/modules/foobar")
   end
 
   it "can be instantiated" do
@@ -15,8 +15,18 @@ describe Henson::Source::Path do
 
   it "raises an error if the path does not exist" do
     lambda {
-      Henson::Source::Path.new('/does/not/exist')
+      Henson::Source::Path.new('dne', '/does/not/exist')
     }.should raise_error(Henson::ModuleNotFound, '/does/not/exist')
+  end
+
+  context "#fetch!" do
+    it "is a noop" do
+      source.fetch!.should be_nil
+    end
+  end
+
+  context "#install!" do
+    it "logs an install message"
   end
 
   context "versions" do
