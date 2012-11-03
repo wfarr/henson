@@ -12,4 +12,10 @@ describe Henson::Source::Generic do
       instance.fetch!
     }.should raise_error(NotImplementedError)
   end
+
+  it "requires subclasses implement versions" do
+    lambda {
+      instance.versions
+    }.should raise_error(NotImplementedError)
+  end
 end
