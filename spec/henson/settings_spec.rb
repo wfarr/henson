@@ -9,6 +9,16 @@ describe Henson::Settings do
     it "defaults verbose to false" do
       Henson::Settings.new[:verbose].should be_false
     end
+
+    it "defaults puppetfile to Puppetfile" do
+      puppetfile = "#{Dir.pwd}/Puppetfile"
+      Henson::Settings.new[:puppetfile].should eql puppetfile
+    end
+
+    it "defaults path to shared" do
+      shared = "#{Dir.pwd}/shared"
+      Henson::Settings.new[:path].should eql shared
+    end
   end
 
   context "[]" do
