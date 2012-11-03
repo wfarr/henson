@@ -7,8 +7,8 @@ describe Henson::Installer do
   end
 
   context ".install!" do
-    it "fetches each module" do
-      pending "doing mocks with all this is painful as fuck"
+    it "responds to .install!" do
+      Henson::Installer.install!
     end
   end
 

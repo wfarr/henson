@@ -27,6 +27,9 @@ module Henson
 
       def mod(name, version, opts = {})
         PuppetModule.new(name, version, opts).tap do |puppet_module|
+          puppet_module.fetch!
+
+          # TODO calculate module's dependencies?
           @modules << puppet_module
         end
       end
