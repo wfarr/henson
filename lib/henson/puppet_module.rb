@@ -24,6 +24,10 @@ module Henson
       source.fetch!
     end
 
+    def install!
+      source.install!
+    end
+
     def versions
       source.versions
     end

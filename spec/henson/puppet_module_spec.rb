@@ -37,6 +37,13 @@ describe Henson::PuppetModule do
         end
       end
 
+      context "#install!" do
+        it "delegates to the source" do
+          mod.source.stubs(:install!).returns(:installed)
+          mod.install!.should eql :installed
+        end
+      end
+
       context "#versions" do
         it "delegates to the source" do
           mod.source.stubs(:versions).returns(['1.1', '1.2'])

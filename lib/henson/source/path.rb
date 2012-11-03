@@ -1,3 +1,5 @@
+require "fileutils"
+
 module Henson
   module Source
     class Path < Generic
@@ -10,8 +12,11 @@ module Henson
       end
 
       def fetch!
-        Henson.ui.debug "Fetching #{path}..."
-        Henson.ui.info  "Fetching #{path}..."
+        # noop
+      end
+
+      def install!
+        FileUtils.cp_r path, Henson.settings[:path]
       end
 
       def versions

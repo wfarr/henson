@@ -6,9 +6,11 @@ module Henson
       end
 
       def fetch!
-        Henson.ui.debug "Fetching module from Puppet Forge as #{@forge}..."
-        Henson.ui.info  "Fetching module from Puppet Forge as #{@forge}..."
-        Henson.ui.warning "Not really fetching."
+        # TODO implement me
+      end
+
+      def install!
+        # TODO implement me
       end
     end
   end
