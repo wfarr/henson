@@ -23,5 +23,9 @@ module Henson
     def fetch!
       source.fetch!
     end
+
+    def versions
+      source.versions
+    end
   end
 end

@@ -29,6 +29,13 @@ describe Henson::PuppetModule do
           mod.satisfied?.should be_false
         end
       end
+
+      context "versions" do
+        it "delegates to the source" do
+          mod.source.stubs(:versions).returns(['1.1', '1.2'])
+          mod.versions.should eql(['1.1', '1.2'])
+        end
+      end
     end
 
     context "that are invalid" do
