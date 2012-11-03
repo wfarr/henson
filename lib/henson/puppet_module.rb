@@ -5,9 +5,9 @@ module Henson
     attr_reader :name, :version, :source, :requirement
 
     def initialize name, version, opts = {}
-      @name    = name
-      @version = version
-      @source  = Source.infer_from_opts opts
+      @name        = name
+      @version     = version
+      @source      = Source.infer_from_opts opts
       @requirement = Gem::Requirement.new(version)
 
       if @source.nil?
