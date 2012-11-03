@@ -57,17 +57,5 @@ describe Henson::Source::Path do
         "spec/fixtures/modules/foobar"
       )
     end
-
-    it "raises ModulefileNotFound if no Modulefile" do
-      source.stubs(:path_exists?).returns(true)
-      source.stubs(:path).returns("/does/not/exist")
-
-      lambda {
-        source.send(:version_from_modulefile)
-      }.should raise_error(
-        Henson::ModulefileNotFound,
-        "/does/not/exist/Modulefile"
-      )
-    end
   end
 end
