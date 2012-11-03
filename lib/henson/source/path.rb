@@ -37,10 +37,10 @@ module Henson
               version_line.strip.split(/\s+/).last
             end
           else
-            # TODO raise error that the module didn't contain a modulefile
+            raise ModulefileNotFound, modulefile_path
           end
         else
-          raise Henson::ModuleNotFound, path
+          raise ModuleNotFound, path
         end
       end
     end

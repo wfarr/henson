@@ -6,6 +6,7 @@ describe "Henson.friendly_errors" do
     Henson::PuppetfileError,
     Henson::ModulefileError,
     Henson::PuppetfileNotFound,
+    Henson::ModulefileNotFound,
     Henson::ModuleNotFound
   ]
 
