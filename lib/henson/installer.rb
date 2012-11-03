@@ -7,8 +7,15 @@ module Henson
       FileUtils.mkdir_p File.expand_path(Henson.settings[:path])
 
       parse_puppetfile!.modules.each do |mod|
-        mod.fetch!
-        mod.install!
+        mod.fetch! if mod.needs_fetching?
+
+        if mod.needs_installing?
+          mod.install!
+        else
+          install_path = "#{Henson.settings[:path]}/#{mod.name}"
+          Henson.ui.debug "Using #{mod.name} (#{mod.version}) from #{install_path}"
+          Henson.ui.info  "Using #{mod.name} (#{mod.version})"
+        end
       end
     end
 
