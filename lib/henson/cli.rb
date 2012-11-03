@@ -10,8 +10,8 @@ module Henson
       super
       the_shell = options["no-color"] ? Thor::Shell::Basic.new : shell
       Henson.ui = UI.new the_shell
-      Henson.ui.quiet! if options["quiet"]
-      Henson.ui.debug! if options["verbose"]
+      Henson.ui.quiet! if options[:quiet]
+      Henson.ui.debug! if options[:debug]
       if ENV['HENSON_PUPPETFILE']
         Henson.settings[:puppetfile] = ENV['HENSON_PUPPETFILE']
       end
@@ -29,6 +29,8 @@ module Henson
     D
     method_option "quiet", :type => :boolean, :banner =>
       "Only output warnings and errors."
+    method_option "debug", :type => :boolean, :banner =>
+      "Turn on verbose output."
     method_option "local", :type => :boolean, :banner =>
       "Only check local cache source for modules."
     method_option "no-cache", :type => :boolean, :banner =>
@@ -38,9 +40,9 @@ module Henson
     method_option "path", :type => :string, :banner =>
       "Path to install modules into."
     def install
-      Installer.local! if options[:local]
+      Installer.local!    if options[:local]
       Installer.no_cache! if options[:"no-cache"]
-      Installer.clean! if options[:clean]
+      Installer.clean!    if options[:clean]
 
       Henson.settings[:path] = options[:path] if options[:path]
 
