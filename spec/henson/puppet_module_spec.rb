@@ -30,7 +30,14 @@ describe Henson::PuppetModule do
         end
       end
 
-      context "versions" do
+      context "#fetch!" do
+        it "delegates to the source" do
+          mod.source.stubs(:fetch!).returns(:fetched)
+          mod.fetch!.should eql :fetched
+        end
+      end
+
+      context "#versions" do
         it "delegates to the source" do
           mod.source.stubs(:versions).returns(['1.1', '1.2'])
           mod.versions.should eql(['1.1', '1.2'])
