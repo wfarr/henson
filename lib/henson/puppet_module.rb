@@ -22,5 +22,9 @@ module Henson
       end
       false
     end
+
+    def fetch!
+      source.fetch!
+    end
   end
 end

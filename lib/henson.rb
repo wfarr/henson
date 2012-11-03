@@ -26,8 +26,10 @@ module Henson
     end
   end
 
-  class PuppetfileError    < Error; exit_code(14); end
-  class PuppetfileNotFound < Error; exit_code(16); end
-  class ModuleNotFound     < Error; exit_code(18); end
-  class RequirementNotSatisfied < Error; exit_code(20); end
+  class PuppetfileError         < Error; exit_code(14); end
+  class PuppetfileNotFound      < Error; exit_code(16); end
+  class ModulefileError         < Error; exit_code(14); end
+  class ModuleNotFound          < Error; exit_code(16); end
+
+  class RequirementNotSatisfied < Error; exit_code(18); end
 end

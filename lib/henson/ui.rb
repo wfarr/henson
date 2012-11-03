@@ -6,6 +6,10 @@ module Henson
       @shell = shell
     end
 
+    def debug(message)
+      log message if debug?
+    end
+
     def info(message)
       log message unless quiet?
     end

@@ -10,6 +10,14 @@ describe "Henson.friendly_errors" do
     }.should_not raise_error(Henson::PuppetfileError)
   end
 
+  it "rescues Henson::ModulefileError" do
+    lambda {
+      Henson.with_friendly_errors do
+        raise Henson::ModulefileError
+      end
+    }.should_not raise_error(Henson::ModulefileError)
+  end
+
   it "rescues Henson::PuppetfileNotFound" do
     lambda {
       Henson.with_friendly_errors do
