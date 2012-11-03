@@ -3,7 +3,11 @@ require "henson/dsl"
 module Henson
   class Installer
     def self.install!
-      parse_puppetfile!
+      modules = parse_puppetfile!.modules
+
+      modules.each do |mod|
+        mod.fetch!
+      end
     end
 
     def self.local!

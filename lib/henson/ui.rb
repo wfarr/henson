@@ -11,7 +11,7 @@ module Henson
     end
 
     def info(message)
-      log message unless quiet?
+      log message unless quiet? || debug?
     end
 
     def warning(message)

@@ -10,6 +10,8 @@ module Henson
       end
 
       def fetch!
+        Henson.ui.debug "Fetching #{path}..."
+        Henson.ui.info  "Fetching #{path}..."
       end
 
       def versions
