@@ -30,7 +30,7 @@ describe Henson::Installer do
 
   context "parse_puppetfile!" do
     it "evalutes the puppetfile in the DSL" do
-      Henson::DSL.expects(:evaluate).with(Henson.settings[:puppetfile])
+      Henson::DSL::Puppetfile.expects(:evaluate).with(Henson.settings[:puppetfile])
       Henson::Installer.parse_puppetfile!
     end
 

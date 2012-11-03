@@ -24,7 +24,7 @@ module Henson
           "Expected a Puppetfile at #{Henson.settings[:puppetfile]}!"
       end
 
-      DSL.evaluate(Henson.settings[:puppetfile])
+      DSL::Puppetfile.evaluate(Henson.settings[:puppetfile])
     end
   end
 end
