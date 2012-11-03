@@ -63,5 +63,10 @@ describe Henson::Source::Path do
     it 'parses the Modulefile to get the version string' do
       source.send(:version_from_modulefile).should == '0.0.1'
     end
+
+    it "defaults to 0 if modulefile isn't there" do
+      source.stubs(:path).returns("/not/a/real/path")
+      source.send(:version_from_modulefile).should eql "0"
+    end
   end
 end
