@@ -1,20 +1,20 @@
 require 'spec_helper'
 
-describe Henson::DSL do
-  let(:instance) { Henson::DSL.new }
+describe Henson::DSL::Puppetfile do
+  let(:instance) { described_class.new }
 
   context "self.evaluate" do
     it "creates a new instance and calls evaluate" do
-      Henson::DSL.expects(:initialize).returns(instance)
+      described_class.expects(:initialize).returns(instance)
       instance.expects(:evaluate).with('spec/fixtures/Puppetfile')
-      Henson::DSL.evaluate('spec/fixtures/Puppetfile')
+      described_class.evaluate('spec/fixtures/Puppetfile')
     end
   end
 
   context "evaluate" do
     it "raises PuppetfileError if a syntax error is encountered" do
       lambda {
-        Henson::DSL.evaluate('spec/fixtures/Puppetfile.with_syntax_error')
+        described_class.evaluate('spec/fixtures/Puppetfile.with_syntax_error')
       }.should raise_error(
         Henson::PuppetfileError,
         /Puppetfile syntax error:/
@@ -23,7 +23,7 @@ describe Henson::DSL do
 
     it "raises PuppetfileError if a ScriptError is encountered" do
       lambda {
-        Henson::DSL.evaluate('spec/fixtures/Puppetfile.with_script_error')
+        described_class.evaluate('spec/fixtures/Puppetfile.with_script_error')
       }.should raise_error(
         Henson::PuppetfileError,
         /There was an error in your Puppetfile, and Henson cannot continue\./
@@ -32,7 +32,7 @@ describe Henson::DSL do
 
     it "raises PuppetfileError if a RegexpError is encountered" do
       lambda {
-        Henson::DSL.evaluate('spec/fixtures/Puppetfile.with_regexp_error')
+        described_class.evaluate('spec/fixtures/Puppetfile.with_regexp_error')
       }.should raise_error(
         Henson::PuppetfileError,
         /There was an error in your Puppetfile, and Henson cannot continue\./
@@ -41,7 +41,7 @@ describe Henson::DSL do
 
     it "raises PuppetfileError if a NameError is encountered" do
       lambda {
-        Henson::DSL.evaluate('spec/fixtures/Puppetfile.with_name_error')
+        described_class.evaluate('spec/fixtures/Puppetfile.with_name_error')
       }.should raise_error(
         Henson::PuppetfileError,
         /There was an error in your Puppetfile, and Henson cannot continue\./
@@ -50,7 +50,7 @@ describe Henson::DSL do
 
     it "raises PuppetfileError if an ArgumentError is encountered" do
       lambda {
-        Henson::DSL.evaluate('spec/fixtures/Puppetfile.with_argument_error')
+        described_class.evaluate('spec/fixtures/Puppetfile.with_argument_error')
       }.should raise_error(
         Henson::PuppetfileError,
         /There was an error in your Puppetfile, and Henson cannot continue\./
