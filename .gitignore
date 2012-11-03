@@ -17,3 +17,5 @@ test/version_tmp
 tmp
 spec/fixtures/*.log
 /vendor/gems/
+/shared/
+/spec/fixtures/shared/
