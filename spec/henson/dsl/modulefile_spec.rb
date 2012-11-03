@@ -49,12 +49,20 @@ describe Henson::DSL::Modulefile do
     end
 
     it "raises ModulefileError if an ArgumentError is encountered" do
-      file = 'spec/fixtures/Puppetfile.with_argument_error'
+      file = 'spec/fixtures/Modulefile.with_argument_error'
 
       expect { described_class.evaluate(file) }.should raise_error(
         Henson::ModulefileError,
         /There was an error parsing #{file}, Henson can not continue\./
       )
+    end
+
+    it "raises VersionMissingError if no version declared" do
+      file = 'spec/fixtures/Modulefile.without_version'
+
+      expect {
+        described_class.evaluate(file)
+      }.should raise_error(Henson::VersionMissingError, 'foobar')
     end
   end
 

@@ -32,5 +32,6 @@ module Henson
   class ModulefileNotFound      < Error; exit_code(16); end
   class ModuleNotFound          < Error; exit_code(18); end
 
+  class VersionMissingError     < Error; exit_code(22); end
   class RequirementNotSatisfied < Error; exit_code(20); end
 end

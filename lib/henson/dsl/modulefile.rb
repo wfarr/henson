@@ -15,6 +15,8 @@ module Henson
 
       def evaluate(modulefile)
         instance_eval File.read(modulefile)
+        raise VersionMissingError, @name if @version.nil?
+
         self
       rescue SyntaxError => e
         backtrace = e.message.split("\n")[1..-1]
