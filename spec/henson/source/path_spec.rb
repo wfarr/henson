@@ -13,6 +13,12 @@ describe Henson::Source::Path do
     source.kind_of? Henson::Source::Generic
   end
 
+  it "raises an error if the path does not exist" do
+    lambda {
+      Henson::Source::Path.new('/does/not/exist')
+    }.should raise_error(Henson::ModuleNotFound, '/does/not/exist')
+  end
+
   context "versions" do
     it "returns an array that contains version from modulefile" do
       source.stubs(:version_from_modulefile).returns('1.0.0')
@@ -46,16 +52,6 @@ describe Henson::Source::Path do
   context 'version_from_modulefile' do
     it 'parses the Modulefile to get the version string' do
       source.send(:version_from_modulefile).should == '0.0.1'
-    end
-
-    it "raises ModuleNotFound if path DNE" do
-      source.stubs(:path_exists?).returns(false)
-      lambda {
-        source.send(:version_from_modulefile)
-      }.should raise_error(
-        Henson::ModuleNotFound,
-        "spec/fixtures/modules/foobar"
-      )
     end
   end
 end

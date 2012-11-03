@@ -3,7 +3,10 @@ require 'spec_helper'
 describe Henson::PuppetModule do
   context "module with opts" do
     context "that are valid" do
-      let(:mod) { Henson::PuppetModule.new 'example', '0', :path => "/foo/bar/baz" }
+      let(:mod) do
+        Henson::PuppetModule.new 'example', '0',
+          :path => "spec/fixtures/modules/foobar"
+      end
 
       it "must have a source" do
         mod.source.should_not be_nil

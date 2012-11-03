@@ -7,7 +7,10 @@ describe Henson::Source do
     end
 
     it "returns a Source::Path if opts includes path" do
-      source = Henson::Source.infer_from_opts :path => '/foo/bar/baz'
+      source = Henson::Source.infer_from_opts(
+        :path => 'spec/fixtures/modules/foobar'
+      )
+
       source.should be_a Henson::Source::Path
     end
 
