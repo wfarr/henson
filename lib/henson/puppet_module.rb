@@ -4,16 +4,17 @@ module Henson
   class PuppetModule
     attr_reader :name, :version, :source, :requirement
 
-    def initialize name, version, opts = {}
+    def initialize(name, version_requirement, opts = {})
       @name        = name
-      @version     = version
       @source      = Source.infer_from_opts name, opts
-      @requirement = Gem::Requirement.new(version)
+      @requirement = Gem::Requirement.new(version_requirement)
 
       if @source.nil?
         raise PuppetfileError,
           "Source given for #{@name} is invalid: #{opts.inspect}"
       end
+
+      @version = @source.resolve_version_from_requirement(@requirement)
     end
 
     def fetched?
@@ -25,7 +26,7 @@ module Henson
     end
 
     def satisfied?
-      source.satisfies? @requirement
+      source.satisfies? requirement
     end
 
     def needs_fetching?

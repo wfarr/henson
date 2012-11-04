@@ -9,10 +9,18 @@ module Henson
         raise NotImplementedError
       end
 
-      def satisfies?(requirement)
-        versions.any? do |version|
+      def resolve_version_from_requirement(requirement)
+        satisfiable_versions_for_requirement(requirement).sort.first
+      end
+
+      def satisfiable_versions_for_requirement(requirement)
+        versions.select do |version|
           requirement.satisfied_by? Gem::Version.new(version)
         end
+      end
+
+      def satisfies?(requirement)
+        satisfiable_versions_for_requirement(requirement).any?
       end
 
       def installed?

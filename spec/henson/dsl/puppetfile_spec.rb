@@ -72,10 +72,6 @@ describe Henson::DSL::Puppetfile do
       instance.modules.should eql [mod]
     end
 
-    it "defaults the version to '>= 0' if none given" do
-      instance.mod('foobar', :path => path).version.should eql ">= 0"
-    end
-
     it "sets the forge option if options is empty and forge is set" do
       instance.stubs(:forge).returns("http://forge.puppetlabs.com")
       instance.mod('foobar').source.should be_a Henson::Source::Forge
