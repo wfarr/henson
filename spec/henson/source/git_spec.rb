@@ -32,9 +32,27 @@ describe Henson::Source::Git do
   end
 
   describe "#target_revision" do
-    it "returns branch if options branch"
-    it "returns tag if options tag"
-    it "returns ref if options ref"
-    it "returns master otherwise"
+    let(:git) do
+      lambda { |opts = {}|
+        Henson::Source::Git.new 'https://github.com/wfarr/puppet-osx_defaults',
+          opts
+      }
+    end
+
+    it "returns branch if options branch" do
+      git.(:branch => "master").send(:target_revision).should eql "master"
+    end
+
+    it "returns tag if options tag" do
+      git.(:tag => "foo").send(:target_revision).should eql "foo"
+    end
+
+    it "returns ref if options ref" do
+      git.(:ref => "123abc").send(:target_revision).should eql "123abc"
+    end
+
+    it "returns master otherwise" do
+      git.().send(:target_revision).should eql "master"
+    end
   end
 end
