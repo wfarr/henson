@@ -7,11 +7,11 @@ require "henson/source/path"
 
 module Henson
   module Source
-    def self.infer_from_opts(opts = {})
+    def self.infer_from_opts(name, opts = {})
       if path = opts.delete(:path)
-        Path.new path
+        Path.new name, path
       elsif forge = opts.delete(:forge)
-        Forge.new forge
+        Forge.new name, forge
       end
     end
   end

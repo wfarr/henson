@@ -2,27 +2,19 @@ require 'spec_helper'
 require 'henson/friendly_errors'
 
 describe "Henson.friendly_errors" do
-  it "rescues Henson::PuppetfileError" do
-    lambda {
-      Henson.with_friendly_errors do
-        raise Henson::PuppetfileError
-      end
-    }.should_not raise_error(Henson::PuppetfileError)
-  end
+  errors = [
+    Henson::PuppetfileError,
+    Henson::ModulefileError,
+    Henson::PuppetfileNotFound,
+    Henson::ModulefileNotFound,
+    Henson::ModuleNotFound
+  ]
 
-  it "rescues Henson::ModulefileError" do
-    lambda {
-      Henson.with_friendly_errors do
-        raise Henson::ModulefileError
-      end
-    }.should_not raise_error(Henson::ModulefileError)
-  end
-
-  it "rescues Henson::PuppetfileNotFound" do
-    lambda {
-      Henson.with_friendly_errors do
-        raise Henson::PuppetfileNotFound
-      end
-    }.should_not raise_error(Henson::PuppetfileNotFound)
+  errors.each do |error|
+    it "rescues #{error.name}" do
+      lambda {
+        Henson.with_friendly_errors { raise error }
+      }.should_not raise_error(error)
+    end
   end
 end

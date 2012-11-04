@@ -1,9 +1,22 @@
 require "henson/dsl"
+require "fileutils"
 
 module Henson
   class Installer
     def self.install!
-      parse_puppetfile!
+      FileUtils.mkdir_p File.expand_path(Henson.settings[:path])
+
+      parse_puppetfile!.modules.each do |mod|
+        mod.fetch! if mod.needs_fetching?
+
+        if mod.needs_installing?
+          mod.install!
+        else
+          install_path = "#{Henson.settings[:path]}/#{mod.name}"
+          Henson.ui.debug "Using #{mod.name} (#{mod.version}) from #{install_path}"
+          Henson.ui.info  "Using #{mod.name} (#{mod.version})"
+        end
+      end
     end
 
     def self.local!

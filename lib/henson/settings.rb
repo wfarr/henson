@@ -4,7 +4,8 @@ module Henson
       self.merge!(
         :quiet      => false,
         :verbose    => false,
-        :puppetfile => "#{Dir.pwd}/Puppetfile"
+        :puppetfile => "#{Dir.pwd}/Puppetfile",
+        :path       => "#{Dir.pwd}/shared"
       )
 
       self

@@ -9,6 +9,7 @@ module Henson
 
       def initialize
         @modules = []
+        @forge   = nil
       end
 
       def evaluate(puppetfile)
@@ -25,11 +26,25 @@ module Henson
            "There was an error in your Puppetfile, and Henson cannot continue."
       end
 
-      def mod(name, version, opts = {})
-        PuppetModule.new(name, version, opts).tap do |puppet_module|
-          puppet_module.fetch! unless puppet_module.source.kind_of? Source::Path
+      def mod(name, *args)
+        options = args.last.is_a?(Hash) ? args.pop : {}
+        version = args.empty? ? ">= 0" : args.first
 
+        unless options.any? && forge.nil?
+          options.merge!(:forge => forge)
+        end
+
+        PuppetModule.new(name, version, options).tap do |puppet_module|
+          # TODO calculate module's dependencies?
           @modules << puppet_module
+        end
+      end
+
+      def forge(url = nil)
+        if url.nil?
+          @forge
+        else
+          @forge = url
         end
       end
     end

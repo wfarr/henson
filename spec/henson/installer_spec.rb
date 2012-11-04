@@ -6,8 +6,10 @@ describe Henson::Installer do
     Henson.settings[:puppetfile] = File.expand_path("spec/fixtures/Puppetfile")
   end
 
-  it "implements install!" do
-    Henson::Installer.install!
+  context ".install!" do
+    it "responds to .install!" do
+      Henson::Installer.install!
+    end
   end
 
   it "local! makes local setting true" do
@@ -30,7 +32,6 @@ describe Henson::Installer do
 
   context "parse_puppetfile!" do
     it "evalutes the puppetfile in the DSL" do
-      Henson::DSL::Puppetfile.expects(:evaluate).with(Henson.settings[:puppetfile])
       Henson::Installer.parse_puppetfile!
     end
 

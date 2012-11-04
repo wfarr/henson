@@ -1,1 +1,3 @@
 # stub
+
+mod 'foobar', '0', :path => 'spec/fixtures/modules/foobar'

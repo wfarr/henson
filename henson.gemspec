@@ -21,7 +21,6 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
 
   # dependencies
-  gem.add_dependency "simple_delegator", "~> 0.0.2"
   gem.add_dependency "thor",             "~> 0.16.0"
 
   # development dependencies
