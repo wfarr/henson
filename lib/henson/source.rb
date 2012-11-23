@@ -10,6 +10,8 @@ module Henson
     def self.infer_from_opts(name, opts = {})
       if path = opts.delete(:path)
         Path.new name, path
+      elsif git = opts.delete(:git)
+        Git.new name, git.delete(:repo), git
       elsif forge = opts.delete(:forge)
         Forge.new name, forge
       end

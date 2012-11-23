@@ -34,4 +34,6 @@ module Henson
 
   class VersionMissingError     < Error; exit_code(22); end
   class RequirementNotSatisfied < Error; exit_code(20); end
+
+  class GitNotInstalled         < Error; exit_code(30); end
 end
