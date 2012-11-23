@@ -17,6 +17,8 @@ module Henson
           Henson.ui.info  "Using #{mod.name} (#{mod.version})"
         end
       end
+
+      Henson.ui.success "Your modules are ready to use!"
     end
 
     def self.local!
