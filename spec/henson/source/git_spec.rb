@@ -34,7 +34,8 @@ describe Henson::Source::Git do
   describe "#target_revision" do
     let(:git) do
       lambda { |opts = {}|
-        Henson::Source::Git.new 'https://github.com/wfarr/puppet-osx_defaults',
+        Henson::Source::Git.new 'osx_defaults',
+          'https://github.com/wfarr/puppet-osx_defaults',
           opts
       }
     end
