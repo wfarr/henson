@@ -24,7 +24,7 @@ module Henson
       end
 
       def fetched?
-        false
+        File.directory?(fetch_path) && has_ref?(target_revision)
       end
 
       def fetch!
@@ -55,6 +55,18 @@ module Henson
         `git #{args.join(' ')}`
       rescue Errno::ENOENT
         raise GitNotInstalled if exit_status.nil?
+      end
+
+      def has_ref?(ref)
+        output = git 'cat-file', '-t', ref
+        if $?.success?
+          if output.strip == 'commit'
+            raise GitInvalidRef, "Expected '#{ref}' in '#{name}' to be a commit."
+          end
+          true
+        else
+          false
+        end
       end
 
       def fetch_path
