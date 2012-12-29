@@ -14,9 +14,9 @@ module Henson
         elsif tag = @options.fetch(:tag, nil)
           @target_revision = tag
           @ref_type = :tag
-        elsif sha = @options.fetch(:sha, nil)
-          @target_revision = sha
-          @ref_type = :sha
+        elsif ref = @options.fetch(:ref, nil)
+          @target_revision = ref
+          @ref_type = :ref
         else
           @target_revision = 'master'
           @ref_type = :branch
