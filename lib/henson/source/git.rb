@@ -7,6 +7,20 @@ module Henson
         @name    = name
         @repo    = repo
         @options = opts
+
+        if branch = @options.fetch(:branch, nil)
+          @target_revision = branch
+          @ref_type = :branch
+        elsif tag = @options.fetch(:tag, nil)
+          @target_revision = tag
+          @ref_type = :tag
+        elsif sha = @options.fetch(:sha, nil)
+          @target_revision = sha
+          @ref_type = :sha
+        else
+          @target_revision = 'master'
+          @ref_type = :branch
+        end
       end
 
       def fetched?
@@ -48,15 +62,11 @@ module Henson
       end
 
       def target_revision
-         @target_revision ||= if branch = options.delete(:branch)
-                                branch
-                              elsif tag = options.delete(:tag)
-                                tag
-                              elsif ref = options.delete(:ref)
-                                ref
-                              else
-                                'master'
-                              end
+         @target_revision
+      end
+
+      def ref_type
+        @ref_type
       end
     end
   end
