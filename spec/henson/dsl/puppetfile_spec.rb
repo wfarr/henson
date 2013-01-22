@@ -76,6 +76,10 @@ describe Henson::DSL::Puppetfile do
       instance.stubs(:forge).returns("http://forge.puppetlabs.com")
       instance.mod('foobar').source.should be_a Henson::Source::Forge
     end
+
+    it "should not require a version number" do
+      instance.mod('foobar', :path => path).requirement.should == '>= 0'
+    end
   end
 
   context "#forge" do
