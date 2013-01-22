@@ -27,6 +27,13 @@ henson package
 henson clean
 ```
 
+## Developing
+
+```
+script/bootstrap
+rake spec
+```
+
 ## Contributing
 
 1. Fork it
