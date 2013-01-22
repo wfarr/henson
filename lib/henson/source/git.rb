@@ -62,8 +62,6 @@ module Henson
       end
 
       def has_ref?(ref)
-        #ref = ref.gsub(/^origin\//, '')
-
         output = ""
 
         Dir.chdir fetch_path do
@@ -79,7 +77,6 @@ module Henson
 
           true
         else
-          puts "blew the fuck up"
           false
         end
       end
@@ -101,7 +98,7 @@ module Henson
 
       def current_revision
         Dir.chdir(fetch_path) do
-          output = git 'rev-parse', target_revision.gsub(/^origin\//, '')
+          output = git 'rev-parse', target_revision
 
           if $?.success?
             return output.strip
