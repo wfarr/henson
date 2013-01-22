@@ -14,13 +14,18 @@ module Henson
       end
 
       def satisfiable_versions_for_requirement(requirement)
-        versions.select do |version|
-          requirement.satisfied_by? Gem::Version.new(version)
+        if self.class.name == 'Henson::Source::Git'
+          versions.map { |v| v.gsub(/^origin\//, '') }
+        else
+          versions.select do |version|
+            requirement.satisfied_by? Gem::Version.new(version)
+          end
         end
       end
 
       def satisfies?(requirement)
-        satisfiable_versions_for_requirement(requirement).any?
+        self.class.name == 'Henson::Source::Git' ||
+          satisfiable_versions_for_requirement(requirement).any?
       end
 
       def installed?

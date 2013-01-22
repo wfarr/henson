@@ -51,7 +51,7 @@ module Henson
       end
 
       def versions
-        [ '0' ]
+        [ target_revision ]
       end
 
       private
