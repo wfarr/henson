@@ -10,6 +10,10 @@ module Henson
       log message if debug?
     end
 
+    def success(message)
+      log message, :green unless quiet?
+    end
+
     def info(message)
       log message unless quiet? || debug?
     end

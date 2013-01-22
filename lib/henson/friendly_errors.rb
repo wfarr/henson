@@ -13,6 +13,9 @@ module Henson
       exit e.exit_code
     rescue ModuleNotFound => e
       Henson.ui.error "Could not find module: #{e.message}"
+    rescue GitInvalidRef => e
+      Henson.ui.error e.message
+      exit e.exit_code
     end
   end
 end
