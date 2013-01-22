@@ -30,11 +30,15 @@ module Henson
       def fetch!
         if File.directory? fetch_path
           Dir.chdir(fetch_path) do
-            git 'fetch', '--quiet', 'origin'
+            git 'fetch', '--force', '--quiet', '--tags', 'origin', '"refs/heads/*:refs/heads/*"'
           end
         else
           Henson.ui.debug "Fetching #{name} from #{repo}"
-          git 'clone', '--quiet', repo, fetch_path
+
+          clone_args = %w(--no-hardlinks)
+          clone_args << '--quiet' if Henson.settings[:quiet]
+
+          git 'clone', *clone_args, repo, fetch_path
         end
       end
 
