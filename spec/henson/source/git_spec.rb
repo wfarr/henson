@@ -6,7 +6,10 @@ describe Henson::Source::Git do
   end
 
   describe "#fetched?" do
-    it "returns false if the repo is not cloned"
+    it "returns false if the repo is not cloned" do
+      Henson::Source::Git.new('foo', :bar => :baz).fetched?.should be_false
+    end
+
     it "returns false if the repo does not have the correct revision"
     it "returns true if cloned and the correct revision"
   end
