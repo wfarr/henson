@@ -44,7 +44,7 @@ describe Henson::Source::Git do
     end
 
     it "returns branch if options branch" do
-      git.(:branch => "master").send(:target_revision).should eql "master"
+      git.(:branch => "fuckit").send(:target_revision).should eql "origin/fuckit"
     end
 
     it "returns tag if options tag" do
@@ -56,7 +56,7 @@ describe Henson::Source::Git do
     end
 
     it "returns master otherwise" do
-      git.().send(:target_revision).should eql "master"
+      git.().send(:target_revision).should eql "origin/master"
     end
   end
 end

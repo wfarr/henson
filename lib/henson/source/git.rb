@@ -9,7 +9,7 @@ module Henson
         @options = opts
 
         if branch = @options.fetch(:branch, nil)
-          @target_revision = branch
+          @target_revision = "origin/#{branch}"
           @ref_type = :branch
         elsif tag = @options.fetch(:tag, nil)
           @target_revision = tag
@@ -18,7 +18,7 @@ module Henson
           @target_revision = ref
           @ref_type = :ref
         else
-          @target_revision = 'master'
+          @target_revision = 'origin/master'
           @ref_type = :branch
         end
       end
@@ -39,11 +39,15 @@ module Henson
       end
 
       def install!
-        Henson.ui.debug "Changing #{name} to origin/#{target_revision}"
+        Henson.ui.debug "Changing #{name} to #{target_revision}"
 
         Dir.chdir(fetch_path) do
-          git 'checkout', '--quiet', "origin/#{target_revision}"
+          git 'checkout', '--quiet', target_revision
         end
+      end
+
+      def installed?
+        current_revision == resolved_target_revision
       end
 
       def versions
@@ -58,13 +62,24 @@ module Henson
       end
 
       def has_ref?(ref)
-        output = git 'cat-file', '-t', ref
+        #ref = ref.gsub(/^origin\//, '')
+
+        output = ""
+
+        Dir.chdir fetch_path do
+          output = git 'cat-file', '-t', ref
+        end
+
+        output.strip!
+
         if $?.success?
-          if output.strip == 'commit'
+          unless %w(commit tag).member? output
             raise GitInvalidRef, "Expected '#{ref}' in '#{name}' to be a commit."
           end
+
           true
         else
+          puts "blew the fuck up"
           false
         end
       end
@@ -75,6 +90,23 @@ module Henson
 
       def target_revision
          @target_revision
+      end
+
+      def resolved_target_revision
+        Dir.chdir(fetch_path) do
+          output = git 'rev-parse', target_revision
+          return output.strip
+        end
+      end
+
+      def current_revision
+        Dir.chdir(fetch_path) do
+          output = git 'rev-parse', target_revision.gsub(/^origin\//, '')
+
+          if $?.success?
+            return output.strip
+          end
+        end
       end
 
       def ref_type
