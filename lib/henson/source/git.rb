@@ -91,7 +91,7 @@ module Henson
 
       def resolved_target_revision
         Dir.chdir(fetch_path) do
-          output = git 'rev-parse', target_revision
+          output = git 'rev-parse', "#{target_revision}^{commit}"
           return output.strip
         end
       end
