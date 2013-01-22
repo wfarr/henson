@@ -86,7 +86,7 @@ module Henson
       end
 
       def target_revision
-         @target_revision
+        @target_revision
       end
 
       def resolved_target_revision
