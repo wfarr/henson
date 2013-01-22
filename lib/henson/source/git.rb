@@ -98,7 +98,7 @@ module Henson
 
       def current_revision
         Dir.chdir(fetch_path) do
-          output = git 'rev-parse', target_revision
+          output = git 'rev-parse', 'HEAD'
 
           if $?.success?
             return output.strip
