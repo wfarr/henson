@@ -52,7 +52,7 @@ describe Henson::Source::Git do
     end
 
     it "returns ref if options ref" do
-      git.(:ref => "123abc").send(:target_revision).should eql "123abc"
+      git.(:ref => "123abc").send(:target_revision).to_s.should eql "123abc"
     end
 
     it "returns master otherwise" do
