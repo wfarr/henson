@@ -1,0 +1,5 @@
+---
+script: "bundle exec rspec spec && bundle exec rspec acceptance"
+rvm:
+  - "1.9.3"
+  - "2.0.0"

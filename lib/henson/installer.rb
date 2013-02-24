@@ -13,10 +13,12 @@ module Henson
           mod.install!
         else
           install_path = "#{Henson.settings[:path]}/#{mod.name}"
-          Henson.ui.debug "Using #{mod.name} (#{mod.version}) from #{install_path}"
+          Henson.ui.debug "Using #{mod.name} (#{mod.version}) from #{install_path} as #{mod.source.class.name.split('::').last.downcase}"
           Henson.ui.info  "Using #{mod.name} (#{mod.version})"
         end
       end
+
+      Henson.ui.success "Your modules are ready to use!"
     end
 
     def self.local!
