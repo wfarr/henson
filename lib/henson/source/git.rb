@@ -53,7 +53,7 @@ module Henson
       end
 
       def fetched?
-        File.directory?(fetch_path) && has_ref?(target_revision)
+        File.directory?(fetch_path)
       end
 
       def fetch!
@@ -114,6 +114,8 @@ module Henson
       end
 
       def satisfiable_versions_for_requirement(requirement)
+        fetch! unless fetched?
+
         if @ref_type == :tag || @ref_type == :branch
           versions.select { |v| v =~ Regexp.new(target_revision.gsub(/^origin\//, '')) }
         else
@@ -138,6 +140,7 @@ module Henson
 
       def in_repo
         raise "wtf" unless block_given?
+
         Dir.chdir fetch_path do
           yield
         end

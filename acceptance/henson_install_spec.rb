@@ -2,12 +2,12 @@ require 'acceptance_spec_helper'
 
 describe 'henson install' do
   let(:project) do
-    File.expand_path('../../tmp/acceptance/dubserv', __FILE__)
+    File.expand_path('../fixtures', __FILE__)
   end
 
   before(:all) do
     Dir.chdir(project) do
-      system 'bundle', 'exec', 'henson', 'install'
+      system 'bundle', 'exec', File.expand_path('../../bin/henson'), 'install'
     end
   end
 
