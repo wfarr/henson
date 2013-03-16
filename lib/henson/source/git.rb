@@ -104,7 +104,7 @@ module Henson
             end
           end
         else
-          raise "fuck you dummy"
+          raise "not really possible"
         end
       end
 
