@@ -11,7 +11,7 @@ RSpec.configure do |config|
   end
 
   config.after(:suite) do
-    tear_that_shit_down
+    tear_it_down
   end
 end
 
@@ -27,6 +27,6 @@ def get_your_setup_on
   # wat
 end
 
-def tear_that_shit_down
+def teat_it_down
   FileUtils.rm_rf "#{projectdir}/shared"
 end
