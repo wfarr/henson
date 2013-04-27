@@ -6,8 +6,8 @@ module Henson
 
     def initialize(name, version_requirement, opts = {})
       @name        = name
-      @source      = Source.infer_from_opts name, opts
       @requirement = Gem::Requirement.new(version_requirement)
+      @source      = Source.infer_from_opts name, requirement, opts
 
       if @source.nil?
         raise PuppetfileError,

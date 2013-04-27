@@ -7,7 +7,7 @@ require "henson/source/path"
 
 module Henson
   module Source
-    def self.infer_from_opts(name, opts = {})
+    def self.infer_from_opts(name, requirement, opts = {})
       if path = opts.delete(:path)
         Path.new name, path
       elsif git = opts.delete(:git)
