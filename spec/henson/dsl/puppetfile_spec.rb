@@ -78,7 +78,7 @@ describe Henson::DSL::Puppetfile do
     end
 
     it "should not require a version number" do
-      instance.mod('foobar', :path => path).requirement.should == '>= 0'
+      instance.mod('foobar', :path => path).requirement.to_s.should == '>= 0'
     end
   end
 
