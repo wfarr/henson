@@ -16,6 +16,9 @@ module Henson
     rescue GitInvalidRef => e
       Henson.ui.error e.message
       exit e.exit_code
+    rescue GitHubTarballNotFound, GitHubAPIError, GitHubDownloadError => e
+      Henson.ui.error e.message
+      exit e.exit_code
     end
   end
 end

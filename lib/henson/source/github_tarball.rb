@@ -28,7 +28,6 @@ module Henson
           url << "?access_token=#{ENV['GITHUB_API_TOKEN']}"
         end
 
-        # TODO: Error checking!
         download_file url, tarball_path.to_path
       end
 
@@ -63,19 +62,21 @@ module Henson
         request.add_field "User-Agent", "henson v#{Henson::VERSION}"
 
         response = http.request(request)
-        if response.code.to_i != 200
-          nil
-          # TODO: raise a friendly error here
-        else
+        if response.code == "404"
+          raise GitHubTarballNotFound, "Unable to find #{repo} on GitHub"
+        elsif response.is_a? Net::HTTPSuccess
           data = response.body
           JSON.parse(data)
+        else
+          raise GitHubAPIError, "GitHub API returned #{response.code} for #{uri}"
         end
       end
 
       def fetch_versions_from_api
         data = api_call("/repos/#{repo}/tags")
         if data.nil?
-          # TODO raise error
+          raise GitHubAPIError,
+            "No data returned from https://api.github.com/repos/#{repo}/tags"
         end
 
         data.map { |r|
@@ -96,11 +97,12 @@ module Henson
           req = Net::HTTP::Get.new(uri.request_uri)
           req.add_field "User-Agent", "henson v#{Henson::VERSION}"
           resp = h.request(req)
-          if ["301", "302"].include? resp.code
-            download_file(resp.header['location'], dest)
-          # TODO: Handle error cases
-          else
+          if resp.is_a? Net::HTTPSuccess
             File.open(dest, 'wb') { |f| f.write resp.body }
+          elsif ["301", "302"].include? resp.code
+            download_file(resp.header['location'], dest)
+          else
+            raise GitHubDownloadError, "GitHub returned #{resp.code} for #{source}"
           end
         end
       end
