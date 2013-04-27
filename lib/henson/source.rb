@@ -14,6 +14,8 @@ module Henson
         Git.new name, git.delete(:repo), git
       elsif forge = opts.delete(:forge)
         Forge.new name, forge
+      elsif github = opts.delete(:github)
+        GitHubTarball.new name, requirement, github
       end
     end
   end
