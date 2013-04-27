@@ -27,9 +27,8 @@ module Henson
           url << "?access_token=#{ENV['GITHUB_API_TOKEN']}"
         end
 
-        # TODO: Use ruby to download the file rather than shell out to curl
         # TODO: Error checking!
-        `curl #{url} -o #{tarball_path.to_path} -L 2>&1`
+        download_file url, tarball_path.to_path
       end
 
       def install!
@@ -86,6 +85,24 @@ module Henson
         }.delete_if { |version|
           version !~ /\A\d+\.\d+(\.\d+.*)?\Z/
         }.compact
+      end
+
+      def download_file(source, dest)
+        uri = URI.parse(source)
+        http = Net::HTTP.new(uri.host, uri.port)
+        http.use_ssl = true
+        http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+        http.start do |h|
+          req = Net::HTTP::Get.new(uri.request_uri)
+          req.add_field "User-Agent", "henson v#{Henson::VERSION}"
+          resp = h.request(req)
+          if ["301", "302"].include? resp.code
+            download_file(resp.header['location'], dest)
+          # TODO: Handle error cases
+          else
+            File.open(dest, 'wb') { |f| f.write resp.body }
+          end
+        end
       end
 
       def cache_path
