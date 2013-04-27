@@ -34,4 +34,5 @@ end
 
 def tear_it_down
   FileUtils.rm_rf "#{projectdir}/shared"
+  FileUtils.rm_rf "#{projectdir}/.henson"
 end
