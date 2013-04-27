@@ -4,19 +4,19 @@ describe Henson::Source::Generic do
   let(:source) { Henson::Source::Generic.new }
 
   it "can be instantiated" do
-    source.should_not be_nil
+    expect(source).to_not be_nil
   end
 
   it "requires subclasses implement fetch!" do
-    lambda {
+    expect {
       source.fetch!
-    }.should raise_error(NotImplementedError)
+    }.to raise_error(NotImplementedError)
   end
 
   it "requires subclasses implement versions" do
-    lambda {
+    expect {
       source.versions
-    }.should raise_error(NotImplementedError)
+    }.to raise_error(NotImplementedError)
   end
 
   context "satisfies?" do
@@ -24,12 +24,12 @@ describe Henson::Source::Generic do
 
     it "returns true if any version satisfies the requirement" do
       source.stubs(:versions).returns(['0.8', '1.0.11'])
-      source.satisfies?(requirement).should be_true
+      expect(source.satisfies?(requirement)).to be_true
     end
 
     it "returns false if no version satisfies the requirement" do
       source.stubs(:versions).returns(['0.8', '1.6.0'])
-      source.satisfies?(requirement).should be_false
+      expect(source.satisfies?(requirement)).to be_false
     end
   end
 end

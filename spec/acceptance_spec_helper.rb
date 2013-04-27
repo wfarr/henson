@@ -4,6 +4,7 @@ $:.unshift File.expand_path('../../lib', __FILE__)
 require 'rubygems'
 require 'rspec'
 require 'mocha_standalone'
+require 'pathname'
 
 RSpec.configure do |config|
   config.before(:suite) do
@@ -12,6 +13,10 @@ RSpec.configure do |config|
 
   config.after(:suite) do
     tear_it_down
+  end
+
+  config.expect_with :rspec do |c|
+    c.syntax = :expect
   end
 end
 

@@ -13,21 +13,21 @@ describe Henson::Installer do
   end
 
   it "local! makes local setting true" do
-    Henson.settings[:local].should_not be_true
+    expect(Henson.settings[:local]).to_not be_true
     Henson::Installer.local!
-    Henson.settings[:local].should be_true
+    expect(Henson.settings[:local]).to be_true
   end
 
   it "no_cache! makes no_cache setting true" do
-    Henson.settings[:no_cache].should_not be_true
+    expect(Henson.settings[:no_cache]).to_not be_true
     Henson::Installer.no_cache!
-    Henson.settings[:no_cache].should be_true
+    expect(Henson.settings[:no_cache]).to be_true
   end
 
   it "clean! makes clean setting true" do
-    Henson.settings[:clean].should_not be_true
+    expect(Henson.settings[:clean]).to_not be_true
     Henson::Installer.clean!
-    Henson.settings[:clean].should be_true
+    expect(Henson.settings[:clean]).to be_true
   end
 
   context "parse_puppetfile!" do
@@ -36,10 +36,10 @@ describe Henson::Installer do
     end
 
     it "raises MissingPuppetfileError if no Puppetfile" do
-      lambda {
+      expect {
         Henson.settings[:puppetfile] = '/path/to/no/Puppetfile'
         Henson::Installer.parse_puppetfile!
-      }.should raise_error(
+      }.to raise_error(
         Henson::PuppetfileNotFound,
         "Expected a Puppetfile at /path/to/no/Puppetfile!"
       )

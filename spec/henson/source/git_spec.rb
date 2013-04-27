@@ -2,12 +2,12 @@ require 'spec_helper'
 
 describe Henson::Source::Git do
   it "can be instantiated" do
-    Henson::Source::Git.new('foo', :bar => :baz).should_not be_nil
+    expect(Henson::Source::Git.new('foo', :bar => :baz)).to_not be_nil
   end
 
   describe "#fetched?" do
     it "returns false if the repo is not cloned" do
-      Henson::Source::Git.new('foo', :bar => :baz).fetched?.should be_false
+      expect(Henson::Source::Git.new('foo', :bar => :baz)).to_not be_fetched
     end
 
     it "returns false if the repo does not have the correct revision"
@@ -44,19 +44,19 @@ describe Henson::Source::Git do
     end
 
     it "returns branch if options branch" do
-      git.(:branch => "fuckit").send(:target_revision).should eql "origin/fuckit"
+      expect(git.(:branch => "fuckit").send(:target_revision)).to eq("origin/fuckit")
     end
 
     it "returns tag if options tag" do
-      git.(:tag => "foo").send(:target_revision).should eql "foo"
+      expect(git.(:tag => "foo").send(:target_revision)).to eq("foo")
     end
 
     it "returns ref if options ref" do
-      git.(:ref => "123abc").send(:target_revision).to_s.should eql "123abc"
+      expect(git.(:ref => "123abc").send(:target_revision).to_s).to eq("123abc")
     end
 
     it "returns master otherwise" do
-      git.().send(:target_revision).should eql "origin/master"
+      expect(git.().send(:target_revision)).to eq("origin/master")
     end
   end
 end

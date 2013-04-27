@@ -16,23 +16,23 @@ describe 'henson install' do
   end
 
   it "should have lvm module" do
-    File.directory?("#{project}/shared/lvm").should be_true
+    expect(Pathname.new("#{project}/shared/lvm")).to be_directory
   end
 
   it "should have openstack module" do
-    File.directory?("#{project}/shared/openstack").should be_true
+    expect(Pathname.new("#{project}/shared/openstack")).to be_directory
   end
 
   it "should have ssh module" do
-    File.directory?("#{project}/shared/ssh").should be_true
+    expect(Pathname.new("#{project}/shared/ssh")).to be_directory
   end
 
   it "should have stdlib module" do
-    File.directory?("#{project}/shared/stdlib").should be_true
+    expect(Pathname.new("#{project}/shared/stdlib")).to be_directory
   end
 
   it "should have boxen module" do
-    pending "github_tarball suppot"
-    File.directory?("#{project}/shared/boxen").should be_true
+    pending "github_tarball support"
+    expect(Pathname.new("#{project}/shared/boxen")).to be_directory
   end
 end

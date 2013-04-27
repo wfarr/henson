@@ -29,6 +29,10 @@ RSpec.configure do |config|
 
     FileUtils.rm_rf('spec/fixtures/*.log')
   end
+
+  config.expect_with :rspec do |c|
+    c.syntax = :expect
+  end
 end
 
 module Henson

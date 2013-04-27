@@ -33,7 +33,7 @@ describe Henson::DSL::Modulefile do
     it "raises ModulefileError if a RegexpError is encountered" do
       file = 'spec/fixtures/Modulefile.with_regexp_error'
 
-      expect { described_class.evaluate(file) }.should raise_error(
+      expect { described_class.evaluate(file) }.to raise_error(
         Henson::ModulefileError,
         /There was an error parsing #{file}, Henson can not continue\./
       )
@@ -42,7 +42,7 @@ describe Henson::DSL::Modulefile do
     it "raises ModulefileError if a NameError is encountered" do
       file = 'spec/fixtures/Modulefile.with_name_error'
 
-      expect { described_class.evaluate(file) }.should raise_error(
+      expect { described_class.evaluate(file) }.to raise_error(
         Henson::ModulefileError,
         /There was an error parsing #{file}, Henson can not continue\./
       )
@@ -51,7 +51,7 @@ describe Henson::DSL::Modulefile do
     it "raises ModulefileError if an ArgumentError is encountered" do
       file = 'spec/fixtures/Modulefile.with_argument_error'
 
-      expect { described_class.evaluate(file) }.should raise_error(
+      expect { described_class.evaluate(file) }.to raise_error(
         Henson::ModulefileError,
         /There was an error parsing #{file}, Henson can not continue\./
       )
@@ -62,75 +62,75 @@ describe Henson::DSL::Modulefile do
 
       expect {
         described_class.evaluate(file)
-      }.should raise_error(Henson::VersionMissingError, 'foobar')
+      }.to raise_error(Henson::VersionMissingError, 'foobar')
     end
   end
 
   context '#name' do
     it 'should store the module name when passed an arg' do
       instance.name('test')
-      instance.instance_variable_get(:@name).should == 'test'
+      expect(instance.instance_variable_get(:@name)).to eq('test')
     end
 
     it 'should retrieve the module name when passed no args' do
-      instance.name.should be_nil
+      expect(instance.name).to be_nil
       instance.name('test2')
-      instance.name.should == 'test2'
+      expect(instance.name).to eq('test2')
     end
   end
 
   context '#version' do
     it 'should store the module version when passed an arg' do
       instance.version('0.0.0')
-      instance.instance_variable_get(:@version).should == '0.0.0'
+      expect(instance.instance_variable_get(:@version)).to eq('0.0.0')
     end
 
     it 'should retrieve the module name when passed no args' do
-      instance.version.should be_nil
+      expect(instance.version).to be_nil
       instance.version('0.0.1')
-      instance.version.should == '0.0.1'
+      expect(instance.version).to eq('0.0.1')
     end
   end
 
   context '#dependency' do
     it 'should store the dependency name when passed one arg' do
       instance.dependency('foo')
-      instance.instance_variable_get(:@dependencies).should == [
+      expect(instance.instance_variable_get(:@dependencies)).to eq([
         {:name => 'foo', :version => nil, :repository => nil}
-      ]
+      ])
     end
 
     it 'should store the dependency version when passed two args' do
       instance.dependency('bar', '1.2.3')
-      instance.instance_variable_get(:@dependencies).should == [
+      expect(instance.instance_variable_get(:@dependencies)).to eq([
         {:name => 'bar', :version => '1.2.3', :repository => nil}
-      ]
+      ])
     end
 
     it 'should store the dependency repository when passed two args' do
       instance.dependency('bar', '1.2.3', 'something')
-      instance.instance_variable_get(:@dependencies).should == [
+      expect(instance.instance_variable_get(:@dependencies)).to eq([
         {:name => 'bar', :version => '1.2.3', :repository => 'something'}
-      ]
+      ])
     end
 
     it 'should be able to store multiple dependencies' do
       instance.dependency('foo')
       instance.dependency('bar')
-      instance.instance_variable_get(:@dependencies).should == [
+      expect(instance.instance_variable_get(:@dependencies)).to eq([
         {:name => 'foo', :version => nil, :repository => nil},
         {:name => 'bar', :version => nil, :repository => nil},
-      ]
+      ])
     end
   end
 
   context '#dependencies' do
     it 'should be able to retrieve the stored dependencies' do
-      instance.dependencies.should be_empty
+      expect(instance.dependencies).to be_empty
       instance.dependency('foo')
-      instance.dependencies.should == [
+      expect(instance.dependencies).to eq([
         {:name => 'foo', :version => nil, :repository => nil}
-      ]
+      ])
     end
   end
 

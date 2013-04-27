@@ -12,9 +12,9 @@ describe "Henson.friendly_errors" do
 
   errors.each do |error|
     it "rescues #{error.name}" do
-      lambda {
+      expect {
         Henson.with_friendly_errors { raise error }
-      }.should_not raise_error(error)
+      }.to_not raise_error(error)
     end
   end
 end
