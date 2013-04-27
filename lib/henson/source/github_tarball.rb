@@ -2,6 +2,7 @@ require 'uri'
 require 'net/https'
 require 'json'
 require 'pathname'
+require 'rubygems/package'
 
 module Henson
   module Source
@@ -34,7 +35,7 @@ module Henson
       def install!
         install_path.rmtree if install_path.exist?
         install_path.mkpath
-        `tar xzf #{tarball_path.to_path} --strip-components 1 -C #{install_path.to_path}`
+        extract_tarball tarball_path.to_path, install_path.to_path
       end
 
       def installed?
@@ -57,8 +58,7 @@ module Henson
         uri = URI.parse(url)
         http = Net::HTTP.new(uri.host, uri.port)
         http.use_ssl = true
-        # TODO: Death to VERIFY_NONE
-        http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+        http.verify_mode = OpenSSL::SSL::VERIFY_PEER
         request = Net::HTTP::Get.new(uri.request_uri)
         request.add_field "User-Agent", "henson v#{Henson::VERSION}"
 
@@ -91,7 +91,7 @@ module Henson
         uri = URI.parse(source)
         http = Net::HTTP.new(uri.host, uri.port)
         http.use_ssl = true
-        http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+        http.verify_mode = OpenSSL::SSL::VERIFY_PEER
         http.start do |h|
           req = Net::HTTP::Get.new(uri.request_uri)
           req.add_field "User-Agent", "henson v#{Henson::VERSION}"
@@ -101,6 +101,17 @@ module Henson
           # TODO: Handle error cases
           else
             File.open(dest, 'wb') { |f| f.write resp.body }
+          end
+        end
+      end
+
+      def extract_tarball(tarball, dest)
+        Gem::Package::TarReader.new(Zlib::GzipReader.open(tarball)).each do |entry|
+          entry_name = entry.full_name.split('/')[1..-1].join('/')
+          if entry.file?
+            File.open("#{dest}/#{entry_name}", 'wb') { |f| f.write entry.read }
+          elsif entry.directory?
+            Pathname.new("#{dest}/#{entry_name}").mkpath
           end
         end
       end
