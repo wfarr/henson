@@ -27,6 +27,6 @@ def get_your_setup_on
   # wat
 end
 
-def teat_it_down
+def tear_it_down
   FileUtils.rm_rf "#{projectdir}/shared"
 end
