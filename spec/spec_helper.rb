@@ -5,7 +5,9 @@ require 'rubygems'
 
 require 'simplecov'
 
-SimpleCov.start
+SimpleCov.start do
+  add_filter '/vendor/gems/'
+end
 
 require 'henson'
 
