@@ -19,5 +19,12 @@ describe Henson::Source do
 
       expect(source).to be_a(Henson::Source::Forge)
     end
+
+    it "returns a Source::GitHubTarball if opts includes github" do
+      source = Henson::Source.infer_from_opts 'something', '>= 0',
+        :github => 'someone/something'
+
+      expect(source).to be_a(Henson::Source::GitHubTarball)
+    end
   end
 end

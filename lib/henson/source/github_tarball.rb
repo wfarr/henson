@@ -13,9 +13,6 @@ module Henson
       # Public: Returns the String repo of the module.
       attr_reader :repo
 
-      # Public: Returns the String version number of the module.
-      attr_reader :version
-
       # Public: Initialise a new Henson::Source::GitHubTarball.
       #
       # name        - The String name of the module.
@@ -26,7 +23,13 @@ module Henson
         @name = name
         @repo = repo
         @requirement = requirement
-        @version = resolve_version_from_requirement(@requirement)
+      end
+
+      # Public: Determine the version of the module to be installed.
+      #
+      # Returns the String version number.
+      def version
+        @version ||= resolve_version_from_requirement(@requirement)
       end
 
       # Public: Check if the module tarball has been cached.
@@ -41,6 +44,8 @@ module Henson
       #
       # Returns nothing.
       def fetch!
+        cache_path.mkpath
+
         clean_up_old_cached_versions
 
         url = "https://api.github.com/repos/#{repo}/tarball/#{version}"
@@ -100,7 +105,11 @@ module Henson
           raise GitHubTarballNotFound, "Unable to find #{repo} on GitHub"
         elsif response.is_a? Net::HTTPSuccess
           data = response.body
-          JSON.parse(data)
+          begin
+            JSON.parse(data)
+          rescue JSON::ParserError
+            nil
+          end
         else
           raise GitHubAPIError, "GitHub API returned #{response.code} for #{uri}"
         end
@@ -174,21 +183,16 @@ module Henson
           if entry.file?
             File.open("#{dest}/#{entry_name}", 'wb') { |f| f.write entry.read }
           elsif entry.directory?
-            Pathname.new("#{dest}/#{entry_name}").mkpath
+            FileUtils.mkdir_p "#{dest}/#{entry_name}"
           end
         end
       end
 
-      # Internal: Create and return the path where the module tarballs will be
-      # cached.
+      # Internal: Return the path where the module tarballs will be cached.
       #
       # Returns the Pathname object for the directory.
       def cache_path
-        @cache_path ||= lambda {
-          path = Pathname.new(Henson.settings[:cache_path]) + 'github_tarball'
-          path.mkpath
-          path.realpath
-        }.call
+        @cache_path ||= Pathname.new(Henson.settings[:cache_path]) + 'github_tarball'
       end
 
       # Internal: Return the path where the tarball for this version of the
@@ -203,21 +207,16 @@ module Henson
       #
       # Returns nothing.
       def clean_up_old_cached_versions
-        Dir["#{cache_path.to_path}/#{repo.gsub('/', '-')}*.tar.gz"].each do |f|
+        Dir["#{cache_path.to_path}/#{repo.gsub('/', '-')}-*.tar.gz"].each do |f|
           FileUtils.rm f
         end
       end
 
-      # Internal: Create and return the path that the module will be installed
-      # to.
+      # Internal: Return the path that the module will be installed to.
       #
       # Returns the Pathname object for the directory.
       def install_path
-        @install_path ||= lambda {
-          path = Pathname.new(Henson.settings[:path]) + name
-          path.mkpath
-          path.realpath
-        }.call
+        @install_path ||= Pathname.new(Henson.settings[:path]) + name
       end
     end
   end
