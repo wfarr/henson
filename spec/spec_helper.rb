@@ -11,6 +11,7 @@ require 'henson'
 
 require 'rspec'
 require 'mocha_standalone'
+require 'fakeweb'
 
 RSpec.configure do |config|
   config.before(:all) do
