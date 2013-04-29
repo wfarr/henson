@@ -12,7 +12,8 @@ end
 require 'henson'
 
 require 'rspec'
-require 'mocha_standalone'
+require 'mocha/api'
+
 require 'fakeweb'
 
 RSpec.configure do |config|
