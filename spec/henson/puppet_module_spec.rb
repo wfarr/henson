@@ -1,10 +1,10 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe Henson::PuppetModule do
   context "module with opts" do
     context "that are valid" do
       let(:mod) do
-        Henson::PuppetModule.new 'example', '0',
+        Henson::PuppetModule.new "example", "0",
           :path => "spec/fixtures/modules/foobar"
       end
 
@@ -93,8 +93,8 @@ describe Henson::PuppetModule do
 
       context "#versions" do
         it "delegates to the source" do
-          mod.source.stubs(:versions).returns(['1.1', '1.2'])
-          expect(mod.versions).to eq(['1.1', '1.2'])
+          mod.source.stubs(:versions).returns(["1.1", "1.2"])
+          expect(mod.versions).to eq(["1.1", "1.2"])
         end
       end
     end
@@ -102,7 +102,7 @@ describe Henson::PuppetModule do
     context "that are invalid" do
       it "aborts with a message" do
         expect {
-          Henson::PuppetModule.new 'example', '0', :foo => 'bar'
+          Henson::PuppetModule.new "example", "0", :foo => "bar"
         }.to raise_error(
           Henson::PuppetfileError,
           "Source given for example is invalid: {:foo=>\"bar\"}"

@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
-lib = File.expand_path('../lib', __FILE__)
+lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'henson/version'
+require "henson/version"
 
 Gem::Specification.new do |gem|
   gem.name          = "henson"
@@ -21,12 +21,12 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
 
   # dependencies
-  gem.add_dependency "thor",             "~> 0.16.0"
+  gem.add_dependency "thor", "~> 0.16.0"
 
   # development dependencies
   gem.add_development_dependency "mocha",     "~> 0.13.3"
   gem.add_development_dependency "rspec",     "~> 2.11"
-  gem.add_development_dependency "simplecov", "0.7.1"
+  gem.add_development_dependency "simplecov", "~> 0.7.1"
   gem.add_development_dependency "rake"
   gem.add_development_dependency "fakeweb"
 end

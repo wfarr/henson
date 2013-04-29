@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe Henson::Source::Path do
   let(:source) do
@@ -15,8 +15,8 @@ describe Henson::Source::Path do
 
   it "raises an error if the path does not exist" do
     expect {
-      Henson::Source::Path.new('dne', '/does/not/exist')
-    }.to raise_error(Henson::ModuleNotFound, '/does/not/exist')
+      Henson::Source::Path.new("dne", "/does/not/exist")
+    }.to raise_error(Henson::ModuleNotFound, "/does/not/exist")
   end
 
   context "#fetch!" do
@@ -31,8 +31,8 @@ describe Henson::Source::Path do
 
   context "versions" do
     it "returns an array that contains version from modulefile" do
-      source.stubs(:version_from_modulefile).returns('1.0.0')
-      expect(source.versions).to eq(['1.0.0'])
+      source.stubs(:version_from_modulefile).returns("1.0.0")
+      expect(source.versions).to eq(["1.0.0"])
     end
   end
 
@@ -59,12 +59,12 @@ describe Henson::Source::Path do
     end
   end
 
-  context 'version_from_modulefile' do
-    it 'parses the Modulefile to get the version string' do
-      expect(source.send(:version_from_modulefile)).to eq('0.0.1')
+  context "version_from_modulefile" do
+    it "parses the Modulefile to get the version string" do
+      expect(source.send(:version_from_modulefile)).to eq("0.0.1")
     end
 
-    it "defaults to 0 if modulefile isn't there" do
+    it "defaults to 0 if modulefile does not exist" do
       source.stubs(:path).returns("/not/a/real/path")
       expect(source.send(:version_from_modulefile)).to eq("0")
     end

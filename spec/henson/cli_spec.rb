@@ -1,5 +1,5 @@
-require 'spec_helper'
-require 'henson/cli'
+require "spec_helper"
+require "henson/cli"
 
 describe Henson::CLI do
   before do
@@ -13,11 +13,11 @@ describe Henson::CLI do
 
   context "start" do
     before do
-      ENV['HENSON_PUPPETFILE'] = File.expand_path("/path/to/nowhere")
+      ENV["HENSON_PUPPETFILE"] = File.expand_path("/path/to/nowhere")
     end
 
     after do
-      ENV['HENSON_PUPPETFILE'] = nil
+      ENV["HENSON_PUPPETFILE"] = nil
     end
 
     it "responds to start, provided by Thor" do

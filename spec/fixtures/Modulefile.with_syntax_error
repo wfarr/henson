@@ -1,3 +1,3 @@
 # a puppetfile with a syntax error
 
-mod 'foo' 'bar' :path => '/foo/bar'
+mod "foo" "bar" :path => "/foo/bar"

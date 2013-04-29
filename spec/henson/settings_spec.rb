@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe Henson::Settings do
   context "initialize" do
@@ -24,9 +24,9 @@ describe Henson::Settings do
   context "[]" do
     it "delegates to fetch" do
       instance = Henson::Settings.new
-      expect(instance['foo']).to be_nil
-      instance['foo'] = :bar
-      expect(instance['foo']).to eq(:bar)
+      expect(instance["foo"]).to be_nil
+      instance["foo"] = :bar
+      expect(instance["foo"]).to eq(:bar)
     end
   end
 end

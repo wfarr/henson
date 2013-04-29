@@ -1,10 +1,10 @@
-$:.unshift File.expand_path('..', __FILE__)
-$:.unshift File.expand_path('../../lib', __FILE__)
+$:.unshift File.expand_path("..", __FILE__)
+$:.unshift File.expand_path("../../lib", __FILE__)
 
-require 'rubygems'
-require 'rspec'
-require 'mocha_standalone'
-require 'pathname'
+require "rubygems"
+require "rspec"
+require "mocha/api"
+require "pathname"
 
 RSpec.configure do |config|
   config.before(:suite) do
@@ -21,11 +21,11 @@ RSpec.configure do |config|
 end
 
 def root
-  @root ||= File.expand_path('../../', __FILE__)
+  @root ||= File.expand_path("../../", __FILE__)
 end
 
 def projectdir
-  @projectdir ||= File.expand_path('./acceptance/fixtures', root)
+  @projectdir ||= File.expand_path("./acceptance/fixtures", root)
 end
 
 def get_your_setup_on

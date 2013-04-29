@@ -1,6 +1,6 @@
-require 'spec_helper'
+require "spec_helper"
 
-require 'henson/ui'
+require "henson/ui"
 
 describe Henson::UI do
   let(:ui) { Henson::UI.new Thor::Shell::Basic.new }

@@ -1,5 +1,5 @@
-require 'spec_helper'
-require 'henson/friendly_errors'
+require "spec_helper"
+require "henson/friendly_errors"
 
 describe "Henson.friendly_errors" do
   errors = [

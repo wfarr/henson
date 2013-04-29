@@ -41,7 +41,7 @@ task :todo do
     puts "#{path}:"
 
     matches.each do |match|
-      sanitized = match[:line].gsub(/(^.*TODO)/, '').strip
+      sanitized = match[:line].gsub(/(^.*TODO)/, "").strip
       puts "  * TODO L#{match[:number]}: #{sanitized}"
     end
   end

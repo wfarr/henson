@@ -1,8 +1,8 @@
-require 'uri'
-require 'net/https'
-require 'json'
-require 'pathname'
-require 'rubygems/package'
+require "uri"
+require "net/https"
+require "json"
+require "pathname"
+require "rubygems/package"
 
 module Henson
   module Source
@@ -49,8 +49,8 @@ module Henson
         clean_up_old_cached_versions
 
         url = "https://api.github.com/repos/#{repo}/tarball/#{version}"
-        if ENV['GITHUB_API_TOKEN']
-          url << "?access_token=#{ENV['GITHUB_API_TOKEN']}"
+        if ENV["GITHUB_API_TOKEN"]
+          url << "?access_token=#{ENV["GITHUB_API_TOKEN"]}"
         end
 
         download_file url, tarball_path.to_path
@@ -89,8 +89,8 @@ module Henson
       # Returns the parsed JSON object (probably a Hash).
       def api_call(path)
         url = "https://api.github.com#{path}"
-        if ENV['GITHUB_API_TOKEN']
-          url << "?access_token=#{ENV['GITHUB_API_TOKEN']}"
+        if ENV["GITHUB_API_TOKEN"]
+          url << "?access_token=#{ENV["GITHUB_API_TOKEN"]}"
         end
 
         uri = URI.parse(url)
@@ -130,9 +130,9 @@ module Henson
         end
 
         data.map { |r|
-          r['name']
+          r["name"]
         }.map { |version|
-          version.gsub(/\Av/, '')
+          version.gsub(/\Av/, "")
         }.delete_if { |version|
           version !~ /\A\d+\.\d+(\.\d+.*)?\Z/
         }.compact
@@ -157,10 +157,10 @@ module Henson
           req.add_field "User-Agent", "henson v#{Henson::VERSION}"
           resp = h.request(req)
           if resp.is_a? Net::HTTPSuccess
-            File.open(dest, 'wb') { |f| f.write resp.body }
+            File.open(dest, "wb") { |f| f.write resp.body }
           elsif ["301", "302"].include? resp.code
-            Henson.ui.debug "Following redirect to #{resp.header['location']}"
-            download_file(resp.header['location'], dest)
+            Henson.ui.debug "Following redirect to #{resp.header["location"]}"
+            download_file(resp.header["location"], dest)
           else
             raise GitHubDownloadError, "GitHub returned #{resp.code} for #{source}"
           end
@@ -179,9 +179,9 @@ module Henson
         Henson.ui.debug "Extracting #{tarball} to #{dest}"
 
         Gem::Package::TarReader.new(Zlib::GzipReader.open(tarball)).each do |entry|
-          entry_name = entry.full_name.split('/')[1..-1].join('/')
+          entry_name = entry.full_name.split("/")[1..-1].join("/")
           if entry.file?
-            File.open("#{dest}/#{entry_name}", 'wb') { |f| f.write entry.read }
+            File.open("#{dest}/#{entry_name}", "wb") { |f| f.write entry.read }
           elsif entry.directory?
             FileUtils.mkdir_p "#{dest}/#{entry_name}"
           end
@@ -192,7 +192,7 @@ module Henson
       #
       # Returns the Pathname object for the directory.
       def cache_path
-        @cache_path ||= Pathname.new(Henson.settings[:cache_path]) + 'github_tarball'
+        @cache_path ||= Pathname.new(Henson.settings[:cache_path]) + "github_tarball"
       end
 
       # Internal: Return the path where the tarball for this version of the
@@ -200,14 +200,14 @@ module Henson
       #
       # Returns the Pathname object for the tarball.
       def tarball_path
-        @tarball_path ||= cache_path + "#{repo.gsub('/', '-')}-#{version}.tar.gz"
+        @tarball_path ||= cache_path + "#{repo.gsub("/", "-")}-#{version}.tar.gz"
       end
 
       # Internal: Remove all tarballs for the module from the cache directory.
       #
       # Returns nothing.
       def clean_up_old_cached_versions
-        Dir["#{cache_path.to_path}/#{repo.gsub('/', '-')}-*.tar.gz"].each do |f|
+        Dir["#{cache_path.to_path}/#{repo.gsub("/", "-")}-*.tar.gz"].each do |f|
           FileUtils.rm f
         end
       end

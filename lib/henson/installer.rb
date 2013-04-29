@@ -13,7 +13,7 @@ module Henson
           mod.install!
         else
           install_path = "#{Henson.settings[:path]}/#{mod.name}"
-          Henson.ui.debug "Using #{mod.name} (#{mod.version}) from #{install_path} as #{mod.source.class.name.split('::').last.downcase}"
+          Henson.ui.debug "Using #{mod.name} (#{mod.version}) from #{install_path} as #{mod.source.class.name.split("::").last.downcase}"
           Henson.ui.info  "Using #{mod.name} (#{mod.version})"
         end
       end

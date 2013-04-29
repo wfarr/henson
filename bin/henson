@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
-require 'rubygems'
-require 'henson'
-require 'henson/cli'
+require "rubygems"
+require "henson"
+require "henson/cli"
 
 Henson.with_friendly_errors { Henson::CLI.start }

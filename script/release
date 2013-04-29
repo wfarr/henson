@@ -3,7 +3,7 @@
 
 set -e
 
-# Make sure we're in the project root.
+# Make sure we"re in the project root.
 
 cd $(dirname "$0")/..
 
@@ -12,23 +12,23 @@ cd $(dirname "$0")/..
 rm -rf henson-*.gem
 gem build -q henson.gemspec
 
-# Make sure we're on the master branch.
+# Make sure we"re on the master branch.
 
-(git branch | grep '* master') || {
+(git branch | grep "* master") || {
   echo "Only release from the master branch."
   exit 1
 }
 
-# Figure out what version we're releasing.
+# Figure out what version we"re releasing.
 
-tag=v`ls henson-*.gem | sed 's/^henson-\(.*\)\.gem$/\1/'`
+tag=v`ls henson-*.gem | sed "s/^henson-\(.*\)\.gem$/\1/"`
 
-# Make sure we haven't released this version before.
+# Make sure we haven"t released this version before.
 
 git fetch -t origin
 
 (git tag -l | grep "$tag") && {
-  echo "Whoops, there's already a '${tag}' tag."
+  echo "Whoops, there is already a "${tag}" tag."
   exit 1
 }
 

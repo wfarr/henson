@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe Henson::Source::Generic do
   let(:source) { Henson::Source::Generic.new }
@@ -20,15 +20,15 @@ describe Henson::Source::Generic do
   end
 
   context "satisfies?" do
-    let(:requirement) { Gem::Requirement.new '~> 1.0.0' }
+    let(:requirement) { Gem::Requirement.new "~> 1.0.0" }
 
     it "returns true if any version satisfies the requirement" do
-      source.stubs(:versions).returns(['0.8', '1.0.11'])
+      source.stubs(:versions).returns(["0.8", "1.0.11"])
       expect(source.satisfies?(requirement)).to be_true
     end
 
     it "returns false if no version satisfies the requirement" do
-      source.stubs(:versions).returns(['0.8', '1.6.0'])
+      source.stubs(:versions).returns(["0.8", "1.6.0"])
       expect(source.satisfies?(requirement)).to be_false
     end
   end

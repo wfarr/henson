@@ -1,6 +1,6 @@
-require 'henson/ui'
-require 'henson/friendly_errors'
-require 'thor'
+require "henson/ui"
+require "henson/friendly_errors"
+require "thor"
 
 module Henson
   class CLI < Thor
@@ -12,8 +12,8 @@ module Henson
       Henson.ui = UI.new the_shell
       Henson.ui.quiet! if options[:quiet]
       Henson.ui.debug! if options[:debug]
-      if ENV['HENSON_PUPPETFILE']
-        Henson.settings[:puppetfile] = ENV['HENSON_PUPPETFILE']
+      if ENV["HENSON_PUPPETFILE"]
+        Henson.settings[:puppetfile] = ENV["HENSON_PUPPETFILE"]
       end
     end
 
@@ -34,7 +34,7 @@ module Henson
     method_option "local", :type => :boolean, :banner =>
       "Only check local cache source for modules."
     method_option "no-cache", :type => :boolean, :banner =>
-      "Don't update the existing Puppet module cache."
+      "Do not update the existing Puppet module cache."
     method_option "clean", :type => :boolean, :banner =>
       "Run henson clean automatically after install."
     method_option "path", :type => :string, :banner =>

@@ -39,7 +39,7 @@ module Henson
         end
 
         PuppetModule.new(name, version, options).tap do |puppet_module|
-          # TODO calculate module's dependencies?
+          # TODO calculate module"s dependencies?
           @modules << puppet_module
         end
       end
@@ -67,7 +67,7 @@ module Henson
           options[:github] = name
         end
 
-        module_name = name.split('/').last.gsub(/\Apuppet(labs)?-/, '')
+        module_name = name.split("/").last.gsub(/\Apuppet(labs)?-/, "")
 
         PuppetModule.new(module_name, version, options).tap do |puppet_module|
           @modules << puppet_module

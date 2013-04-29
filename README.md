@@ -6,9 +6,9 @@ Managing your Puppets.
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Add this line to your application"s Gemfile:
 
-    gem 'henson'
+    gem "henson"
 
 And then execute:
 

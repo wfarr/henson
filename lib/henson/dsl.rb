@@ -1,2 +1,2 @@
-require 'henson/dsl/modulefile'
-require 'henson/dsl/puppetfile'
+require "henson/dsl/modulefile"
+require "henson/dsl/puppetfile"

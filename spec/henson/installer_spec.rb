@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe Henson::Installer do
   before do
@@ -37,7 +37,7 @@ describe Henson::Installer do
 
     it "raises MissingPuppetfileError if no Puppetfile" do
       expect {
-        Henson.settings[:puppetfile] = '/path/to/no/Puppetfile'
+        Henson.settings[:puppetfile] = "/path/to/no/Puppetfile"
         Henson::Installer.parse_puppetfile!
       }.to raise_error(
         Henson::PuppetfileNotFound,

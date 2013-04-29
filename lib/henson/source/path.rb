@@ -27,7 +27,7 @@ module Henson
       end
 
       def versions
-        # Obviously, when the modulespec stuff is written we'd want to try that
+        # Obviously, when the modulespec stuff is written we"d want to try that
         # first and then fall back to the Modulefile if necessary.
         [version_from_modulefile]
       end
@@ -42,7 +42,7 @@ module Henson
       end
 
       def version_from_modulefile
-        DSL::Modulefile.evaluate(File.join(path, 'Modulefile')).version
+        DSL::Modulefile.evaluate(File.join(path, "Modulefile")).version
       rescue ModulefileNotFound
         "0"
       end

@@ -1,37 +1,37 @@
-$:.unshift File.expand_path('..', __FILE__)
-$:.unshift File.expand_path('../../lib', __FILE__)
+$:.unshift File.expand_path("..", __FILE__)
+$:.unshift File.expand_path("../../lib", __FILE__)
 
-require 'rubygems'
+require "rubygems"
 
-require 'simplecov'
+require "simplecov"
 
 SimpleCov.start do
-  add_filter '/vendor/gems/'
+  add_filter "/vendor/gems/"
 end
 
-require 'henson'
+require "henson"
 
-require 'rspec'
-require 'mocha/api'
+require "rspec"
+require "mocha/api"
 
-require 'fakeweb'
+require "fakeweb"
 
 RSpec.configure do |config|
   config.before(:all) do
     @stdout = $stdout
     @stderr = $stderr
 
-    $stdout = File.new('spec/fixtures/stdout.log', 'w+')
-    $stderr = File.new('spec/fixtures/stderr.log', 'w+')
+    $stdout = File.new("spec/fixtures/stdout.log", "w+")
+    $stderr = File.new("spec/fixtures/stderr.log", "w+")
   end
 
   config.after(:all) do
-    require 'fileutils'
+    require "fileutils"
 
     $stdout = @stdout
     $stderr = @stderr
 
-    FileUtils.rm_rf('spec/fixtures/*.log')
+    FileUtils.rm_rf("spec/fixtures/*.log")
   end
 
   config.expect_with :rspec do |c|

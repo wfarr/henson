@@ -26,14 +26,14 @@ module Henson
         @options = opts
 
 
-        # if it's a branch, all possible versions are refs on that branch
+        # if it"s a branch, all possible versions are refs on that branch
 
         # check if branch is a branch with git ls-remote --heads --exit-code origin
 
         # list of refs we can use if updating
         # git log --oneline --topo-order current_revision~1..target_revision
 
-        # if new branch, but new branch contains current_revision, we're okay
+        # if new branch, but new branch contains current_revision, we"re okay
 
         # if new branch, but does not contain current_revision, set #versions to just ref of target_revision
         if branch = @options.fetch(:branch, nil)
@@ -47,7 +47,7 @@ module Henson
           @target_revision = Revision.new(ref)
           @ref_type = :ref
         else
-          @target_revision = 'origin/master'
+          @target_revision = "origin/master"
           @ref_type = :branch
         end
       end
@@ -59,15 +59,15 @@ module Henson
       def fetch!
         if File.directory? fetch_path
           in_repo do
-            git 'fetch', '--force', '--quiet', '--tags', 'origin', '"refs/heads/*:refs/heads/*"'
+            git "fetch", "--force", "--quiet", "--tags", "origin", "'refs/heads/*:refs/heads/*'"
           end
         else
           Henson.ui.debug "Fetching #{name} from #{repo}"
 
           clone_args = %w(--no-hardlinks)
-          clone_args << '--quiet' if Henson.settings[:quiet]
+          clone_args << "--quiet" if Henson.settings[:quiet]
 
-          git 'clone', *clone_args, repo, fetch_path
+          git "clone", *clone_args, repo, fetch_path
         end
       end
 
@@ -75,7 +75,7 @@ module Henson
         Henson.ui.debug "Changing #{name} to #{target_revision}"
 
         in_repo do
-          git 'checkout', '--quiet', target_revision
+          git "checkout", "--quiet", target_revision
         end
       end
 
@@ -87,11 +87,11 @@ module Henson
         @versions ||= case @ref_type
         when :ref
           in_repo do
-            git('rev-list', '--all').split("\n").map { |r| Revision.new(r).to_s }
+            git("rev-list", "--all").split("\n").map { |r| Revision.new(r).to_s }
           end
         when :tag
           in_repo do
-            git('ls-remote', '--exit-code', '--tags', 'origin').split("\n").map do |line|
+            git("ls-remote", "--exit-code", "--tags", "origin").split("\n").map do |line|
               tag = line.match(/\s+refs\/tags\/(.+)$/)[1]
             end.reject do |tag|
               tag =~ /\^{}/
@@ -117,15 +117,15 @@ module Henson
         fetch! unless fetched?
 
         if @ref_type == :tag || @ref_type == :branch
-          versions.select { |v| v =~ Regexp.new(target_revision.gsub(/^origin\//, '')) }
+          versions.select { |v| v =~ Regexp.new(target_revision.gsub(/^origin\//, "")) }
         else
-          sanitized_versions = versions.map { |v| v.gsub(/^origin\//, '') }
+          sanitized_versions = versions.map { |v| v.gsub(/^origin\//, "") }
         end
       end
 
       def satisfies?(requirement)
         if @ref_type == :tag || @ref_type == :branch
-          versions.member? target_revision.gsub(/^origin\//, '').to_s
+          versions.member? target_revision.gsub(/^origin\//, "").to_s
         else
           versions.member? resolved_target_revision.to_s
         end
@@ -133,7 +133,7 @@ module Henson
 
       private
       def git(*args)
-        `git #{args.join(' ')}`
+        `git #{args.join(" ")}`
       rescue Errno::ENOENT
         raise GitNotInstalled if exit_status.nil?
       end
@@ -148,12 +148,12 @@ module Henson
 
       def has_ref?(ref)
         output = in_repo do
-          git('cat-file', '-t', ref).strip
+          git("cat-file", "-t", ref).strip
         end
 
         if $?.success?
           unless %w(commit tag).member? output
-            raise GitInvalidRef, "Expected '#{ref}' in '#{name}' to be a commit."
+            raise GitInvalidRef, "Expected "#{ref}" in "#{name}" to be a commit."
           end
 
           true
@@ -172,13 +172,13 @@ module Henson
 
       def resolved_target_revision
         in_repo do
-          Revision.new(git('rev-parse', "#{target_revision}^{commit}").strip)
+          Revision.new(git("rev-parse", "#{target_revision}^{commit}").strip)
         end
       end
 
       def current_revision
         in_repo do
-          if rev = git('rev-parse', 'HEAD').strip
+          if rev = git("rev-parse", "HEAD").strip
             raise "wtf" unless $?.success?
             Revision.new(rev)
           end

@@ -1,13 +1,13 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe Henson::Source::Git do
   it "can be instantiated" do
-    expect(Henson::Source::Git.new('foo', :bar => :baz)).to_not be_nil
+    expect(Henson::Source::Git.new("foo", :bar => :baz)).to_not be_nil
   end
 
   describe "#fetched?" do
     it "returns false if the repo is not cloned" do
-      expect(Henson::Source::Git.new('foo', :bar => :baz)).to_not be_fetched
+      expect(Henson::Source::Git.new("foo", :bar => :baz)).to_not be_fetched
     end
 
     it "returns false if the repo does not have the correct revision"
@@ -37,8 +37,8 @@ describe Henson::Source::Git do
   describe "#target_revision" do
     let(:git) do
       lambda { |opts = {}|
-        Henson::Source::Git.new 'osx_defaults',
-          'https://github.com/wfarr/puppet-osx_defaults',
+        Henson::Source::Git.new "osx_defaults",
+          "https://github.com/wfarr/puppet-osx_defaults",
           opts
       }
     end
