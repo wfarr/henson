@@ -16,6 +16,8 @@ module Henson
         Forge.new name, forge
       elsif github = opts.delete(:github)
         GitHubTarball.new name, requirement, github
+      elsif github = opts.delete(:github_tarball)
+        GitHubTarball.new name, requirement, github
       end
     end
   end
