@@ -1,6 +1,7 @@
 # Henson
 
 [![Build Status](https://travis-ci.org/wfarr/henson.png?branch=master)](https://travis-ci.org/wfarr/henson)
+[![Code Climate](https://codeclimate.com/github/wfarr/henson.png)](https://codeclimate.com/github/wfarr/henson)
 
 Managing your Puppets.
 
