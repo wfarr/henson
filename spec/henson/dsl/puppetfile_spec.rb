@@ -3,57 +3,49 @@ require "spec_helper"
 describe Henson::DSL::Puppetfile do
   let(:instance) { described_class.new }
 
-  context "self.evaluate" do
-    it "creates a new instance and calls evaluate" do
-      described_class.expects(:initialize).returns(instance)
-      instance.expects(:evaluate).with("spec/fixtures/Puppetfile")
-      described_class.evaluate("spec/fixtures/Puppetfile")
-    end
-  end
-
   context "#evaluate" do
     it "raises PuppetfileError if a syntax error is encountered" do
-      expect {
-        described_class.evaluate("spec/fixtures/Puppetfile.with_syntax_error")
-      }.to raise_error(
+      file = "spec/fixtures/Puppetfile.with_syntax_error"
+
+      expect { described_class.evaluate file }.to raise_error(
         Henson::PuppetfileError,
-        /Puppetfile syntax error:/
+        /Henson encountered a syntax error in '#{file}':/
       )
     end
 
     it "raises PuppetfileError if a ScriptError is encountered" do
-      expect {
-        described_class.evaluate("spec/fixtures/Puppetfile.with_script_error")
-      }.to raise_error(
+      file = "spec/fixtures/Puppetfile.with_script_error"
+
+      expect { described_class.evaluate file }.to raise_error(
         Henson::PuppetfileError,
-        /There was an error in your Puppetfile, and Henson cannot continue\./
+        /Henson encountered an error in '#{file}' and cannot continue\./
       )
     end
 
     it "raises PuppetfileError if a RegexpError is encountered" do
-      expect {
-        described_class.evaluate("spec/fixtures/Puppetfile.with_regexp_error")
-      }.to raise_error(
+      file = "spec/fixtures/Puppetfile.with_regexp_error"
+
+      expect { described_class.evaluate file }.to raise_error(
         Henson::PuppetfileError,
-        /There was an error in your Puppetfile, and Henson cannot continue\./
+        /Henson encountered an error in '#{file}' and cannot continue\./
       )
     end
 
     it "raises PuppetfileError if a NameError is encountered" do
-      expect {
-        described_class.evaluate("spec/fixtures/Puppetfile.with_name_error")
-      }.to raise_error(
+      file = "spec/fixtures/Puppetfile.with_name_error"
+
+      expect { described_class.evaluate file }.to raise_error(
         Henson::PuppetfileError,
-        /There was an error in your Puppetfile, and Henson cannot continue\./
+        /Henson encountered an error in '#{file}' and cannot continue\./
       )
     end
 
     it "raises PuppetfileError if an ArgumentError is encountered" do
-      expect {
-        described_class.evaluate("spec/fixtures/Puppetfile.with_argument_error")
-      }.to raise_error(
+      file = "spec/fixtures/Puppetfile.with_argument_error"
+
+      expect { described_class.evaluate file }.to raise_error(
         Henson::PuppetfileError,
-        /There was an error in your Puppetfile, and Henson cannot continue\./
+        /Henson encountered an error in '#{file}' and cannot continue\./
       )
     end
   end

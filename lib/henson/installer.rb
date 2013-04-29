@@ -6,7 +6,9 @@ module Henson
     def self.install!
       FileUtils.mkdir_p File.expand_path(Henson.settings[:path])
 
-      parse_puppetfile!.modules.each do |mod|
+      parsed_puppetfile = DSL::Puppetfile.evaluate(Henson.settings[:puppetfile])
+
+      parsed_puppetfile.modules.each do |mod|
         mod.fetch! if mod.needs_fetching?
 
         if mod.needs_installing?
@@ -31,15 +33,6 @@ module Henson
 
     def self.clean!
       Henson.settings[:clean] = true
-    end
-
-    def self.parse_puppetfile!
-      unless File.exists?(Henson.settings[:puppetfile])
-        raise PuppetfileNotFound,
-          "Expected a Puppetfile at #{Henson.settings[:puppetfile]}!"
-      end
-
-      DSL::Puppetfile.evaluate(Henson.settings[:puppetfile])
     end
   end
 end

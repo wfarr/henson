@@ -3,21 +3,13 @@ require "spec_helper"
 describe Henson::DSL::Modulefile do
   let(:instance) { described_class.new }
 
-  context ".evaluate" do
-    it "creates a new instance and calls evaluate" do
-      described_class.expects(:initialize).returns(instance)
-      instance.expects(:evaluate).with("spec/fixtures/Modulefile")
-      described_class.evaluate("spec/fixtures/Modulefile")
-    end
-  end
-
   context "#evaluate" do
     it "raises ModulefileError if a syntax error is encountered" do
-      expect {
-        described_class.evaluate("spec/fixtures/Modulefile.with_syntax_error")
-      }.to raise_error(
+      file = "spec/fixtures/Modulefile.with_syntax_error"
+
+      expect { described_class.evaluate(file) }.to raise_error(
         Henson::ModulefileError,
-        /Modulefile syntax error:/
+        /Henson encountered a syntax error in '#{file}':/
       )
     end
 
@@ -26,7 +18,7 @@ describe Henson::DSL::Modulefile do
 
       expect { described_class.evaluate(file) }.to raise_error(
         Henson::ModulefileError,
-        /There was an error parsing #{file}, Henson can not continue\./
+        /Henson encountered an error in '#{file}' and cannot continue\./
       )
     end
 
@@ -35,7 +27,7 @@ describe Henson::DSL::Modulefile do
 
       expect { described_class.evaluate(file) }.to raise_error(
         Henson::ModulefileError,
-        /There was an error parsing #{file}, Henson can not continue\./
+        /Henson encountered an error in '#{file}' and cannot continue\./
       )
     end
 
@@ -44,7 +36,7 @@ describe Henson::DSL::Modulefile do
 
       expect { described_class.evaluate(file) }.to raise_error(
         Henson::ModulefileError,
-        /There was an error parsing #{file}, Henson can not continue\./
+        /Henson encountered an error in '#{file}' and cannot continue\./
       )
     end
 
@@ -53,7 +45,7 @@ describe Henson::DSL::Modulefile do
 
       expect { described_class.evaluate(file) }.to raise_error(
         Henson::ModulefileError,
-        /There was an error parsing #{file}, Henson can not continue\./
+        /Henson encountered an error in '#{file}' and cannot continue\./
       )
     end
 
