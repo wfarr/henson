@@ -5,12 +5,15 @@ require 'rubygems'
 
 require 'simplecov'
 
-SimpleCov.start
+SimpleCov.start do
+  add_filter '/vendor/gems/'
+end
 
 require 'henson'
 
 require 'rspec'
 require 'mocha_standalone'
+require 'fakeweb'
 
 RSpec.configure do |config|
   config.before(:all) do

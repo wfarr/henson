@@ -32,7 +32,6 @@ describe 'henson install' do
   end
 
   it "should have boxen module" do
-    pending "github_tarball support"
     expect(Pathname.new("#{project}/shared/boxen")).to be_directory
   end
 end

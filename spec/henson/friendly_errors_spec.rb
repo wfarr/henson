@@ -7,7 +7,11 @@ describe "Henson.friendly_errors" do
     Henson::ModulefileError,
     Henson::PuppetfileNotFound,
     Henson::ModulefileNotFound,
-    Henson::ModuleNotFound
+    Henson::ModuleNotFound,
+
+    Henson::GitHubTarballNotFound,
+    Henson::GitHubAPIError,
+    Henson::GitHubDownloadError,
   ]
 
   errors.each do |error|

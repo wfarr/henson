@@ -10,7 +10,7 @@ module Henson
       end
 
       def resolve_version_from_requirement(requirement)
-        satisfiable_versions_for_requirement(requirement).sort.first
+        satisfiable_versions_for_requirement(requirement).sort.reverse.first
       end
 
       def satisfiable_versions_for_requirement(requirement)

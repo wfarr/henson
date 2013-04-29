@@ -30,8 +30,12 @@ module Henson
         options = args.last.is_a?(Hash) ? args.pop : {}
         version = args.empty? ? ">= 0" : args.first
 
-        unless options.any? && forge.nil?
-          options.merge!(:forge => forge)
+        unless options.any?
+          if forge.nil?
+            # TODO - Implicit forge URL or throw error?
+          else
+            options.merge!(:forge => forge)
+          end
         end
 
         PuppetModule.new(name, version, options).tap do |puppet_module|
@@ -45,6 +49,28 @@ module Henson
           @forge
         else
           @forge = url
+        end
+      end
+
+      def github(name, *args)
+        options = args.last.is_a?(Hash) ? args.pop : {}
+        version = args.empty? ? ">= 0" : args.first
+
+        unless name =~ /\A.+\/.+\Z/
+          raise ModulefileError, "'#{name}' is not a GitHub repository"
+        end
+
+        if options[:repo]
+          options[:github] = options[:repo]
+          options.delete(:repo)
+        else
+          options[:github] = name
+        end
+
+        module_name = name.split('/').last.gsub(/\Apuppet(labs)?-/, '')
+
+        PuppetModule.new(module_name, version, options).tap do |puppet_module|
+          @modules << puppet_module
         end
       end
     end

@@ -94,4 +94,43 @@ describe Henson::DSL::Puppetfile do
       expect(instance.instance_variable_get("@forge")).to eq("foobar")
     end
   end
+
+  context "#github" do
+    let(:mod) { instance.github('puppetlabs/puppetlabs-stdlib', '~> 1') }
+
+    before do
+      FakeWeb.register_uri(
+        :get, "https://api.github.com/repos/puppetlabs/puppetlabs-stdlib/tags",
+        :body => [{:name => '1.0.0'}].to_json,
+      )
+    end
+
+    after do
+      FakeWeb.clean_registry
+    end
+
+    it "returns a PuppetModule" do
+      expect(mod).to be_a Henson::PuppetModule
+    end
+
+    it "adds the module to the modules array" do
+      expect(instance.modules).to be_empty
+      mod
+      expect(instance.modules).to eq([mod])
+    end
+
+    it "should create a module of with a GitHubTarball source" do
+      expect(mod.source).to be_a(Henson::Source::GitHubTarball)
+    end
+
+    it "should not require a version number" do
+      expect(instance.github('puppetlabs/puppetlabs-stdlib').requirement).to eq(Gem::Requirement.new('>= 0'))
+    end
+
+    it "should raise an error if not passed a GitHub repository" do
+      expect { instance.github('puppetlabs-stdlib') }.to raise_error(
+        Henson::ModulefileError, "'puppetlabs-stdlib' is not a GitHub repository"
+      )
+    end
+  end
 end
