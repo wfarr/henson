@@ -48,12 +48,7 @@ module Henson
 
         clean_up_old_cached_versions
 
-        url = "https://api.github.com/repos/#{repo}/tarball/#{version}"
-        if ENV["GITHUB_API_TOKEN"]
-          url << "?access_token=#{ENV["GITHUB_API_TOKEN"]}"
-        end
-
-        download_file url, tarball_path.to_path
+        download_tag_tarball tarball_path.to_path
       end
 
       # Public: Install the module into the install path. If a version of the
@@ -81,40 +76,6 @@ module Henson
 
       private
 
-      # Internal: Make a call to the GitHub API.
-      #
-      # path - The URI String under https://api.github.com to request (e.g.
-      # /repos/puppetlabs/puppetlabs-stdlib/tags).
-      #
-      # Returns the parsed JSON object (probably a Hash).
-      def api_call(path)
-        url = "https://api.github.com#{path}"
-        if ENV["GITHUB_API_TOKEN"]
-          url << "?access_token=#{ENV["GITHUB_API_TOKEN"]}"
-        end
-
-        uri = URI.parse(url)
-        http = Net::HTTP.new(uri.host, uri.port)
-        http.use_ssl = true
-        http.verify_mode = OpenSSL::SSL::VERIFY_PEER
-        request = Net::HTTP::Get.new(uri.request_uri)
-        request.add_field "User-Agent", "henson v#{Henson::VERSION}"
-
-        response = http.request(request)
-        if response.code == "404"
-          raise GitHubTarballNotFound, "Unable to find #{repo} on GitHub"
-        elsif response.is_a? Net::HTTPSuccess
-          data = response.body
-          begin
-            JSON.parse(data)
-          rescue JSON::ParserError
-            nil
-          end
-        else
-          raise GitHubAPIError, "GitHub API returned #{response.code} for #{uri}"
-        end
-      end
-
       # Internal: Query the GitHub API for a list of tag names that look like
       # version numbers. If the tag name starts with a v (e.g. v0.0.1), it will
       # be stripped.
@@ -123,48 +84,24 @@ module Henson
       def fetch_versions_from_api
         Henson.ui.debug "Fetching a list of tag names for #{repo}"
 
-        data = api_call("/repos/#{repo}/tags")
-        if data.nil?
-          raise GitHubAPIError,
-            "No data returned from https://api.github.com/repos/#{repo}/tags"
-        end
-
-        data.map { |r|
-          r["name"]
-        }.map { |version|
-          version.gsub(/\Av/, "")
-        }.delete_if { |version|
-          version !~ /\A\d+\.\d+(\.\d+.*)?\Z/
+        Henson.api_client.tags_for_repo(repo).collect { |tag|
+          tag["name"]
+        }.delete_if { |tag|
+          tag !~ /\Av?\d+\.\d+(\.\d+.*)?\z/
+        }.collect { |tag|
+          tag.gsub /\Av/, ""
         }.compact
       end
 
       # Internal: Download a file, following redirects.
       #
-      # source - The String URL to download.
       # dest   - The String path on disk (including filename) that the file
       #          should be downloaded to.
       #
       # Returns nothing.
-      def download_file(source, dest)
-        Henson.ui.debug "Downloading #{source} to #{dest}"
-
-        uri = URI.parse(source)
-        http = Net::HTTP.new(uri.host, uri.port)
-        http.use_ssl = true
-        http.verify_mode = OpenSSL::SSL::VERIFY_PEER
-        http.start do |h|
-          req = Net::HTTP::Get.new(uri.request_uri)
-          req.add_field "User-Agent", "henson v#{Henson::VERSION}"
-          resp = h.request(req)
-          if resp.is_a? Net::HTTPSuccess
-            File.open(dest, "wb") { |f| f.write resp.body }
-          elsif ["301", "302"].include? resp.code
-            Henson.ui.debug "Following redirect to #{resp.header["location"]}"
-            download_file(resp.header["location"], dest)
-          else
-            raise GitHubDownloadError, "GitHub returned #{resp.code} for #{source}"
-          end
-        end
+      def download_tag_tarball dest
+        Henson.ui.debug "Downloading #{repo}@#{version} to #{dest}..."
+        Henson.api_client.download_tag_for_repo repo, version, dest
       end
 
       # Internal: Extract a tarball to a specified destination, stripping the

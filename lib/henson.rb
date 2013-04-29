@@ -1,3 +1,4 @@
+require "henson/api_client"
 require "henson/installer"
 require "henson/puppet_module"
 require "henson/settings"
@@ -14,6 +15,11 @@ module Henson
 
   def self.ui
     @ui
+  end
+
+  def self.api_client
+    @api_client ||= Henson::APIClient.new "api.github.com",
+      :access_token => ENV["GITHUB_API_TOKEN"]
   end
 
   ########
