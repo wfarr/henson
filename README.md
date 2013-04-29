@@ -1,5 +1,7 @@
 # Henson
 
+[![Build Status](https://travis-ci.org/wfarr/henson.png?branch=master)](https://travis-ci.org/wfarr/henson)
+
 Managing your Puppets.
 
 ![](http://userserve-ak.last.fm/serve/_/83451/Jim+Henson.jpg)
