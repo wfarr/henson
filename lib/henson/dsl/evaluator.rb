@@ -32,6 +32,7 @@ module Henson
           "Henson encountered an error in '#{file}' and cannot continue."
       end
 
+      private
       def syntax_error_class
         classify "#{self.class.name.rpartition('::').last}Error"
       end
@@ -40,7 +41,6 @@ module Henson
         classify "#{self.class.name.rpartition('::').last}NotFound"
       end
 
-      private
       def classify klass
         if Henson.const_defined? klass
           Henson.const_get klass
