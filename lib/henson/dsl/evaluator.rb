@@ -17,10 +17,12 @@ module Henson
       # file - The String path to the file to evaluate.
       #
       # Returns an instance of the DSL.
+      # Raises <not_found_error_class> if the file does not exist.
       def evaluate file
         self.tap do
           if File.exists? file
             instance_eval File.read(file)
+
             validate if self.respond_to? :validate
           else
             raise not_found_error_class, "#{file} does not exist"
@@ -28,21 +30,38 @@ module Henson
         end
 
       rescue SyntaxError => e
-        backtrace = e.message.split("\n")[1..-1]
-        raise syntax_error_class, [
-            "Henson encountered a syntax error in '#{file}':",
-            *backtrace
-          ].join("\n")
-
+        handle_syntax_error e
       rescue ScriptError, RegexpError, NameError, ArgumentError => e
-        e.backtrace[0] = "#{e.backtrace[0]}: #{e.message} (#{e.class})"
-        Henson.ui.warning e.backtrace.join("\n       ")
+        handle_other_parse_error e
+      end
+
+      private
+
+      # Private: Handle an internal DSL syntax error in parsing.
+      #
+      # error - The Error raised during parsing.
+      #
+      # Raises <syntax_error_class>.
+      def handle_syntax_error error
+        raise syntax_error_class, [
+          "Henson encountered a syntax error in '#{file}':",
+          *e.message.split("\n")[1..-1]
+        ].join("\n")
+      end
+
+      # Private: Handle an internal DSL error in parsing.
+      #
+      # error - The Error raised during parsing.
+      #
+      # Raises <syntax_error_class>.
+      def handle_other_parse_error error
+        error.backtrace[0] = \
+          "#{error.backtrace[0]}: #{error.message} (#{error.class})"
+        Henson.ui.warning error.backtrace.join("\n       ")
 
         raise syntax_error_class,
           "Henson encountered an error in '#{file}' and cannot continue."
       end
-
-      private
 
       # Private: Construct the class name for syntax errors during evaluation.
       #
