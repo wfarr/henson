@@ -48,7 +48,7 @@ module Henson
       #
       # Returns the Class.
       def syntax_error_class
-        classify "#{self.class.name.rpartition('::').last}Error"
+        classify "#{short_class_name}Error"
       end
 
       # Private: Construct the class name forwhen  the file to parse is
@@ -56,7 +56,14 @@ module Henson
       #
       # Returns the Class.
       def not_found_error_class
-        classify "#{self.class.name.rpartition('::').last}NotFound"
+        classify "#{short_class_name}NotFound"
+      end
+
+      # Private: Grab the last segment of the full class name for this class.
+      #
+      # Returns a String.
+      def short_class_name
+        @short_class_name ||= self.class.name.rpartition("::").last
       end
 
       # Private: Converts a string into a Henson error class if one exists.
