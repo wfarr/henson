@@ -19,15 +19,20 @@ module Henson
           begin
             response = request :get, found["tarball_url"], options
 
-            File.open destination, "wb+" do |file|
-              file.write response.body
-            end
+            write_download destination, response.body
           rescue Henson::APIError => e
-            raise GitHubDownloadError, \
-              "GitHub returned #{response.status} for #{found["tarball_url"]}"
+            raise Henson::GitHubDownloadError
           end
         else
           raise "invalid tag #{tag} given for repository #{repository}"
+        end
+      end
+
+      private
+
+      def write_download file, content
+        File.open file, "wb+" do |f|
+          file.write content
         end
       end
     end
