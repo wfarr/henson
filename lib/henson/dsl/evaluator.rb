@@ -3,7 +3,7 @@ require "henson/errors"
 module Henson
   module DSL
     class Evaluator
-      # Public: Evaluate a file with the given DSL.
+      # Internal: Evaluate a file with the given DSL.
       #
       # file - The String path to the file to evaluate.
       #
@@ -12,7 +12,7 @@ module Henson
         new.evaluate file
       end
 
-      # Public: Evaluate a file with the given DSL.
+      # Internal: Evaluate a file with the given DSL.
       #
       # file - The String path to the file to evaluate.
       #
