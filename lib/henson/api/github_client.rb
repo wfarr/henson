@@ -16,16 +16,19 @@ module Henson
         tags = tags_for_repo repository
 
         if found = tags.detect { |t| t["name"] =~ /\Av?#{tag}\z/ }
-          response = request :get, found["tarball_url"], options
+          begin
+            response = request :get, found["tarball_url"], options
 
-          File.open destination, "wb+" do |file|
-            file.write response.body
+            File.open destination, "wb+" do |file|
+              file.write response.body
+            end
+          rescue Henson::APIError => e
+            raise GitHubDownloadError, \
+              "GitHub returned #{response.status} for #{found["tarball_url"]}"
           end
         else
           raise "invalid tag #{tag} given for repository #{repository}"
         end
-      rescue Faraday::ClientError => e
-        raise GitHubDownloadError, "GitHub returned #{resp.code} for #{source}"
       end
     end
   end
