@@ -1,4 +1,4 @@
-require "henson/api_client"
+require "henson/api/client_cache"
 require "henson/errors"
 require "henson/installer"
 require "henson/puppet_module"
@@ -29,20 +29,10 @@ module Henson
     @ui
   end
 
-  # Internal: Set the Henson GitHub API client.
+  # Internal: Get the API client cache or create one if it does not exist.
   #
-  # new_client - The Henson::APIClient.
-  #
-  # Returns the Henson::APIClient.
-  def self.api_client= new_client
-    @api_client = new_client
-  end
-
-  # Internal: Get the Henson API client or create one if it does not exist.
-  #
-  # Returns the Henson::APIClient.
-  def self.api_client
-    @api_client ||= Henson::APIClient.new "api.github.com",
-      :access_token => ENV["GITHUB_API_TOKEN"]
+  # Returns the Henson::API::ClientCache.
+  def self.api_clients
+    @api_clients ||= Henson::API::ClientCache.new
   end
 end

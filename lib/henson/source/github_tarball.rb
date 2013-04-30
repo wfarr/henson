@@ -23,6 +23,7 @@ module Henson
         @name = name
         @repo = repo
         @requirement = requirement
+        @api = Henson.api_clients.github "api.github.com"
       end
 
       # Public: Determine the version of the module to be installed.
@@ -84,7 +85,7 @@ module Henson
       def fetch_versions_from_api
         Henson.ui.debug "Fetching a list of tag names for #{repo}"
 
-        Henson.api_client.tags_for_repo(repo).collect { |tag|
+        @api.tags_for_repo(repo).collect { |tag|
           tag["name"]
         }.delete_if { |tag|
           tag !~ /\Av?\d+\.\d+(\.\d+.*)?\z/
@@ -101,7 +102,7 @@ module Henson
       # Returns nothing.
       def download_tag_tarball dest
         Henson.ui.debug "Downloading #{repo}@#{version} to #{dest}..."
-        Henson.api_client.download_tag_for_repo repo, version, dest
+        @api.download_tag_for_repo repo, version, dest
       end
 
       # Internal: Extract a tarball to a specified destination, stripping the
