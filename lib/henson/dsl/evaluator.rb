@@ -3,10 +3,20 @@ require "henson/errors"
 module Henson
   module DSL
     class Evaluator
+      # Public: Evaluate a file with the given DSL.
+      #
+      # file - The String path to the file to evaluate.
+      #
+      # Returns an instance of the DSL.
       def self.evaluate file
         new.evaluate file
       end
 
+      # Public: Evaluate a file with the given DSL.
+      #
+      # file - The String path to the file to evaluate.
+      #
+      # Returns an instance of the DSL.
       def evaluate file
         self.tap do
           if File.exists? file
@@ -33,14 +43,27 @@ module Henson
       end
 
       private
+
+      # Private: Construct the class name for syntax errors during evaluation.
+      #
+      # Returns the Class.
       def syntax_error_class
         classify "#{self.class.name.rpartition('::').last}Error"
       end
 
+      # Private: Construct the class name forwhen  the file to parse is
+      #          not found.
+      #
+      # Returns the Class.
       def not_found_error_class
         classify "#{self.class.name.rpartition('::').last}NotFound"
       end
 
+      # Private: Converts a string into a Henson error class if one exists.
+      #
+      # klass - The String representing the class name under Henson.
+      #
+      # Returns the Class.
       def classify klass
         if Henson.const_defined? klass
           Henson.const_get klass
