@@ -66,14 +66,14 @@ module Henson
             MultiJson.load response.body
           end
 
-        elsif ["301", "302"].include? response.code
+        elsif ["301", "302"].include? response.status
           request response.env[:method],
             response.env[:location],
             response.env[:request_headers]
 
         else
           raise Henson::APIError,
-            "API returned #{response.code} for #{response.env[:url]}"
+            "API returned #{response.status} for #{response.env[:url]}"
         end
       end
     end
