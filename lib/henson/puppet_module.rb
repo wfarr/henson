@@ -48,5 +48,9 @@ module Henson
     def versions
       source.versions
     end
+
+    def source_name
+      source.class.name.split("::").last.downcase
+    end
   end
 end

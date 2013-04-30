@@ -29,20 +29,4 @@ describe Henson::Installer do
     Henson::Installer.clean!
     expect(Henson.settings[:clean]).to be_true
   end
-
-  context "parse_puppetfile!" do
-    it "evalutes the puppetfile in the DSL" do
-      Henson::Installer.parse_puppetfile!
-    end
-
-    it "raises MissingPuppetfileError if no Puppetfile" do
-      expect {
-        Henson.settings[:puppetfile] = "/path/to/no/Puppetfile"
-        Henson::Installer.parse_puppetfile!
-      }.to raise_error(
-        Henson::PuppetfileNotFound,
-        "Expected a Puppetfile at /path/to/no/Puppetfile!"
-      )
-    end
-  end
 end
