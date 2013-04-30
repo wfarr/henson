@@ -37,7 +37,7 @@ module Henson
         response = connection.send method do |request|
           request.headers["User-Agent"] = "henson v#{Henson::VERSION}"
 
-          request.url = path
+          request.url path
 
           request_options = @options.merge options
 
