@@ -24,8 +24,6 @@ module Henson
         end
       end
 
-      protected
-
       # Internal: Send an HTTP request via the connection.
       #
       # method  - The Symbol representing the HTTP request method.
@@ -34,12 +32,12 @@ module Henson
       #
       # Returns a Hash.
       def request method, path, options = {}
+        request_options = @options.merge options
+
         response = connection.send method do |request|
           request.headers["User-Agent"] = "henson v#{Henson::VERSION}"
 
           request.url path
-
-          request_options = @options.merge options
 
           case method
           when :get
@@ -49,7 +47,7 @@ module Henson
           end
         end
 
-        handle response
+        handle response, request_options
       end
 
       # Internal: Handle an HTTP response body as JSON.
@@ -57,7 +55,7 @@ module Henson
       # response - The Faraday::Response generated from the Faraday::Request.
       #
       # Returns a Hash.
-      def handle response
+      def handle response, request_options = {}
         if response.success?
 
           if response.body.empty?
@@ -69,11 +67,11 @@ module Henson
         elsif ["301", "302"].include? response.status
           request response.env[:method],
             response.env[:location],
-            response.env[:request_headers]
+            request_options
 
         else
           raise Henson::APIError,
-            "API returned #{response.status} for #{response.env[:url]}"
+            "API returned #{response.status} for #{response.env[:url]} with #{request_options.inspect}"
         end
       end
     end
