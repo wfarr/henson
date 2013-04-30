@@ -32,7 +32,7 @@ describe Henson::CLI do
 
   context "install" do
     before do
-      Henson::Installer.stubs(:install)
+      Henson::Installer.stubs(:install!)
     end
 
     context "options" do
