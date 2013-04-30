@@ -30,9 +30,9 @@ module Henson
         end
 
       rescue SyntaxError => e
-        handle_syntax_error e
+        handle_syntax_error e, file
       rescue ScriptError, RegexpError, NameError, ArgumentError => e
-        handle_other_parse_error e
+        handle_other_parse_error e, file
       end
 
       private
@@ -42,10 +42,10 @@ module Henson
       # error - The Error raised during parsing.
       #
       # Raises <syntax_error_class>.
-      def handle_syntax_error error
+      def handle_syntax_error error, file
         raise syntax_error_class, [
           "Henson encountered a syntax error in '#{file}':",
-          *e.message.split("\n")[1..-1]
+          *error.message.split("\n")[1..-1]
         ].join("\n")
       end
 
@@ -54,7 +54,7 @@ module Henson
       # error - The Error raised during parsing.
       #
       # Raises <syntax_error_class>.
-      def handle_other_parse_error error
+      def handle_other_parse_error error, file
         error.backtrace[0] = \
           "#{error.backtrace[0]}: #{error.message} (#{error.class})"
         Henson.ui.warning error.backtrace.join("\n       ")
