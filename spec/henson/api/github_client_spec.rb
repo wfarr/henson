@@ -55,7 +55,7 @@ describe Henson::API::GitHubClient do
     it "raises an internal error if the tag does not exist" do
       expect(lambda {
         client.download_tag_for_repo "wfarr/puppet-foo", "v2.0.0", "/tmp/foo.tgz"
-      }).to raise_error(/invalid tag/)
+      }).to raise_error(Henson::GitHubTarballNotFound, /Invalid tag/)
     end
   end
 end
