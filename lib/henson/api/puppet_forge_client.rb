@@ -1,8 +1,8 @@
+require "henson/api/client"
+
 module Henson
   module API
-    class PuppetForgeClient
-      def initialize host
-      end
+    class PuppetForgeClient < Client
     end
   end
 end
