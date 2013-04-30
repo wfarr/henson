@@ -7,6 +7,7 @@ require "multi_json"
 module Henson
   module API
     class Client
+      attr_reader :connection
 
       # Internal: Create a new API client with an active connection
       #
