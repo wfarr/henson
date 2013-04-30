@@ -1,6 +1,3 @@
-require "uri"
-require "net/https"
-require "json"
 require "pathname"
 require "rubygems/package"
 

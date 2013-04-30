@@ -1,5 +1,8 @@
 require "spec_helper"
 
+require "henson/dsl/puppetfile"
+require "json"
+
 describe Henson::DSL::Puppetfile do
   let(:instance) { described_class.new }
 

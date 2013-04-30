@@ -1,5 +1,7 @@
 require "spec_helper"
 
+require "henson/source/github_tarball"
+
 describe Henson::Source::GitHubTarball do
   subject(:it) { described_class.new("foo", ">= 0", "bar/puppet-foo") }
 
