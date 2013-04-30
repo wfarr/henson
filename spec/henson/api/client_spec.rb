@@ -18,17 +18,6 @@ describe Henson::API::Client do
   end
 
   describe "#request" do
-    describe "with method :get" do
-      it "sends options as URL params"
-    end
-
-    describe "with method :put" do
-      it "sends options as request body"
-    end
-
-    describe "with method :post" do
-      it "sends options as request body"
-    end
   end
 
   describe "#handle" do

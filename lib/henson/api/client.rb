@@ -39,12 +39,7 @@ module Henson
 
           request.url path
 
-          case method
-          when :get
-            request_options.each { |k,v| request.params[k] = v unless v.nil? }
-          when :post, :put
-            request.body = MultiJson.dump request_options
-          end
+          request_options.each { |k,v| request.params[k] = v unless v.nil? }
         end
 
         handle response, request_options
