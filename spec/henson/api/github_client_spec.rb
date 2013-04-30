@@ -36,9 +36,7 @@ describe Henson::API::GitHubClient do
 
     it "writes the stream to disk if successful" do
       client.expects(:request).with(:get, foo_tags.last["tarball_url"], {}).
-        returns(response)
-
-      response.expects(:body).returns("I'm a teapot")
+        returns("I'm a teapot")
 
       client.expects(:write_download).with("/tmp/foo.tgz", "I'm a teapot")
 

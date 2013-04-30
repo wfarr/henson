@@ -32,8 +32,11 @@ describe Henson::API::Client do
       end
 
       it "returns the JSON parsed response body if non-empty" do
+        env = {:response_headers => {"content-type" => "application/json"}}
+
         response.expects(:success?).returns(true)
         response.expects(:body).returns({ "foo" => "bar"}.to_json).twice
+        response.expects(:env).returns(env)
 
         expect(client.handle response).to eq({"foo" => "bar"})
       end
@@ -42,10 +45,13 @@ describe Henson::API::Client do
     describe "redirect response status" do
       describe "301" do
         it "calls request again with the new location" do
-          env = { :method => :get, :location => "http://foo.com/next" }
+          env = {
+            :method   => :get,
+            :response_headers => { "location" => "http://foo.com/next" }
+          }
 
           response.expects(:success?).returns(false)
-          response.expects(:status).returns("301").once
+          response.expects(:status).returns(301).once
           response.expects(:env).returns(env).twice
 
           client.expects(:request).with(:get, "http://foo.com/next", {"bar" => "baz"})
@@ -56,10 +62,13 @@ describe Henson::API::Client do
 
       describe "302" do
         it "calls request again with the new location" do
-          env = { :method => :get, :location => "http://foo.com/next" }
+          env = {
+            :method => :get,
+            :response_headers => { "location" => "http://foo.com/next" }
+          }
 
           response.expects(:success?).returns(false)
-          response.expects(:status).returns("302").once
+          response.expects(:status).returns(302).once
           response.expects(:env).returns(env).twice
 
           client.expects(:request).with(:get, "http://foo.com/next", {"bar" => "baz"})

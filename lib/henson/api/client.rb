@@ -51,17 +51,23 @@ module Henson
       #
       # Returns a Hash.
       def handle response, request_options = {}
+
         if response.success?
 
           if response.body.empty?
             { "ok" => true }
           else
-            MultiJson.load response.body
+            case response.env[:response_headers]["content-type"]
+            when /gzip/
+              response.body
+            else
+              MultiJson.load response.body
+            end
           end
 
-        elsif ["301", "302"].include? response.status
+        elsif [301, 302].include? response.status
           request response.env[:method],
-            response.env[:location],
+            response.env[:response_headers]["location"],
             request_options
 
         else

@@ -17,9 +17,8 @@ module Henson
 
         if found = tags.detect { |t| t["name"] =~ /\Av?#{tag}\z/ }
           begin
-            response = request :get, found["tarball_url"], options
-
-            write_download destination, response.body
+            write_download destination,
+              request(:get, found["tarball_url"], options)
           rescue Henson::APIError => e
             raise Henson::GitHubDownloadError
           end
@@ -32,7 +31,7 @@ module Henson
 
       def write_download file, content
         File.open file, "wb+" do |f|
-          file.write content
+          f.write content
         end
       end
     end
