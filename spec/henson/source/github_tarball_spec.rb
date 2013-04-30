@@ -50,7 +50,7 @@ describe Henson::Source::GitHubTarball do
     it "should download the tarball" do
       it.send(:cache_path).expects(:mkpath)
       it.expects(:clean_up_old_cached_versions)
-      it.expects(:version).returns("1.0.0").at_least(2)
+      it.expects(:version).returns("1.0.0").at_least(3)
       it.expects(:download_file).with(
         "https://api.github.com/repos/bar/puppet-foo/tarball/1.0.0",
         it.send(:tarball_path).to_path)
@@ -60,7 +60,7 @@ describe Henson::Source::GitHubTarball do
     it "should append ?access_token to the URL if GITHUB_API_TOKEN envvar set" do
       it.send(:cache_path).expects(:mkpath)
       it.expects(:clean_up_old_cached_versions)
-      it.expects(:version).returns("1.0.0").twice
+      it.expects(:version).returns("1.0.0").at_least(3)
       it.expects(:download_file).with(
         "https://api.github.com/repos/bar/puppet-foo/tarball/1.0.0?access_token=foo",
         it.send(:tarball_path).to_path)
