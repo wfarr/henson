@@ -43,7 +43,7 @@ module Henson
 
           case method
           when :get
-            request_options.each { |k,v| request.params[k] = v }
+            request_options.each { |k,v| request.params[k] = v unless v.nil? }
           when :post, :put
             request.body = MultiJson.dump request_options
           end
