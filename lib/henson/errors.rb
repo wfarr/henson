@@ -18,7 +18,10 @@ module Henson
   class GitRefNotFound          < Error; exit_code(32); end
   class GitInvalidRef           < Error; exit_code(34); end
 
+  class APIError                < Error; exit_code(36); end
+  class GitHubAPIError          < APIError; end
+  class PuppetForgeAPIError     < APIError; end
+
   class GitHubTarballNotFound   < Error; exit_code(40); end
-  class GitHubAPIError          < Error; exit_code(42); end
   class GitHubDownloadError     < Error; exit_code(44); end
 end
