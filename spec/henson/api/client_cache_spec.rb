@@ -1,7 +1,5 @@
 require "spec_helper"
 
-require "henson/api/client_cache"
-
 describe Henson::API::ClientCache do
   let(:cache) { described_class.new }
 

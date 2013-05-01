@@ -1,8 +1,5 @@
 require "spec_helper"
 
-require "henson/dsl/puppetfile"
-require "json"
-
 describe Henson::DSL::Puppetfile do
   let(:instance) { described_class.new }
 
@@ -96,7 +93,7 @@ describe Henson::DSL::Puppetfile do
     before do
       FakeWeb.register_uri(
         :get, "https://api.github.com/repos/puppetlabs/puppetlabs-stdlib/tags",
-        :body => [{:name => "1.0.0"}].to_json,
+        :body => MultiJson.dump([{:name => "1.0.0"}]),
       )
     end
 

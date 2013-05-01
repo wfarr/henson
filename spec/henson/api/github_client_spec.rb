@@ -1,7 +1,5 @@
 require "spec_helper"
 
-require "henson/api/github_client"
-
 describe Henson::API::GitHubClient do
   let(:client) { described_class.new "https://api.github.com/" }
   let(:foo_tags) do
