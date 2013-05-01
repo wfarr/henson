@@ -1,7 +1,9 @@
 require "spec_helper"
 
 describe Henson::Source::Forge do
-  subject(:it) { described_class.new("bar/foo", ">= 0", "bar/foo") }
+  subject(:it) {
+    described_class.new("bar/foo", Gem::Requirement.new(">= 0"), "bar/foo")
+  }
 
   it "can be instantiated" do
     expect(Henson::Source::Forge.new("name", "req", "forge")).to_not be_nil
@@ -44,6 +46,81 @@ describe Henson::Source::Forge do
     end
   end
 
+  describe "#versions" do
+    it "should return an Array of version Strings" do
+      it.expects(:fetch_versions_from_api).returns(["0.1.1", "0.1.2"])
+
+      expect(it.versions).to eq(["0.1.1", "0.1.2"])
+    end
+  end
+
+  describe "#fetch_versions_from_api" do
+    it "should query the api for all versions of the module" do
+      it.send(:api).expects(:versions_for_module).with("bar/foo").
+        returns(["0.1.1", "0.1.2"])
+
+      expect(it.send(:fetch_versions_from_api)).to eq(["0.1.1", "0.1.2"])
+    end
+  end
+
+  describe "#download_module!" do
+    it "should make an API request to download the module" do
+      it.send(:api).expects(:versions_for_module).with("bar/foo").
+        returns(["0.1.1", "0.1.2"])
+      it.send(:api).expects(:download_version_for_module).with(
+        "bar/foo", it.send(:version), it.send(:cache_path)
+      )
+
+      it.send(:download_module!)
+    end
+  end
+
+  describe "#extract_tarball" do
+    let(:ui) { mock }
+
+    before do
+      Henson.ui = ui
+    end
+
+    it "should be able to extract files" do
+      stubbed_file = stub(
+        :file?     => true,
+        :full_name => "bar-foo-124351ab/manifests/test.pp",
+        :read      => "file contents",
+      )
+      Zlib::GzipReader.expects(:open).with("/tmp/tarball.tar.gz").returns(nil)
+      Gem::Package::TarReader.expects(:new).with(nil).returns([stubbed_file])
+      File.expects(:open).with("/tmp/manifests/test.pp", "wb").returns(StringIO.new)
+
+      ui.expects(:debug).with("Extracting /tmp/tarball.tar.gz to /tmp")
+
+      it.send(:extract_tarball, "/tmp/tarball.tar.gz", "/tmp")
+
+      File.unstub(:open)
+      Gem::Package::TarReader.unstub(:new)
+      Zlib::GzipReader.unstub(:open)
+    end
+
+    it "should be able to create directories" do
+      stubbed_dir = stub(
+        :file?      => false,
+        :directory? => true,
+        :full_name  => "bar-foo-125234a/manifests/foo",
+      )
+      Zlib::GzipReader.expects(:open).with("/tmp/tarball.tar.gz").returns(nil)
+      Gem::Package::TarReader.expects(:new).with(nil).returns([stubbed_dir])
+      FileUtils.expects(:mkdir_p).with("/tmp/manifests/foo")
+
+      ui.expects(:debug).with("Extracting /tmp/tarball.tar.gz to /tmp")
+
+      it.send(:extract_tarball, "/tmp/tarball.tar.gz", "/tmp")
+
+      FileUtils.unstub(:mkdir_p)
+      Gem::Package::TarReader.unstub(:new)
+      Zlib::GzipReader.unstub(:open)
+    end
+  end
+
   describe "#cache_dir" do
     it "should return a Pathname object" do
       expect(it.send(:cache_dir)).to be_a(Pathname)
@@ -81,6 +158,18 @@ describe Henson::Source::Forge do
       FileUtils.expects(:rm).with(stub_files.first).once
       it.send(:clean_up_old_cached_versions)
       Dir.unstub(:[])
+    end
+  end
+
+  describe "#install_path" do
+    it "should return a Pathname object" do
+      expect(it.send(:install_path)).to be_a(Pathname)
+    end
+
+    it "should return the path that the module will be installed into" do
+      path = Pathname.new(Henson.settings[:path]) + "bar/foo"
+
+      expect(it.send(:install_path)).to eq(path)
     end
   end
 end
