@@ -15,7 +15,9 @@ module Henson
       #
       # Returns an Array of versions as Strings.
       def versions_for_module mod, options = {}
-        get_module(mod)["releases"].map { |r| r["version"] }
+        get_module(mod, options)["releases"].map { |r|
+          r["version"]
+        }.sort.reverse
       end
 
       # Internal: Retrieve a Puppet module via the Forge API.

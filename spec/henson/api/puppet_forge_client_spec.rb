@@ -21,7 +21,13 @@ describe Henson::API::PuppetForgeClient do
   end
 
   describe "#versions_for_module" do
+    it "returns an array of version numbers" do
+      client.expects(:get_module).with("wfarr/osx_defaults", {}).
+        returns(parsed_response_body)
 
+      expect(client.versions_for_module "wfarr/osx_defaults").to \
+        eq(["0.1.2", "0.1.1", "0.1.0"])
+    end
   end
 
   describe "#get_module" do
