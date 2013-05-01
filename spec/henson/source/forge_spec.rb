@@ -167,7 +167,7 @@ describe Henson::Source::Forge do
     end
 
     it "should return the path that the module will be installed into" do
-      path = Pathname.new(Henson.settings[:path]) + "bar/foo"
+      path = Pathname.new(Henson.settings[:path]) + "foo"
 
       expect(it.send(:install_path)).to eq(path)
     end

@@ -131,7 +131,7 @@ module Henson
       #
       # Returns the Pathname object for the directory.
       def install_path
-        @install_path ||= Pathname.new(Henson.settings[:path]) + name
+        @install_path ||= Pathname.new(Henson.settings[:path]) + name.rpartition("/").last
       end
     end
   end

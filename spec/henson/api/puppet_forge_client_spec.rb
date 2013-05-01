@@ -66,7 +66,7 @@ describe Henson::API::PuppetForgeClient do
 
   describe "#get_module" do
     it "returns a Hash of module metadata if the request succeeds" do
-      client.expects(:request).with(:get, "wfarr/osx_defaults", {}).
+      client.expects(:request).with(:get, "wfarr/osx_defaults.json", {}).
         returns(parsed_response_body)
 
       results = client.get_module "wfarr/osx_defaults"
@@ -77,7 +77,7 @@ describe Henson::API::PuppetForgeClient do
     end
 
     it "raises an error if the request fails" do
-      client.expects(:request).with(:get, "wfarr/osx_defaults", {}).
+      client.expects(:request).with(:get, "wfarr/osx_defaults.json", {}).
         raises(Henson::APIError)
 
       expect(lambda { client.get_module "wfarr/osx_defaults" }).to \

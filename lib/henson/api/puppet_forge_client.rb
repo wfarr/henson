@@ -18,9 +18,9 @@ module Henson
       # Raises Henson::PuppetForgeDownloadError if the download fails.
       # Raises Henson::PuppetModuleNotFound if the module/version is invalid.
       def download_version_for_module mod, version, destination, options = {}
-        releases = get_module(mod, options)["releases"]
+        versions = versions_for_module(mod, options)
 
-        if releases.any? { |r| r["version"] == version }
+        if versions.any? { |v| v == version }
           begin
             download "#{mod}/#{version}.tar.gz", destination, options
 
@@ -42,7 +42,9 @@ module Henson
       #
       # Returns an Array of versions as Strings.
       def versions_for_module mod, options = {}
-        get_module(mod, options)["releases"].map { |r|
+        get_module(mod, options)["releases"].delete_if { |r|
+          r["version"] !~ /\Av?\d+\.\d+(\.\d+)?\z/
+        }.map { |r|
           r["version"]
         }.sort.reverse
       end
@@ -54,7 +56,7 @@ module Henson
       #
       # Returns a Hash of the module metadata.
       def get_module mod, options = {}
-        @cache[mod] ||= request :get, mod, options
+        @cache[mod] ||= request :get, "#{mod}.json", options
       rescue Henson::APIError
         raise Henson::PuppetModuleNotFound,
           "The forge at #{connection.url_prefix} does not have any module #{mod}!"

@@ -57,8 +57,8 @@ module Henson
           if response.body.empty?
             { "ok" => true }
           else
-            case response.env[:response_headers]["content-type"]
-            when /gzip/
+            case response.env[:response_headers]["content-disposition"]
+            when /attachment/
               response.body
             else
               MultiJson.load response.body
@@ -83,7 +83,7 @@ module Henson
       # options - The optional Hash of request options
       def download uri, file, options = {}
         File.open file, "wb+" do |f|
-          f.write request(:get, path, options).body
+          f.write request(:get, uri, options)
         end
       end
     end

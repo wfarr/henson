@@ -16,7 +16,7 @@ module Henson
 
         unless options.any?
           if forge.nil?
-            # TODO - Implicit forge URL or throw error?
+            raise "A `forge` is required"
           else
             options.merge!(:forge => forge)
           end

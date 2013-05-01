@@ -66,7 +66,7 @@ describe Henson::DSL::Puppetfile do
 
     it "sets the forge option if options is empty and forge is set" do
       instance.stubs(:forge).returns("https://forge.puppetlabs.com/")
-      expect(instance.mod("foobar").source).to be_a(Henson::Source::Forge)
+      expect(instance.mod("wfarr/osx_defaults").source).to be_a(Henson::Source::Forge)
     end
 
     it "should not require a version number" do
