@@ -1,8 +1,10 @@
 require "spec_helper"
 
 describe Henson::Source::Forge do
+  let(:requirement) { Gem::Requirement.new(">= 0") }
+
   subject(:it) {
-    described_class.new("bar/foo", Gem::Requirement.new(">= 0"), "bar/foo")
+    described_class.new("bar/foo", requirement, "bar/foo")
   }
 
   it "can be instantiated" do
@@ -29,7 +31,7 @@ describe Henson::Source::Forge do
 
   describe "#version" do
     it "should return the resolved version" do
-      it.expects(:resolve_version_from_requirement).with(">= 0").once.
+      it.expects(:resolve_version_from_requirement).with(requirement).once.
         returns("1.0.0")
 
       expect(it.version).to eq("1.0.0")
