@@ -15,6 +15,10 @@ describe "henson install" do
     FileUtils.rm_rf "#{project}/shared"
   end
 
+  it "should have cloud_provisioner module" do
+    expect(Pathname.new("#{project}/shared/cloud_provisioner")).to be_directory
+  end
+
   it "should have lvm module" do
     expect(Pathname.new("#{project}/shared/lvm")).to be_directory
   end
