@@ -15,9 +15,9 @@ module Henson
       # options - The Hash of all default optional params and configuration.
       #
       # Returns self
-      def initialize host, options = {}
+      def initialize endpoint, options = {}
         self.tap do
-          @connection = Faraday.new :url => "https://#{host}/"
+          @connection = Faraday.new :url => endpoint
           @options    = options
 
           after_initialize if self.respond_to? :after_initialize

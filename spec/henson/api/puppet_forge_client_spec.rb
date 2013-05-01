@@ -3,7 +3,7 @@ require "spec_helper"
 require "henson/api/puppet_forge_client"
 
 describe Henson::API::PuppetForgeClient do
-  let(:client) { described_class.new "forge.puppetlabs.com" }
+  let(:client) { described_class.new "https://forge.puppetlabs.com/" }
 
   let(:parsed_response_body) do
     {

@@ -17,21 +17,21 @@ describe Henson::API::ClientCache do
 
   describe "#github" do
     it "caches a GitHubClient per host" do
-      expect(cache.github("api.github.com")).to \
+      expect(cache.github("https://api.github.com/")).to \
         be_a(Henson::API::GitHubClient)
 
-      expect(cache.github "api.github.com").to \
-        be_equal(cache.github "api.github.com")
+      expect(cache.github "https://api.github.com/").to \
+        be_equal(cache.github "https://api.github.com/")
     end
   end
 
   describe "#puppet_forge" do
     it "caches a PuppetForgeClient per host" do
-      expect(cache.puppet_forge "forge.puppetlabs.com").to \
+      expect(cache.puppet_forge "https://forge.puppetlabs.com/").to \
         be_a(Henson::API::PuppetForgeClient)
 
-      expect(cache.puppet_forge "forge.puppetlabs.com").to \
-        be_equal(cache.puppet_forge "forge.puppetlabs.com")
+      expect(cache.puppet_forge "https://forge.puppetlabs.com/").to \
+        be_equal(cache.puppet_forge "https://forge.puppetlabs.com/")
     end
   end
 end

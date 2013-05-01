@@ -68,7 +68,7 @@ describe Henson::DSL::Puppetfile do
     end
 
     it "sets the forge option if options is empty and forge is set" do
-      instance.stubs(:forge).returns("http://forge.puppetlabs.com")
+      instance.stubs(:forge).returns("https://forge.puppetlabs.com/")
       expect(instance.mod("foobar").source).to be_a(Henson::Source::Forge)
     end
 

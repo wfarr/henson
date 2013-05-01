@@ -82,6 +82,12 @@ describe Henson::Source::GitHubTarball do
   end
 
   describe "#extract_tarball" do
+    let(:ui) { mock }
+
+    before do
+      Henson.ui = ui
+    end
+
     it "should be able to extract files" do
       stubbed_file = stub(
         :file?     => true,
@@ -91,6 +97,8 @@ describe Henson::Source::GitHubTarball do
       Zlib::GzipReader.expects(:open).with("/tmp/tarball.tar.gz").returns(nil)
       Gem::Package::TarReader.expects(:new).with(nil).returns([stubbed_file])
       File.expects(:open).with("/tmp/manifests/test.pp", "wb").returns(StringIO.new)
+
+      ui.expects(:debug).with("Extracting /tmp/tarball.tar.gz to /tmp")
 
       it.send(:extract_tarball, "/tmp/tarball.tar.gz", "/tmp")
 
@@ -108,6 +116,8 @@ describe Henson::Source::GitHubTarball do
       Zlib::GzipReader.expects(:open).with("/tmp/tarball.tar.gz").returns(nil)
       Gem::Package::TarReader.expects(:new).with(nil).returns([stubbed_dir])
       FileUtils.expects(:mkdir_p).with("/tmp/manifests/foo")
+
+      ui.expects(:debug).with("Extracting /tmp/tarball.tar.gz to /tmp")
 
       it.send(:extract_tarball, "/tmp/tarball.tar.gz", "/tmp")
 
