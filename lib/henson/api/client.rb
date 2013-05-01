@@ -75,6 +75,17 @@ module Henson
             "API returned #{response.status} for #{response.env[:url]} with #{request_options.inspect}"
         end
       end
+
+      # Internal: Write a file with some content.
+      #
+      # uri     - The String path to download from.
+      # file    - The String path to the file to create or write.
+      # options - The optional Hash of request options
+      def download uri, file, options = {}
+        File.open file, "wb+" do |f|
+          f.write request(:get, path, options).body
+        end
+      end
     end
   end
 end

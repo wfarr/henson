@@ -35,8 +35,7 @@ module Henson
         if found = tags.detect { |t| t["name"] =~ /\Av?#{tag}\z/ }
 
           begin
-            write_download destination,
-              request(:get, found["tarball_url"], options)
+            download found["tarball_url"], destination, options
 
           rescue Henson::APIError => e
             raise Henson::GitHubDownloadError,
@@ -46,18 +45,6 @@ module Henson
         else
           raise Henson::GitHubTarballNotFound,
             "Invalid tag #{repository}@#{tag}!"
-        end
-      end
-
-      private
-
-      # Private: Write a file with some content.
-      #
-      # file    - The String path to the file to create or write.
-      # content - The String to write into that file.
-      def write_download file, content
-        File.open file, "wb+" do |f|
-          f.write content
         end
       end
     end
