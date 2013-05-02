@@ -102,27 +102,6 @@ module Henson
         @api.download_tag_for_repo repo, version, dest
       end
 
-      # Internal: Extract a tarball to a specified destination, stripping the
-      # first component from the paths in the tarball.
-      #
-      # tarball - The String path on disk to the tarball.
-      # dest    - The String path on disk to the directory that the tarball
-      #           will be extracted into.
-      #
-      # Returns nothing.
-      def extract_tarball(tarball, dest)
-        Henson.ui.debug "Extracting #{tarball} to #{dest}"
-
-        Gem::Package::TarReader.new(Zlib::GzipReader.open(tarball)).each do |entry|
-          entry_name = entry.full_name.split("/")[1..-1].join("/")
-          if entry.file?
-            File.open("#{dest}/#{entry_name}", "wb") { |f| f.write entry.read }
-          elsif entry.directory?
-            FileUtils.mkdir_p "#{dest}/#{entry_name}"
-          end
-        end
-      end
-
       # Internal: Return the path where the module tarballs will be cached.
       #
       # Returns the Pathname object for the directory.

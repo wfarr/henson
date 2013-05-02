@@ -79,52 +79,6 @@ describe Henson::Source::GitHubTarball do
     end
   end
 
-  describe "#extract_tarball" do
-    let(:ui) { mock }
-
-    before do
-      Henson.ui = ui
-    end
-
-    it "should be able to extract files" do
-      stubbed_file = stub(
-        :file?     => true,
-        :full_name => "bar-puppet-foo-124351ab/manifests/test.pp",
-        :read      => "file contents",
-      )
-      Zlib::GzipReader.expects(:open).with("/tmp/tarball.tar.gz").returns(nil)
-      Gem::Package::TarReader.expects(:new).with(nil).returns([stubbed_file])
-      File.expects(:open).with("/tmp/manifests/test.pp", "wb").returns(StringIO.new)
-
-      ui.expects(:debug).with("Extracting /tmp/tarball.tar.gz to /tmp")
-
-      it.send(:extract_tarball, "/tmp/tarball.tar.gz", "/tmp")
-
-      File.unstub(:open)
-      Gem::Package::TarReader.unstub(:new)
-      Zlib::GzipReader.unstub(:open)
-    end
-
-    it "should be able to create directories" do
-      stubbed_dir = stub(
-        :file?      => false,
-        :directory? => true,
-        :full_name  => "bar-puppet-foo-125234a/manifests/foo",
-      )
-      Zlib::GzipReader.expects(:open).with("/tmp/tarball.tar.gz").returns(nil)
-      Gem::Package::TarReader.expects(:new).with(nil).returns([stubbed_dir])
-      FileUtils.expects(:mkdir_p).with("/tmp/manifests/foo")
-
-      ui.expects(:debug).with("Extracting /tmp/tarball.tar.gz to /tmp")
-
-      it.send(:extract_tarball, "/tmp/tarball.tar.gz", "/tmp")
-
-      FileUtils.unstub(:mkdir_p)
-      Gem::Package::TarReader.unstub(:new)
-      Zlib::GzipReader.unstub(:open)
-    end
-  end
-
   describe "#cache_path" do
     it "should return a Pathname object" do
       expect(it.send(:cache_path)).to be_a(Pathname)
