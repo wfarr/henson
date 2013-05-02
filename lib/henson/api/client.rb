@@ -15,9 +15,9 @@ module Henson
       # options - The Hash of all default optional params and configuration.
       #
       # Returns self
-      def initialize host, options = {}
+      def initialize endpoint, options = {}
         self.tap do
-          @connection = Faraday.new :url => "https://#{host}/"
+          @connection = Faraday.new :url => endpoint
           @options    = options
 
           after_initialize if self.respond_to? :after_initialize
@@ -57,8 +57,8 @@ module Henson
           if response.body.empty?
             { "ok" => true }
           else
-            case response.env[:response_headers]["content-type"]
-            when /gzip/
+            case response.env[:response_headers]["content-disposition"]
+            when /attachment/
               response.body
             else
               MultiJson.load response.body
@@ -73,6 +73,17 @@ module Henson
         else
           raise Henson::APIError,
             "API returned #{response.status} for #{response.env[:url]} with #{request_options.inspect}"
+        end
+      end
+
+      # Internal: Write a file with some content.
+      #
+      # uri     - The String path to download from.
+      # file    - The String path to the file to create or write.
+      # options - The optional Hash of request options
+      def download uri, file, options = {}
+        File.open file, "wb+" do |f|
+          f.write request(:get, uri, options)
         end
       end
     end

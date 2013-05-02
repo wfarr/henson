@@ -20,7 +20,7 @@ module Henson
         @name = name
         @repo = repo
         @requirement = requirement
-        @api = Henson.api_clients.github "api.github.com"
+        @api = Henson.api_clients.github "https://api.github.com/"
       end
 
       # Public: Determine the version of the module to be installed.

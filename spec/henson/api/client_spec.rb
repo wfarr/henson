@@ -1,9 +1,5 @@
 require "spec_helper"
 
-require "henson/api/client"
-
-require "json"
-
 describe Henson::API::Client do
   let(:client) { described_class.new("foo.com") }
 
@@ -35,7 +31,7 @@ describe Henson::API::Client do
         env = {:response_headers => {"content-type" => "application/json"}}
 
         response.expects(:success?).returns(true)
-        response.expects(:body).returns({ "foo" => "bar"}.to_json).twice
+        response.expects(:body).returns(MultiJson.dump({ "foo" => "bar"})).twice
         response.expects(:env).returns(env)
 
         expect(client.handle response).to eq({"foo" => "bar"})

@@ -13,10 +13,8 @@ module Henson
       elsif git = opts.delete(:git)
         Git.new name, git.delete(:repo), git
       elsif forge = opts.delete(:forge)
-        Forge.new name, forge
-      elsif github = opts.delete(:github)
-        GitHubTarball.new name, requirement, github
-      elsif github = opts.delete(:github_tarball)
+        Forge.new name, requirement, forge
+      elsif github = opts.delete(:github) || opts.delete(:github_tarball)
         GitHubTarball.new name, requirement, github
       end
     end

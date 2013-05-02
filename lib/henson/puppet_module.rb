@@ -14,7 +14,9 @@ module Henson
           "Source given for #{@name} is invalid: #{opts.inspect}"
       end
 
-      @version = @source.resolve_version_from_requirement(@requirement)
+      unless self.respond_to?(:version)
+        @version = @source.resolve_version_from_requirement(@requirement)
+      end
     end
 
     def fetched?

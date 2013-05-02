@@ -1,4 +1,4 @@
-forge "http://forge.puppetlabs.com"
+forge "https://forge.puppetlabs.com/"
 
 # puppet forge
 mod "puppetlabs/cloud_provisioner", "1.0.5"

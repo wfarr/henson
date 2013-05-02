@@ -1,9 +1,7 @@
 require "spec_helper"
 
-require "henson/api/github_client"
-
 describe Henson::API::GitHubClient do
-  let(:client) { described_class.new "api.github.com" }
+  let(:client) { described_class.new "https://api.github.com/" }
   let(:foo_tags) do
     [
       {
@@ -35,17 +33,17 @@ describe Henson::API::GitHubClient do
     end
 
     it "writes the stream to disk if successful" do
-      client.expects(:request).with(:get, foo_tags.last["tarball_url"], {}).
-        returns("I'm a teapot")
-
-      client.expects(:write_download).with("/tmp/foo.tgz", "I'm a teapot")
+      client.expects(:download).with(
+        foo_tags.last["tarball_url"], "/tmp/foo.tgz", {}
+      ).returns("I'm a teapot")
 
       client.download_tag_for_repo "wfarr/puppet-foo", "v1.1.0", "/tmp/foo.tgz"
     end
 
     it "raises GitHubDownloadError if the download fails" do
-      client.expects(:request).with(:get, foo_tags.last["tarball_url"], {}).
-        raises(Henson::APIError)
+      client.expects(:download).with(
+        foo_tags.last["tarball_url"], "/tmp/foo.tgz", {}
+      ).raises(Henson::APIError)
 
       expect(lambda {
         client.download_tag_for_repo "wfarr/puppet-foo", "v1.1.0", "/tmp/foo.tgz"
