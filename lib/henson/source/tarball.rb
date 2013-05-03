@@ -19,8 +19,8 @@ module Henson
       #
       # Returns an instance of the class.
       def initialize name, requirement, *args
-        @name = name
-        @requirement = requirement
+        @name ||= name
+        @requirement ||= requirement
 
         self
       end
