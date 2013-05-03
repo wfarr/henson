@@ -20,18 +20,18 @@ describe Henson::Source do
       expect(source).to be_a(Henson::Source::Forge)
     end
 
-    it "returns a Source::GitHubTarball if opts includes github" do
+    it "returns a Source::GitHub if opts includes github" do
       source = Henson::Source.infer_from_opts "something", ">= 0",
         :github => "someone/something"
 
-      expect(source).to be_a(Henson::Source::GitHubTarball)
+      expect(source).to be_a(Henson::Source::GitHub)
     end
 
-    it "returns a Source::GitHubTarball if opts includes github_tarball" do
+    it "returns a Source::GitHub if opts includes github_tarball" do
       source = Henson::Source.infer_from_opts "somethingelse", ">= 0",
         :github_tarball => "someone/something"
 
-      expect(source).to be_a(Henson::Source::GitHubTarball)
+      expect(source).to be_a(Henson::Source::GitHub)
     end
   end
 end

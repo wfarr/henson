@@ -111,8 +111,8 @@ describe Henson::DSL::Puppetfile do
       expect(instance.modules).to eq([mod])
     end
 
-    it "should create a module of with a GitHubTarball source" do
-      expect(mod.source).to be_a(Henson::Source::GitHubTarball)
+    it "should create a module of with a GitHub source" do
+      expect(mod.source).to be_a(Henson::Source::GitHub)
     end
 
     it "should not require a version number" do

@@ -34,12 +34,14 @@ module Henson
       def request method, path, options = {}
         request_options = @options.merge options
 
+        request_options = request_options.delete_if { |k,v| v.nil? }
+
         response = connection.send method do |request|
           request.headers["User-Agent"] = "henson v#{Henson::VERSION}"
 
           request.url path
 
-          request_options.each { |k,v| request.params[k] = v unless v.nil? }
+          request_options.each { |k,v| request.params[k] = v }
         end
 
         handle response, request_options
