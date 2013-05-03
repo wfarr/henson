@@ -19,6 +19,10 @@ describe Henson::Settings do
       shared = "#{Dir.pwd}/shared"
       expect(Henson::Settings.new[:path]).to eq(shared)
     end
+
+    it "accepts a hash that will override the defaults" do
+      expect(Henson::Settings.new(:quiet => true)).to be_true
+    end
   end
 
   context "[]" do

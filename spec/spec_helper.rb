@@ -41,6 +41,7 @@ end
 
 module Henson
   def self.reset_settings
+    Henson.unstub(:settings)
     @settings = Henson::Settings.new
   end
 end
