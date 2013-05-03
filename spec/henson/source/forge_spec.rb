@@ -46,8 +46,8 @@ describe Henson::Source::Forge do
 
       it.send(:api).expects(:download_version_for_module).with(
         'bar/foo',
-        '0.1.2',
-        '/Users/wfarr/src/henson/.henson/cache/forge/bar-foo-0.1.2.tar.gz'
+        it.send(:version),
+        it.send(:cache_path).to_path
       )
 
       it.send(:download!)
