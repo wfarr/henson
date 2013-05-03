@@ -15,11 +15,14 @@ module Henson
         @requirement = requirement
       end
 
-      # Public: Fetches the tarball for the module and caches it.
+      # Public: Cache the module tarball on disk. Any tarballs for previous
+      # versions of this module will be removed.
+      #
+      # Returns nothing.
       def fetch!
         cache_dir.mkpath
         clean_up_old_cached_versions
-        download_module!
+        download!
       end
 
       # Public: Check if the module has been installed.
@@ -41,8 +44,9 @@ module Henson
       end
 
       # Internal: Download the module to the cache.
-      def download_module!
-        @api.download_version_for_module name, version, cache_path
+      def download!
+        Henson.ui.debug "Downloading #{name}@#{version} to #{cache_path}"
+        @api.download_version_for_module name, version, cache_path.to_path
       end
 
       # Internal: Return the dir where the module tarballs will be cached.

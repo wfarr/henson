@@ -30,15 +30,22 @@ describe Henson::Source::Forge do
     end
   end
 
-  describe "#download_module!" do
+  describe "#download!" do
+    let(:ui) { mock }
+
+    before do
+      Henson.ui = ui
+    end
+
     it "should make an API request to download the module" do
-      it.send(:api).expects(:versions_for_module).with("bar/foo").
-        returns(["0.1.1", "0.1.2"])
+      ui.expects(:debug).
+        with("Downloading bar/foo@#{it.send(:version)} to #{it.send(:cache_path)}")
+
       it.send(:api).expects(:download_version_for_module).with(
         "bar/foo", it.send(:version), it.send(:cache_path)
       )
 
-      it.send(:download_module!)
+      it.send(:download!)
     end
   end
 

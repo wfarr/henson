@@ -25,10 +25,8 @@ module Henson
       # Returns nothing.
       def fetch!
         cache_dir.mkpath
-
         clean_up_old_cached_versions
-
-        download_tag_tarball cache_path.to_path
+        download!
       end
 
       # Public: Check if the module has been installed.
@@ -59,15 +57,10 @@ module Henson
         }.compact
       end
 
-      # Internal: Download a file, following redirects.
-      #
-      # dest   - The String path on disk (including filename) that the file
-      #          should be downloaded to.
-      #
-      # Returns nothing.
-      def download_tag_tarball dest
-        Henson.ui.debug "Downloading #{repo}@#{version} to #{dest}..."
-        @api.download_tag_for_repo repo, version, dest
+      # Internal: Download the module to the cache.
+      def download!
+        Henson.ui.debug "Downloading #{repo}@#{version} to #{cache_path}..."
+        @api.download_tag_for_repo repo, version, cache_path.to_path
       end
 
       # Internal: Return the path where the module tarballs will be cached.

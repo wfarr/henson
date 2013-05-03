@@ -17,19 +17,28 @@ describe Henson::Source::GitHubTarball do
     end
   end
 
-  describe "#fetch!" do
-    it "should download the tarball" do
-      it.send(:cache_path).expects(:mkpath)
-      it.expects(:clean_up_old_cached_versions)
-      it.expects(:version).returns("1.0.0").at_least(3)
-      it.expects(:download_tag_tarball).with(it.send(:tarball_path).to_path)
-      it.fetch!
-    end
-  end
-
   describe "#installed?" do
     it "should always return false" do
       expect(it.installed?).to be_false
+    end
+  end
+
+  describe "#download!" do
+    let(:ui) { mock }
+
+    before do
+      Henson.ui = ui
+    end
+
+    it "should make an API request to download the module" do
+      ui.expects(:debug).
+        with("Downloading bar/puppet-foo@#{it.send(:version)} to #{it.send(:cache_path)}")
+
+      it.send(:api).expects(:download_tag_for_repo).with(
+        "bar/puppet-foo", it.send(:version), it.send(:cache_path)
+      )
+
+      it.send(:download!)
     end
   end
 
