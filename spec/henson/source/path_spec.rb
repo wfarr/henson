@@ -19,6 +19,12 @@ describe Henson::Source::Path do
     }.to raise_error(Henson::ModuleNotFound, "/does/not/exist")
   end
 
+  describe "#fetched?" do
+    it "should be true" do
+      expect(it.fetched?).to be_true
+    end
+  end
+
   context "#fetch!" do
     it "is a noop" do
       expect(it.fetch!).to be_nil
@@ -74,6 +80,17 @@ describe Henson::Source::Path do
     it "returns false if path is not a directory" do
       it.stubs(:path).returns("/not/a/real/path")
       expect(it.send(:path_exists?)).to be_false
+    end
+  end
+
+  describe "#install_path" do
+    it "should be a Pathname" do
+      expect(it.send(:install_path)).to be_a(Pathname)
+    end
+
+    it "returns the expected install path" do
+      expect(it.send(:install_path).to_path).to \
+        eq("#{Henson.settings[:path]}/foobar")
     end
   end
 

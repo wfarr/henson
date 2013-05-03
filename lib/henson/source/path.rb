@@ -41,7 +41,7 @@ module Henson
       end
 
       def install_path
-        @install_path ||= Pathname.new(Henson.settings[:path]) + path
+        @install_path ||= Pathname.new(Henson.settings[:path]) + name
       end
 
       def version_from_modulefile
