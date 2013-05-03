@@ -18,6 +18,16 @@ module Henson
         cache_path.file?
       end
 
+      # Public: Cache the module tarball on disk. Any tarballs for previous
+      # versions of this module will be removed.
+      #
+      # Returns nothing.
+      def fetch!
+        cache_dir.mkpath
+        clean_up_old_cached_versions
+        download!
+      end
+
       # Public: Determine the version of the module to be installed.
       #
       # Returns the String version number.

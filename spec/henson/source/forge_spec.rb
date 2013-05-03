@@ -11,16 +11,6 @@ describe Henson::Source::Forge do
     expect(Henson::Source::Forge.new("name", "req", "forge")).to_not be_nil
   end
 
-  describe "#fetch!" do
-    it "should download the tarball" do
-      it.send(:cache_dir).expects(:mkpath)
-      it.expects(:clean_up_old_cached_versions)
-      it.expects(:version).returns("1.0.0").once
-      it.expects(:download_module!)
-      it.fetch!
-    end
-  end
-
   describe "#fetch_versions_from_api" do
     it "should query the api for all versions of the module" do
       it.send(:api).expects(:versions_for_module).with("bar/foo").

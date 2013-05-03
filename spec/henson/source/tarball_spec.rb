@@ -45,6 +45,16 @@ describe Henson::Source::Tarball do
     end
   end
 
+  describe "#fetch!" do
+    it "should download the tarball" do
+      it.send(:cache_path).expects(:mkpath)
+      it.expects(:clean_up_old_cached_versions)
+      it.expects(:version).returns("1.0.0").once
+      it.expects(:download!)
+      it.fetch!
+    end
+  end
+
   describe "#install!" do
     it "should extract the tarball into the install path" do
       it.expects(:version).at_least_once.returns("1.0.0")
