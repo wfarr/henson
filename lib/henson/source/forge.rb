@@ -33,10 +33,6 @@ module Henson
 
       private
 
-      def api
-        @api
-      end
-
       # Internal: Fetch a list of all candidate versions from the forge
       #
       # Returns an Array of versions as Strings.

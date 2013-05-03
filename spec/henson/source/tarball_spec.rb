@@ -9,6 +9,13 @@ describe Henson::Source::Tarball do
     end
   end
 
+  describe "#api" do
+    it "should return the api object" do
+      it.send(:set_instance_variable, "@api", :foo)
+      expect(it.api).to eq(:foo)
+    end
+  end
+
   describe "#version" do
     it "should return the resolved version" do
       it.expects(:resolve_version_from_requirement).with(">= 0").once.returns("1.0.0")

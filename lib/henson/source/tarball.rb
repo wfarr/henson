@@ -8,6 +8,9 @@ module Henson
       # Public: Returns the String name of the module.
       attr_reader :name
 
+      # Public: Returns the API client object
+      attr_reader :api
+
       # Public: Check if the module tarball has been cached.
       #
       # Returns True if the module tarball exists on disk, otherwise False.
