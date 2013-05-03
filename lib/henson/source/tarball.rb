@@ -9,6 +9,10 @@ require "rubygems/package"
 #     - fetch_versions_from_api - Returns Array of version numbers as Strings
 #     - download! - Should download a tarball to `cache_path.to_path`
 #
+#   Additionally, you will want to provide your own initializer that takes at
+#   least two arguments (name and requirement) and assigns @api to some API
+#   client.
+#
 module Henson
   module Source
     class Tarball < Generic
