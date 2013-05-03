@@ -1,6 +1,14 @@
 require "pathname"
 require "rubygems/package"
 
+# Public: This class implements a generic tarball source for a remote API.
+#   Your class should inherit from this class if it utilizes tarballs caching.
+#
+#   There are 2 methods all subclasses must implement to function:
+#
+#     - fetch_versions_from_api - Returns Array of version numbers as Strings
+#     - download! - Should download a tarball to `cache_path.to_path`
+#
 module Henson
   module Source
     class Tarball < Generic
@@ -68,6 +76,14 @@ module Henson
 
       private
 
+      def fetch_versions_from_api
+        raise NotImplementedError
+      end
+
+      def download!
+        raise NotImplementedError
+      end
+
       # Internal: Extract a tarball to a specified destination, stripping the
       # first component from the paths in the tarball.
       #
@@ -110,7 +126,10 @@ module Henson
       #
       # Returns nothing.
       def clean_up_old_cached_versions
-        Dir[cached_versions_to_clean].each do |f|
+        versions_to_clean = cache_path.to_path.gsub \
+          /#{Regexp.escape(version)}/, "*"
+
+        Dir[versions_to_clean].each do |f|
           FileUtils.rm f
         end
       end
@@ -121,14 +140,6 @@ module Henson
       def install_path
         @install_path ||=
           Pathname.new(Henson.settings[:path]) + name.rpartition("/").last
-      end
-
-      def fetch_versions_from_api
-        raise NotImplementedError
-      end
-
-      def cached_versions_to_clean
-        raise NotImplementedError
       end
 
       # Internal: The last segment of the class name

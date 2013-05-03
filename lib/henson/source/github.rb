@@ -53,11 +53,6 @@ module Henson
         Henson.ui.debug "Downloading #{repo}@#{version} to #{cache_path}..."
         @api.download_tag_for_repo repo, version, cache_path.to_path
       end
-
-      # Internal: Array of files to clean up before installing a module.
-      def cached_versions_to_clean
-        "#{cache_dir.to_path}/#{repo.gsub("/", "-")}-*.tar.gz"
-      end
     end
   end
 end
