@@ -31,11 +31,15 @@ describe Henson::Source::GitHub do
     end
 
     it "should make an API request to download the module" do
+      it.expects(:version).returns("1.1.2").at_least(3)
+
       ui.expects(:debug).
-        with("Downloading bar/puppet-foo@#{it.send(:version)} to #{it.send(:cache_path)}")
+        with("Downloading bar/puppet-foo@1.1.2 to /Users/wfarr/src/henson/.henson/cache/github/foo-1.1.2.tar.gz...")
 
       it.send(:api).expects(:download_tag_for_repo).with(
-        "bar/puppet-foo", it.send(:version), it.send(:cache_path)
+        'bar/puppet-foo',
+        '1.1.2',
+        '/Users/wfarr/src/henson/.henson/cache/github/foo-1.1.2.tar.gz'
       )
 
       it.send(:download!)
