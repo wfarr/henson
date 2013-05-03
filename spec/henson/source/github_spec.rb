@@ -23,6 +23,47 @@ describe Henson::Source::GitHub do
     end
   end
 
+  describe "#fetch_versions_from_api" do
+    let(:ui) { mock }
+
+    let(:tags) do
+      [
+        {
+          "name"        => "v1.0.0",
+          "tarball_url" => "https://codeload.github.com/bar/puppet-foo/v1.0.0.tar.gz"
+        },
+        {
+          "name" => "v1.1.0",
+          "tarball_url" => "https://codeload.github.com/bar/puppet-foo/v1.1.0.tar.gz"
+        }
+      ]
+    end
+
+    before do
+      Henson.ui = ui
+    end
+
+    it "sends an API request for tags" do
+      ui.expects(:debug).
+        with("Fetching a list of tag names for #{it.send(:repo)}")
+
+      it.send(:api).expects(:tags_for_repo).with(it.send(:repo)).
+        returns(tags)
+
+      expect(it.send(:fetch_versions_from_api)).to eq(%w(1.0.0 1.1.0))
+    end
+
+    it "filters out tags that don't match v?d.d(.d+)" do
+      ui.expects(:debug).
+        with("Fetching a list of tag names for #{it.send(:repo)}")
+
+      it.send(:api).expects(:tags_for_repo).with(it.send(:repo)).
+        returns(tags + [{"name" => "1.0RC23" }])
+
+      expect(it.send(:fetch_versions_from_api)).to eq(%w(1.0.0 1.1.0))
+    end
+  end
+
   describe "#download!" do
     let(:ui) { mock }
 
