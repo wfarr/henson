@@ -40,7 +40,11 @@ describe Henson::Source::GitHub do
     end
 
     before do
-      Henson.ui = ui
+      Henson.stubs(:ui).returns(ui)
+    end
+
+    after do
+      Henson.unstub(:ui)
     end
 
     it "sends an API request for tags" do
@@ -68,7 +72,11 @@ describe Henson::Source::GitHub do
     let(:ui) { mock }
 
     before do
-      Henson.ui = ui
+      Henson.stubs(:ui).returns(ui)
+    end
+
+    after do
+      Henson.unstub(:ui)
     end
 
     it "should make an API request to download the module" do
