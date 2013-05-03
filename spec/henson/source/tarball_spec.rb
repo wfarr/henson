@@ -3,6 +3,10 @@ require "spec_helper"
 describe Henson::Source::Tarball do
   subject(:it) { described_class.new("foo", ">= 0", "whatever") }
 
+  it "inherits Henson::Source::Generic" do
+    expect(it).to be_a(Henson::Source::Generic)
+  end
+
   describe "#name" do
     it "should return the name of the module" do
       expect(it.name).to eq("foo")

@@ -1,14 +1,14 @@
 require "spec_helper"
 
-describe Henson::Source::GitHubTarball do
+describe Henson::Source::GitHub do
   subject(:it) { described_class.new("foo", ">= 0", "bar/puppet-foo") }
 
   it "can be instantiated" do
     expect(it).to_not be_nil
   end
 
-  it "inherits Henson::Source::Generic" do
-    expect(it).to be_a(Henson::Source::Generic)
+  it "inherits Henson::Source::Tarball" do
+    expect(it).to be_a(Henson::Source::Tarball)
   end
 
   describe "#repo" do

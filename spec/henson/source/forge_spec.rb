@@ -11,6 +11,10 @@ describe Henson::Source::Forge do
     expect(Henson::Source::Forge.new("name", "req", "forge")).to_not be_nil
   end
 
+  it "inherits Henson::Source::Tarball" do
+    expect(it).to be_a(Henson::Source::Tarball)
+  end
+
   describe "#fetch_versions_from_api" do
     it "should query the api for all versions of the module" do
       it.send(:api).expects(:versions_for_module).with("bar/foo").

@@ -2,11 +2,11 @@ require "henson/source/tarball"
 
 module Henson
   module Source
-    class GitHubTarball < Tarball
+    class GitHub < Tarball
       # Public: Returns the String repo of the module.
       attr_reader :repo
 
-      # Public: Initialise a new Henson::Source::GitHubTarball.
+      # Public: Initialise a new Henson::Source::GitHub.
       #
       # name        - The String name of the module.
       # requirement - The String version requirement for the module.

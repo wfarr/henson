@@ -2,7 +2,7 @@ require "henson/source/generic"
 
 require "henson/source/forge"
 require "henson/source/git"
-require "henson/source/github_tarball"
+require "henson/source/github"
 require "henson/source/path"
 
 module Henson
@@ -15,7 +15,7 @@ module Henson
       elsif forge = opts.delete(:forge)
         Forge.new name, requirement, forge
       elsif github = opts.delete(:github) || opts.delete(:github_tarball)
-        GitHubTarball.new name, requirement, github
+        GitHub.new name, requirement, github
       end
     end
   end
