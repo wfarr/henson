@@ -115,15 +115,19 @@ module Henson
         end
       end
 
+      # Internal: Return the path that the module will be installed to.
+      #
+      # Returns the Pathname object for the directory.
+      def install_path
+        @install_path ||=
+          Pathname.new(Henson.settings[:path]) + name.rpartition("/").last
+      end
+
       def fetch_versions_from_api
         raise NotImplementedError
       end
 
       def cached_versions_to_clean
-        raise NotImplementedError
-      end
-
-      def install_path
         raise NotImplementedError
       end
 

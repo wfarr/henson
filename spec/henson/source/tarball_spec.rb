@@ -175,4 +175,16 @@ describe Henson::Source::Tarball do
       Dir.unstub(:[])
     end
   end
+
+  describe "#install_path" do
+    it "should return a Pathname object" do
+      expect(it.send(:install_path)).to be_a(Pathname)
+    end
+
+    it "should return the path that the module will be installed into" do
+      path = Pathname.new(Henson.settings[:path]) + "foo"
+
+      expect(it.send(:install_path)).to eq(path)
+    end
+  end
 end
