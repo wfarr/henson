@@ -131,12 +131,11 @@ module Henson
       #
       # Returns nothing.
       def clean_up_old_cached_versions
-        versions_to_clean = cache_path.to_path.gsub \
+        versions_to_clean = cache_path.to_path.gsub(
           /#{Regexp.escape(version)}/, "*"
+        )
 
-        Dir[versions_to_clean].each do |f|
-          FileUtils.rm f
-        end
+        Dir[versions_to_clean].each { |f| FileUtils.rm f }
       end
 
       # Internal: Return the path that the module will be installed to.

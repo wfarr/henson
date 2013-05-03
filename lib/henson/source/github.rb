@@ -44,7 +44,7 @@ module Henson
         }.delete_if { |tag|
           tag !~ /\Av?\d+\.\d+(\.\d+.*)?\z/
         }.collect { |tag|
-          tag.gsub /\Av/, ""
+          tag.gsub(/\Av/, "")
         }.compact
       end
 

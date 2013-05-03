@@ -37,7 +37,7 @@ module Henson
           begin
             download found["tarball_url"], destination, options
 
-          rescue Henson::APIError => e
+          rescue Henson::APIError
             raise Henson::GitHubDownloadError,
               "Download of #{repository}@#{tag} failed!"
           end

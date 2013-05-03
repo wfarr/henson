@@ -24,7 +24,7 @@ module Henson
           begin
             download "#{mod}/#{version}.tar.gz", destination, options
 
-          rescue Henson::APIError => e
+          rescue Henson::APIError
             raise Henson::PuppetForgeDownloadError,
               "Download of #{mod} failed!"
           end

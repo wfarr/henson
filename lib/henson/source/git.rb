@@ -4,15 +4,15 @@ module Henson
       class Revision
         LENGTH = 7
 
-        def initialize(sha)
+        def initialize sha
           @sha = sha
         end
 
         def to_s
-          @sha.slice(0, 7)
+          @sha.slice 0, 7
         end
 
-        def ==(other)
+        def == other
           raise "not a revision" unless other.is_a? Revision
           self.to_s == other.to_s
         end
@@ -20,7 +20,7 @@ module Henson
 
       attr_reader :name, :repo, :options
 
-      def initialize(name, repo, opts = {})
+      def initialize name, repo, opts = {}
         @name    = name
         @repo    = repo
         @options = opts
@@ -53,7 +53,7 @@ module Henson
       end
 
       def fetched?
-        File.directory?(fetch_path)
+        File.directory? fetch_path
       end
 
       def fetch!
@@ -92,7 +92,7 @@ module Henson
         when :tag
           in_repo do
             git("ls-remote", "--exit-code", "--tags", "origin").split("\n").map do |line|
-              tag = line.match(/\s+refs\/tags\/(.+)$/)[1]
+              line.match(/\s+refs\/tags\/(.+)$/)[1]
             end.reject do |tag|
               tag =~ /\^{}/
             end
@@ -100,7 +100,7 @@ module Henson
         when :branch
           in_repo do
             git(%w(ls-remote --exit-code --heads origin)).split("\n").map do |line|
-              branch = line.match(/\s+refs\/heads\/(.+)$/)[1]
+              line.match(/\s+refs\/heads\/(.+)$/)[1]
             end
           end
         else
@@ -109,21 +109,21 @@ module Henson
       end
 
       # overrides
-      def resolve_version_from_requirement(requirement)
+      def resolve_version_from_requirement requirement
         satisfiable_versions_for_requirement(requirement).sort.first
       end
 
-      def satisfiable_versions_for_requirement(requirement)
+      def satisfiable_versions_for_requirement requirement
         fetch! unless fetched?
 
         if @ref_type == :tag || @ref_type == :branch
           versions.select { |v| v =~ Regexp.new(target_revision.gsub(/^origin\//, "")) }
         else
-          sanitized_versions = versions.map { |v| v.gsub(/^origin\//, "") }
+          versions.map { |v| v.gsub(/^origin\//, "") }
         end
       end
 
-      def satisfies?(requirement)
+      def satisfies? requirement
         if @ref_type == :tag || @ref_type == :branch
           versions.member? target_revision.gsub(/^origin\//, "").to_s
         else
@@ -132,7 +132,7 @@ module Henson
       end
 
       private
-      def git(*args)
+      def git *args
         `git #{args.join(" ")}`
       rescue Errno::ENOENT
         raise GitNotInstalled if exit_status.nil?
@@ -146,7 +146,7 @@ module Henson
         end
       end
 
-      def has_ref?(ref)
+      def has_ref? ref
         output = in_repo do
           git("cat-file", "-t", ref).strip
         end
