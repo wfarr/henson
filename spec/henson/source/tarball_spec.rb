@@ -3,6 +3,18 @@ require "spec_helper"
 describe Henson::Source::Tarball do
   subject(:it) { described_class.new("foo", ">= 0", "whatever") }
 
+  before do
+    Henson.stubs(:settings).returns(Henson::Settings.new({
+      :path       => "/path",
+      :cache_path => "/cache_path",
+      :no_cache   => false
+    }))
+  end
+
+  after do
+    Henson.unstub(:settings)
+  end
+
   it "inherits Henson::Source::Generic" do
     expect(it).to be_a(Henson::Source::Generic)
   end
