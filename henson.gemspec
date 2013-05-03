@@ -23,6 +23,7 @@ Gem::Specification.new do |gem|
   # dependencies
   gem.add_dependency "faraday", "~> 0.7"
   gem.add_dependency "thor",    "~> 0.16.0"
+  gem.add_dependency "multi_json"
 
   # development dependencies
   gem.add_development_dependency "mocha",     "~> 0.13.3"
