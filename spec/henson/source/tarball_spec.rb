@@ -68,12 +68,16 @@ describe Henson::Source::Tarball do
       cache_path.expects(:to_path).returns("cache_path")
       install_path.expects(:to_path).returns("install_path")
 
-      it.expects(:install_path).returns(install_path)
+      it.expects(:install_path).returns(install_path).at_least(3)
       it.expects(:version).at_least_once.returns("1.0.0")
       install_path.expects(:exist?).returns(true)
       install_path.expects(:rmtree)
       install_path.expects(:mkpath)
-      it.expects(:extract_tarball).with("cache_path", "install_path")
+      it.expects(:extract_tarball).with(
+        '/Users/wfarr/src/henson/.henson/cache/tarball/foo-1.0.0.tar.gz',
+        'install_path'
+      )
+
       it.install!
     end
   end
@@ -158,7 +162,8 @@ describe Henson::Source::Tarball do
 
     it "should remove tarballs for this module only" do
       it.expects(:cached_versions_to_clean).
-        returns("#{Henson.settings[:cache_path]}/tarball/bar-foo-*.tar.gz")
+        returns("#{Henson.settings[:cache_path]}/tarball/bar-foo-*.tar.gz").
+        twice
 
       Dir.expects(:[]).with(it.send(:cached_versions_to_clean)).
         returns(stub_files)
