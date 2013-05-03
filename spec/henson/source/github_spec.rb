@@ -42,21 +42,6 @@ describe Henson::Source::GitHub do
     end
   end
 
-  describe "#tarball_path" do
-    it "should return a Pathname object" do
-      it.expects(:version).once.returns("1.2.3")
-      expect(it.send(:tarball_path)).to be_a(Pathname)
-    end
-
-    it "should return the path on disk to the tarball for this module" do
-      path = Pathname.new(Henson.settings[:cache_path]) + "github_tarball"
-      path = path + "bar-puppet-foo-1.2.3.tar.gz"
-
-      it.expects(:version).once.returns("1.2.3")
-      expect(it.send(:tarball_path)).to eq(path)
-    end
-  end
-
   describe "#clean_up_old_cached_versions" do
     stub_files = [
       "#{Henson.settings[:cache_path]}/github_tarball/bar-puppet-foo-0.0.1.tar.gz",

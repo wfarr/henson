@@ -39,14 +39,6 @@ module Henson
         @api.download_version_for_module name, version, cache_path.to_path
       end
 
-      # Internal: Return the path where the tarball for this version of the
-      # module will be stored.
-      #
-      # Returns the Pathname object for the tarball.
-      def cache_path
-        @cache_path ||= cache_dir + "#{name.gsub("/", "-")}-#{version}.tar.gz"
-      end
-
       # Internal: Remove all tarballs for the module from the cache directory.
       #
       # Returns nothing.

@@ -84,6 +84,14 @@ module Henson
           Pathname.new(Henson.settings[:cache_path]) + source_class.downcase
       end
 
+      # Internal: Return the path where the tarball for this version of the
+      # module will be stored.
+      #
+      # Returns the Pathname object for the tarball.
+      def cache_path
+        @cache_path ||= cache_dir + "#{name.gsub("/", "-")}-#{version}.tar.gz"
+      end
+
       def source_class
         @source_class ||= self.class.name.rpartition("::").last
       end
