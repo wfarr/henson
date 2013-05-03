@@ -6,13 +6,13 @@ module Henson
 
       # Public: Initialize a new Henson::Source::Forge
       #
-      # name  - The String name of the module.
-      # forge - The String hostname of the Puppet Forge.
+      # name        - The String name of the module.
+      # requirement - The Gem::Requirement used to satisfy versions.
+      # forge       - The String hostname of the Puppet Forge.
       def initialize name, requirement, forge
-        @name  = name
         @api   = Henson.api_clients.puppet_forge forge
 
-        @requirement = requirement
+        super
       end
 
       # Public: Check if the module has been installed.

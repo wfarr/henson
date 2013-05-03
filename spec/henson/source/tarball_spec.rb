@@ -13,13 +13,6 @@ describe Henson::Source::Tarball do
     end
   end
 
-  describe "#api" do
-    it "should return the api object" do
-      it.send(:set_instance_variable, "@api", :foo)
-      expect(it.api).to eq(:foo)
-    end
-  end
-
   describe "#version" do
     it "should return the resolved version" do
       it.expects(:resolve_version_from_requirement).with(">= 0").once.returns("1.0.0")
@@ -36,22 +29,30 @@ describe Henson::Source::Tarball do
   end
 
   describe "#fetched?" do
+    let(:file) { mock }
+    let(:dir)  { mock }
+
     it "should return true if the tarball exists on disk" do
       it.expects(:version).returns("1.0.0")
-      it.send(:tarball_path).expects(:file?).returns(true)
+      it.expects(:cache_path).returns(file)
+      file.expects(:file?).returns(true)
       expect(it.fetched?).to be_true
     end
 
     it "should return false if the tarball does not exist" do
       it.expects(:version).returns("1.0.0")
-      it.send(:tarball_path).expects(:file?).returns(false)
+      it.expects(:cache_path).returns(dir)
+      dir.expects(:file?).returns(false)
       expect(it.fetched?).to be_false
     end
   end
 
   describe "#fetch!" do
+    let(:dir) { mock }
+
     it "should download the tarball" do
-      it.send(:cache_path).expects(:mkpath)
+      it.expects(:cache_path).returns(dir)
+      dir.expects(:mkpath)
       it.expects(:clean_up_old_cached_versions)
       it.expects(:version).returns("1.0.0").once
       it.expects(:download!)
@@ -60,12 +61,19 @@ describe Henson::Source::Tarball do
   end
 
   describe "#install!" do
+    let(:cache_path)   { mock }
+    let(:install_path) { mock }
+
     it "should extract the tarball into the install path" do
+      cache_path.expects(:to_path).returns("cache_path")
+      install_path.expects(:to_path).returns("install_path")
+
+      it.expects(:install_path).returns(install_path)
       it.expects(:version).at_least_once.returns("1.0.0")
-      it.send(:install_path).expects(:exist?).returns(true)
-      it.send(:install_path).expects(:rmtree)
-      it.send(:install_path).expects(:mkpath)
-      it.expects(:extract_tarball).with(it.send(:tarball_path).to_path, it.send(:install_path).to_path)
+      install_path.expects(:exist?).returns(true)
+      install_path.expects(:rmtree)
+      install_path.expects(:mkpath)
+      it.expects(:extract_tarball).with("cache_path", "install_path")
       it.install!
     end
   end
@@ -135,8 +143,8 @@ describe Henson::Source::Tarball do
     end
 
     it "should return the path on disk to the tarball for this module" do
-      path = Pathname.new(Henson.settings[:cache_path]) + "forge"
-      path = path + "bar-foo-1.2.3.tar.gz"
+      path = Pathname.new(Henson.settings[:cache_path]) + "tarball"
+      path = path + "foo-1.2.3.tar.gz"
 
       it.expects(:version).once.returns("1.2.3")
       expect(it.send(:cache_path)).to eq(path)
@@ -145,12 +153,12 @@ describe Henson::Source::Tarball do
 
   describe "#clean_up_old_cached_versions" do
     stub_files = [
-      "#{Henson.settings[:cache_path]}/github_tarball/bar-foo-0.0.1.tar.gz",
+      "#{Henson.settings[:cache_path]}/tarball/foo-0.0.1.tar.gz",
     ]
 
     it "should remove tarballs for this module only" do
       it.expects(:cached_versions_to_clean).
-        returns("#{Henson.settings[:cache_path]}/forge/bar-foo-*.tar.gz")
+        returns("#{Henson.settings[:cache_path]}/tarball/bar-foo-*.tar.gz")
 
       Dir.expects(:[]).with(it.send(:cached_versions_to_clean)).
         returns(stub_files)

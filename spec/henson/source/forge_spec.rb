@@ -38,11 +38,16 @@ describe Henson::Source::Forge do
     end
 
     it "should make an API request to download the module" do
+      it.send(:api).expects(:versions_for_module).with('bar/foo').
+        returns(%w(0.1.1 0.1.2)).at_least(3)
+
       ui.expects(:debug).
         with("Downloading bar/foo@#{it.send(:version)} to #{it.send(:cache_path)}")
 
       it.send(:api).expects(:download_version_for_module).with(
-        "bar/foo", it.send(:version), it.send(:cache_path)
+        'bar/foo',
+        '0.1.2',
+        '/Users/wfarr/src/henson/.henson/cache/forge/bar-foo-0.1.2.tar.gz'
       )
 
       it.send(:download!)

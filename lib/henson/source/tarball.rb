@@ -11,6 +11,20 @@ module Henson
       # Public: Returns the API client object
       attr_reader :api
 
+      # Public: Initialise a new Henson::Source::Tarball.
+      #
+      # name        - The String name of the module.
+      # requirement - The String version requirement for the module.
+      # context     - Any object to establish context for the subclass.
+      #
+      # Returns an instance of the class.
+      def initialize name, requirement, *args
+        @name = name
+        @requirement = requirement
+
+        self
+      end
+
       # Public: Check if the module tarball has been cached.
       #
       # Returns True if the module tarball exists on disk, otherwise False.
@@ -99,6 +113,18 @@ module Henson
         Dir[cached_versions_to_clean].each do |f|
           FileUtils.rm f
         end
+      end
+
+      def fetch_versions_from_api
+        raise NotImplementedError
+      end
+
+      def cached_versions_to_clean
+        raise NotImplementedError
+      end
+
+      def install_path
+        raise NotImplementedError
       end
 
       # Internal: The last segment of the class name

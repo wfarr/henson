@@ -13,11 +13,11 @@ module Henson
       # requirement - The String version requirement for the module.
       # repo        - The String GitHub repository to pull the module from
       #               (e.g. "puppetlabs/puppetlabs-stdlib").
-      def initialize(name, requirement, repo)
-        @name = name
+      def initialize name, requirement, repo
         @repo = repo
-        @requirement = requirement
-        @api = Henson.api_clients.github "https://api.github.com/"
+        @api  = Henson.api_clients.github "https://api.github.com/"
+
+        super
       end
 
       # Public: Check if the module has been installed.
