@@ -18,23 +18,6 @@ require "mocha/api"
 require "fakeweb"
 
 RSpec.configure do |config|
-  config.before(:all) do
-    @stdout = $stdout
-    @stderr = $stderr
-
-    $stdout = File.new("spec/fixtures/stdout.log", "w+")
-    $stderr = File.new("spec/fixtures/stderr.log", "w+")
-  end
-
-  config.after(:all) do
-    require "fileutils"
-
-    $stdout = @stdout
-    $stderr = @stderr
-
-    FileUtils.rm_rf("spec/fixtures/*.log")
-  end
-
   config.expect_with :rspec do |c|
     c.syntax = :expect
   end

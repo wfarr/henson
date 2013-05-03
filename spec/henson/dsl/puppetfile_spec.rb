@@ -1,7 +1,18 @@
 require "spec_helper"
 
 describe Henson::DSL::Puppetfile do
-  let(:instance) { described_class.new }
+  subject(:it) { described_class.new }
+  let(:ui)     { mock }
+
+  before do
+    Henson.stubs(:ui).returns(ui)
+
+    ui.expects(:warning)
+  end
+
+  after do
+    Henson.unstub(:ui)
+  end
 
   context "#evaluate" do
     it "raises PuppetfileError if a syntax error is encountered" do
@@ -52,43 +63,43 @@ describe Henson::DSL::Puppetfile do
 
   context "#mod" do
     let(:path) { "spec/fixtures/modules/foobar" }
-    let(:mod) { instance.mod("foobar", "0", :path => path) }
+    let(:mod) { it.mod("foobar", "0", :path => path) }
 
     it "returns a PuppetModule" do
       expect(mod).to be_a Henson::PuppetModule
     end
 
     it "adds the module to the modules array" do
-      expect(instance.modules).to be_empty
+      expect(it.modules).to be_empty
       mod
-      expect(instance.modules).to eq([mod])
+      expect(it.modules).to eq([mod])
     end
 
     it "sets the forge option if options is empty and forge is set" do
-      instance.stubs(:forge).returns("https://forge.puppetlabs.com/")
-      expect(instance.mod("wfarr/osx_defaults").source).to be_a(Henson::Source::Forge)
+      it.stubs(:forge).returns("https://forge.puppetlabs.com/")
+      expect(it.mod("wfarr/osx_defaults").source).to be_a(Henson::Source::Forge)
     end
 
     it "should not require a version number" do
-      expect(instance.mod("foobar", :path => path).requirement).to eq(Gem::Requirement.new(">= 0"))
+      expect(it.mod("foobar", :path => path).requirement).to eq(Gem::Requirement.new(">= 0"))
     end
   end
 
   context "#forge" do
     it "returns the url with no args" do
-      instance.instance_variable_set("@forge", "lolerskates")
-      expect(instance.forge).to eq("lolerskates")
+      it.instance_variable_set("@forge", "lolerskates")
+      expect(it.forge).to eq("lolerskates")
     end
 
     it "sets the url if given an arg" do
-      expect(instance.instance_variable_get("@forge")).to be_nil
-      instance.forge("foobar")
-      expect(instance.instance_variable_get("@forge")).to eq("foobar")
+      expect(it.instance_variable_get("@forge")).to be_nil
+      it.forge("foobar")
+      expect(it.instance_variable_get("@forge")).to eq("foobar")
     end
   end
 
   context "#github" do
-    let(:mod) { instance.github("puppetlabs/puppetlabs-stdlib", "~> 1") }
+    let(:mod) { it.github("puppetlabs/puppetlabs-stdlib", "~> 1") }
 
     before do
       FakeWeb.register_uri(
@@ -106,9 +117,9 @@ describe Henson::DSL::Puppetfile do
     end
 
     it "adds the module to the modules array" do
-      expect(instance.modules).to be_empty
+      expect(it.modules).to be_empty
       mod
-      expect(instance.modules).to eq([mod])
+      expect(it.modules).to eq([mod])
     end
 
     it "should create a module of with a GitHub source" do
@@ -116,11 +127,11 @@ describe Henson::DSL::Puppetfile do
     end
 
     it "should not require a version number" do
-      expect(instance.github("puppetlabs/puppetlabs-stdlib").requirement).to eq(Gem::Requirement.new(">= 0"))
+      expect(it.github("puppetlabs/puppetlabs-stdlib").requirement).to eq(Gem::Requirement.new(">= 0"))
     end
 
     it "should raise an error if not passed a GitHub repository" do
-      expect { instance.github("puppetlabs-stdlib") }.to raise_error(
+      expect { it.github("puppetlabs-stdlib") }.to raise_error(
         Henson::ModulefileError, "'puppetlabs-stdlib' is not a GitHub repository"
       )
     end
