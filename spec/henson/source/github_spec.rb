@@ -34,7 +34,7 @@ describe Henson::Source::GitHub do
       it.expects(:version).returns("1.1.2").at_least(3)
 
       ui.expects(:debug).
-        with("Downloading bar/puppet-foo@1.1.2 to /Users/wfarr/src/henson/.henson/cache/github/foo-1.1.2.tar.gz...")
+        with("Downloading #{it.send(:repo)}@#{it.send(:version)} to #{it.send(:cache_path).to_path}...")
 
       it.send(:api).expects(:download_tag_for_repo).with(
         'bar/puppet-foo',
