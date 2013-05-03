@@ -34,7 +34,7 @@ module Henson
       #
       # Returns True if the module tarball exists on disk, otherwise False.
       def fetched?
-        tarball_path.file?
+        cache_path.file?
       end
 
       # Public: Cache the module tarball on disk. Any tarballs for previous
@@ -42,11 +42,11 @@ module Henson
       #
       # Returns nothing.
       def fetch!
-        cache_path.mkpath
+        cache_dir.mkpath
 
         clean_up_old_cached_versions
 
-        download_tag_tarball tarball_path.to_path
+        download_tag_tarball cache_path.to_path
       end
 
       # Public: Install the module into the install path. If a version of the
@@ -56,7 +56,7 @@ module Henson
       def install!
         install_path.rmtree if install_path.exist?
         install_path.mkpath
-        extract_tarball tarball_path.to_path, install_path.to_path
+        extract_tarball cache_path.to_path, install_path.to_path
       end
 
       # Public: Check if the module has been installed.
@@ -105,23 +105,23 @@ module Henson
       # Internal: Return the path where the module tarballs will be cached.
       #
       # Returns the Pathname object for the directory.
-      def cache_path
-        @cache_path ||= Pathname.new(Henson.settings[:cache_path]) + "github_tarball"
+      def cache_dir
+        @cache_dir ||= Pathname.new(Henson.settings[:cache_path]) + "github_tarball"
       end
 
       # Internal: Return the path where the tarball for this version of the
       # module will be stored.
       #
       # Returns the Pathname object for the tarball.
-      def tarball_path
-        @tarball_path ||= cache_path + "#{repo.gsub("/", "-")}-#{version}.tar.gz"
+      def cache_path
+        @cache_path ||= cache_dir + "#{repo.gsub("/", "-")}-#{version}.tar.gz"
       end
 
       # Internal: Remove all tarballs for the module from the cache directory.
       #
       # Returns nothing.
       def clean_up_old_cached_versions
-        Dir["#{cache_path.to_path}/#{repo.gsub("/", "-")}-*.tar.gz"].each do |f|
+        Dir["#{cache_dir.to_path}/#{repo.gsub("/", "-")}-*.tar.gz"].each do |f|
           FileUtils.rm f
         end
       end
