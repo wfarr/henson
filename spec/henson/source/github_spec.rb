@@ -38,8 +38,8 @@ describe Henson::Source::GitHub do
 
       it.send(:api).expects(:download_tag_for_repo).with(
         'bar/puppet-foo',
-        '1.1.2',
-        '/Users/wfarr/src/henson/.henson/cache/github/foo-1.1.2.tar.gz'
+        it.send(:version),
+        it.send(:cache_path).to_path
       )
 
       it.send(:download!)
