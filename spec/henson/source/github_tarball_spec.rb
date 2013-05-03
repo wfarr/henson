@@ -33,14 +33,6 @@ describe Henson::Source::GitHubTarball do
     end
   end
 
-  describe "#versions" do
-    it "should make a single call to the API" do
-      it.expects(:fetch_versions_from_api).returns(["1.0.0"]).once
-      expect(it.versions).to eq(["1.0.0"])
-      expect(it.versions).to eq(["1.0.0"])
-    end
-  end
-
   describe "#cache_path" do
     it "should return a Pathname object" do
       expect(it.send(:cache_path)).to be_a(Pathname)

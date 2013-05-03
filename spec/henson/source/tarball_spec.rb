@@ -16,6 +16,14 @@ describe Henson::Source::Tarball do
     end
   end
 
+  describe "#versions" do
+    it "should make a single call to the API" do
+      it.expects(:fetch_versions_from_api).returns(["1.0.0"]).once
+      expect(it.versions).to eq(["1.0.0"])
+      expect(it.versions).to eq(["1.0.0"])
+    end
+  end
+
   describe "#fetched?" do
     it "should return true if the tarball exists on disk" do
       it.expects(:version).returns("1.0.0")

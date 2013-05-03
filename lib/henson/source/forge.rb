@@ -31,13 +31,6 @@ module Henson
         false
       end
 
-      # Public: Fetch a list of all candidate versions from the forge
-      #
-      # Returns an Array of versions as Strings.
-      def versions
-        @versions ||= fetch_versions_from_api
-      end
-
       private
 
       def api

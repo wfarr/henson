@@ -21,14 +21,6 @@ describe Henson::Source::Forge do
     end
   end
 
-  describe "#versions" do
-    it "should return an Array of version Strings" do
-      it.expects(:fetch_versions_from_api).returns(["0.1.1", "0.1.2"])
-
-      expect(it.versions).to eq(["0.1.1", "0.1.2"])
-    end
-  end
-
   describe "#fetch_versions_from_api" do
     it "should query the api for all versions of the module" do
       it.send(:api).expects(:versions_for_module).with("bar/foo").

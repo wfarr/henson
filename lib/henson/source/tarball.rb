@@ -22,6 +22,13 @@ module Henson
         @version ||= resolve_version_from_requirement(@requirement)
       end
 
+      # Public: Fetch a list of all candidate versions from the forge
+      #
+      # Returns an Array of versions as Strings.
+      def versions
+        @versions ||= fetch_versions_from_api
+      end
+
       # Public: Install the module into the install path. If a version of the
       # module has already been installed, it will first be removed.
       #

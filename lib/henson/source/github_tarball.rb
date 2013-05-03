@@ -40,10 +40,6 @@ module Henson
         false
       end
 
-      def versions
-        @versions ||= fetch_versions_from_api
-      end
-
       private
 
       # Internal: Query the GitHub API for a list of tag names that look like
