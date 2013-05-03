@@ -11,33 +11,6 @@ describe Henson::Source::Forge do
     expect(Henson::Source::Forge.new("name", "req", "forge")).to_not be_nil
   end
 
-  describe "#fetched?" do
-    before do
-      it.expects(:version).returns("1.0.0")
-    end
-
-    it "returns true if the tarball is cached" do
-      it.send(:cache_path).expects(:file?).returns(true)
-
-      expect(it.fetched?).to be_true
-    end
-
-    it "returns false if the tarball is not cached" do
-      it.send(:cache_path).expects(:file?).returns(false)
-
-      expect(it.fetched?).to be_false
-    end
-  end
-
-  describe "#version" do
-    it "should return the resolved version" do
-      it.expects(:resolve_version_from_requirement).with(requirement).once.
-        returns("1.0.0")
-
-      expect(it.version).to eq("1.0.0")
-    end
-  end
-
   describe "#fetch!" do
     it "should download the tarball" do
       it.send(:cache_dir).expects(:mkpath)

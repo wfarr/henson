@@ -1,9 +1,8 @@
-require "pathname"
-require "rubygems/package"
+require "henson/source/tarball"
 
 module Henson
   module Source
-    class GitHubTarball < Generic
+    class GitHubTarball < Tarball
       # Public: Returns the String name of the module.
       attr_reader :name
 
@@ -21,20 +20,6 @@ module Henson
         @repo = repo
         @requirement = requirement
         @api = Henson.api_clients.github "https://api.github.com/"
-      end
-
-      # Public: Determine the version of the module to be installed.
-      #
-      # Returns the String version number.
-      def version
-        @version ||= resolve_version_from_requirement(@requirement)
-      end
-
-      # Public: Check if the module tarball has been cached.
-      #
-      # Returns True if the module tarball exists on disk, otherwise False.
-      def fetched?
-        cache_path.file?
       end
 
       # Public: Cache the module tarball on disk. Any tarballs for previous

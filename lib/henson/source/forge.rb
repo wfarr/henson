@@ -1,9 +1,8 @@
-require "pathname"
-require "rubygems/package"
+require "henson/source/tarball"
 
 module Henson
   module Source
-    class Forge < Generic
+    class Forge < Tarball
 
       # Public: Returns the String name of the module.
       attr_reader :name
@@ -17,20 +16,6 @@ module Henson
         @api   = Henson.api_clients.puppet_forge forge
 
         @requirement = requirement
-      end
-
-      # Public: Determine whether the download needs fetched.
-      #
-      # Returns True if the download is not required, False otherwise.
-      def fetched?
-        cache_path.file?
-      end
-
-      # Public: Determine the version of the module to be installed.
-      #
-      # Returns the String version number.
-      def version
-        @version ||= resolve_version_from_requirement(@requirement)
       end
 
       # Public: Fetches the tarball for the module and caches it.
