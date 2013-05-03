@@ -51,7 +51,7 @@ describe Henson::Source::Tarball do
     let(:dir) { mock }
 
     it "should download the tarball" do
-      it.expects(:cache_path).returns(dir)
+      it.expects(:cache_dir).returns(dir)
       dir.expects(:mkpath)
       it.expects(:clean_up_old_cached_versions)
       it.expects(:version).returns("1.0.0").once
@@ -82,6 +82,34 @@ describe Henson::Source::Tarball do
         it.send(:cache_path).to_path,
         it.send(:install_path).to_path
       )
+
+      cache_path.expects(:rmtree).never
+
+      it.install!
+    end
+
+    it "should also remove the cache tarball of no cache mode is enabled" do
+      Henson.settings[:no_cache] = true
+
+      cache_path.expects(:to_path).returns("cache_path").times(2)
+      install_path.expects(:to_path).returns("install_path").times(2)
+
+      it.expects(:install_path).returns(install_path).times(5)
+
+      it.expects(:cache_path).returns(cache_path).times(3)
+
+      it.expects(:version).at_least_once.returns("1.0.0")
+
+      install_path.expects(:exist?).returns(true)
+      install_path.expects(:rmtree)
+      install_path.expects(:mkpath)
+
+      it.expects(:extract_tarball).with(
+        it.send(:cache_path).to_path,
+        it.send(:install_path).to_path
+      )
+
+      cache_path.expects(:rmtree).once
 
       it.install!
     end
@@ -134,38 +162,39 @@ describe Henson::Source::Tarball do
   end
 
   describe "#cache_dir" do
+    before do
+      Henson.expects(:settings).
+        returns({ :no_cache => false, :cache_path => "/cache_path" })
+    end
+
     it "should return a Pathname object" do
       expect(it.send(:cache_dir)).to be_a(Pathname)
     end
 
     it "should return the path on disk to the tarball directory" do
-      path = Pathname.new(Henson.settings[:cache_path]) + "tarball"
-
-      expect(it.send(:cache_dir)).to eq(path)
+      expect(it.send(:cache_dir)).to \
+        eq(Pathname.new("/cache_path") + "tarball")
     end
   end
 
   describe "#cache_path" do
-    it "should return a Pathname object" do
+    before do
       it.expects(:version).once.returns("1.2.3")
+    end
+
+    it "should return a Pathname object" do
       expect(it.send(:cache_path)).to be_a(Pathname)
     end
 
     it "should return the path on disk to the tarball for this module" do
-      path = Pathname.new(Henson.settings[:cache_path]) + "tarball"
-      path = path + "foo-1.2.3.tar.gz"
-
-      it.expects(:version).once.returns("1.2.3")
-      expect(it.send(:cache_path)).to eq(path)
+      expect(it.send(:cache_path)).to \
+        eq(Pathname.new("/cache_path") + "tarball" + "foo-1.2.3.tar.gz")
     end
   end
 
   describe "#clean_up_old_cached_versions" do
     let(:cache_path) { mock }
-
-    stub_files = [
-      "#{Henson.settings[:cache_path]}/tarball/foo-0.0.1.tar.gz",
-    ]
+    let(:files)      { ["/cache_path/tarball/foo-0.0.1.tar.gz"] }
 
     it "should remove tarballs for this module only" do
       it.expects(:cache_path).returns(cache_path)
@@ -173,12 +202,12 @@ describe Henson::Source::Tarball do
       it.expects(:version).returns("1.0.0")
 
       cache_path.expects(:to_path).
-        returns("#{Henson.settings[:cache_path]}/tarball/bar-foo-1.0.0.tar.gz")
+        returns("/cache_path/tarball/bar-foo-1.0.0.tar.gz")
 
-      Dir.expects(:[]).with("#{Henson.settings[:cache_path]}/tarball/bar-foo-*.tar.gz").
-        returns(stub_files)
+      Dir.expects(:[]).with("/cache_path/tarball/bar-foo-*.tar.gz").
+        returns(files)
 
-      FileUtils.expects(:rm).with(stub_files.first).once
+      FileUtils.expects(:rm).with(files.first).once
 
       it.send(:clean_up_old_cached_versions)
 
@@ -187,14 +216,16 @@ describe Henson::Source::Tarball do
   end
 
   describe "#install_path" do
+    before do
+
+    end
+
     it "should return a Pathname object" do
       expect(it.send(:install_path)).to be_a(Pathname)
     end
 
     it "should return the path that the module will be installed into" do
-      path = Pathname.new(Henson.settings[:path]) + "foo"
-
-      expect(it.send(:install_path)).to eq(path)
+      expect(it.send(:install_path)).to eq(Pathname.new("/path") + "foo")
     end
   end
 end

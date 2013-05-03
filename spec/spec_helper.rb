@@ -23,6 +23,12 @@ RSpec.configure do |config|
 
     $stdout = File.new("spec/fixtures/stdout.log", "w+")
     $stderr = File.new("spec/fixtures/stderr.log", "w+")
+
+    Henson.stubs(:settings).returns(Henson::Settings.new({
+      :path       => "/path",
+      :cache_path => "/cache_path",
+      :no_cache   => false
+    }))
   end
 
   config.after(:all) do
@@ -41,6 +47,7 @@ end
 
 module Henson
   def self.reset_settings
+    Henson.unstub(:settings)
     @settings = Henson::Settings.new
   end
 end

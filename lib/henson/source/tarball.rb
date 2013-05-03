@@ -76,6 +76,7 @@ module Henson
         install_path.rmtree if install_path.exist?
         install_path.mkpath
         extract_tarball cache_path.to_path, install_path.to_path
+        cache_path.rmtree if Henson.settings[:no_cache]
       end
 
       private
