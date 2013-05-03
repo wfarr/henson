@@ -3,6 +3,7 @@ require "henson/source/tarball"
 module Henson
   module Source
     class GitHub < Tarball
+
       # Public: Returns the String repo of the module.
       attr_reader :repo
 
@@ -53,13 +54,9 @@ module Henson
         @api.download_tag_for_repo repo, version, cache_path.to_path
       end
 
-      # Internal: Remove all tarballs for the module from the cache directory.
-      #
-      # Returns nothing.
-      def clean_up_old_cached_versions
-        Dir["#{cache_dir.to_path}/#{repo.gsub("/", "-")}-*.tar.gz"].each do |f|
-          FileUtils.rm f
-        end
+      # Internal: Array of files to clean up before installing a module.
+      def cached_versions_to_clean
+        "#{cache_dir.to_path}/#{repo.gsub("/", "-")}-*.tar.gz"
       end
 
       # Internal: Return the path that the module will be installed to.

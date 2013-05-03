@@ -92,6 +92,16 @@ module Henson
         @cache_path ||= cache_dir + "#{name.gsub("/", "-")}-#{version}.tar.gz"
       end
 
+      # Internal: Remove all tarballs for the module from the cache directory.
+      #
+      # Returns nothing.
+      def clean_up_old_cached_versions
+        Dir[cached_versions_to_clean].each do |f|
+          FileUtils.rm f
+        end
+      end
+
+      # Internal: The last segment of the class name
       def source_class
         @source_class ||= self.class.name.rpartition("::").last
       end

@@ -39,20 +39,17 @@ module Henson
         @api.download_version_for_module name, version, cache_path.to_path
       end
 
-      # Internal: Remove all tarballs for the module from the cache directory.
-      #
-      # Returns nothing.
-      def clean_up_old_cached_versions
-        Dir["#{cache_dir.to_path}/#{name.gsub("/", "-")}-*.tar.gz"].each do |f|
-          FileUtils.rm f
-        end
+      # Internal: Array of files to clean up before installing a module.
+      def cached_versions_to_clean
+        "#{cache_dir.to_path}/#{name.gsub("/", "-")}-*.tar.gz"
       end
 
       # Internal: Return the path that the module will be installed to.
       #
       # Returns the Pathname object for the directory.
       def install_path
-        @install_path ||= Pathname.new(Henson.settings[:path]) + name.rpartition("/").last
+        @install_path ||=
+          Pathname.new(Henson.settings[:path]) + name.rpartition("/").last
       end
     end
   end

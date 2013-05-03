@@ -43,19 +43,6 @@ describe Henson::Source::Forge do
     end
   end
 
-  describe "#clean_up_old_cached_versions" do
-    stub_files = [
-      "#{Henson.settings[:cache_path]}/github_tarball/bar-foo-0.0.1.tar.gz",
-    ]
-
-    it "should remove tarballs for this module only" do
-      Dir.expects(:[]).with("#{Henson.settings[:cache_path]}/forge/bar-foo-*.tar.gz").returns(stub_files)
-      FileUtils.expects(:rm).with(stub_files.first).once
-      it.send(:clean_up_old_cached_versions)
-      Dir.unstub(:[])
-    end
-  end
-
   describe "#install_path" do
     it "should return a Pathname object" do
       expect(it.send(:install_path)).to be_a(Pathname)

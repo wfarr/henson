@@ -142,4 +142,24 @@ describe Henson::Source::Tarball do
       expect(it.send(:cache_path)).to eq(path)
     end
   end
+
+  describe "#clean_up_old_cached_versions" do
+    stub_files = [
+      "#{Henson.settings[:cache_path]}/github_tarball/bar-foo-0.0.1.tar.gz",
+    ]
+
+    it "should remove tarballs for this module only" do
+      it.expects(:cached_versions_to_clean).
+        returns("#{Henson.settings[:cache_path]}/forge/bar-foo-*.tar.gz")
+
+      Dir.expects(:[]).with(it.send(:cached_versions_to_clean)).
+        returns(stub_files)
+
+      FileUtils.expects(:rm).with(stub_files.first).once
+
+      it.send(:clean_up_old_cached_versions)
+
+      Dir.unstub(:[])
+    end
+  end
 end
