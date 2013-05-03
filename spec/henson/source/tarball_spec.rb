@@ -3,6 +3,12 @@ require "spec_helper"
 describe Henson::Source::Tarball do
   subject(:it) { described_class.new("foo", ">= 0", "whatever") }
 
+  describe "#name" do
+    it "should return the name of the module" do
+      expect(it.name).to eq("foo")
+    end
+  end
+
   describe "#version" do
     it "should return the resolved version" do
       it.expects(:resolve_version_from_requirement).with(">= 0").once.returns("1.0.0")

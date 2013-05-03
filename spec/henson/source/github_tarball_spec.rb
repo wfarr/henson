@@ -11,12 +11,6 @@ describe Henson::Source::GitHubTarball do
     expect(it).to be_a(Henson::Source::Generic)
   end
 
-  describe "#name" do
-    it "should return the name of the module" do
-      expect(it.name).to eq("foo")
-    end
-  end
-
   describe "#repo" do
     it "should return the repository name for the module" do
       expect(it.repo).to eq("bar/puppet-foo")

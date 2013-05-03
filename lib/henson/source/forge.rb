@@ -4,9 +4,6 @@ module Henson
   module Source
     class Forge < Tarball
 
-      # Public: Returns the String name of the module.
-      attr_reader :name
-
       # Public: Initialize a new Henson::Source::Forge
       #
       # name  - The String name of the module.

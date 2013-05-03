@@ -5,6 +5,9 @@ module Henson
   module Source
     class Tarball < Generic
 
+      # Public: Returns the String name of the module.
+      attr_reader :name
+
       # Public: Check if the module tarball has been cached.
       #
       # Returns True if the module tarball exists on disk, otherwise False.

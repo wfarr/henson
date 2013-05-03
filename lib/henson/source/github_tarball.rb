@@ -3,9 +3,6 @@ require "henson/source/tarball"
 module Henson
   module Source
     class GitHubTarball < Tarball
-      # Public: Returns the String name of the module.
-      attr_reader :name
-
       # Public: Returns the String repo of the module.
       attr_reader :repo
 
