@@ -21,6 +21,16 @@ module Henson
       def version
         @version ||= resolve_version_from_requirement(@requirement)
       end
+
+      # Public: Install the module into the install path. If a version of the
+      # module has already been installed, it will first be removed.
+      #
+      # Returns nothing.
+      def install!
+        install_path.rmtree if install_path.exist?
+        install_path.mkpath
+        extract_tarball cache_path.to_path, install_path.to_path
+      end
     end
   end
 end

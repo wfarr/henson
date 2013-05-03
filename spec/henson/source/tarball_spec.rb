@@ -29,4 +29,15 @@ describe Henson::Source::Tarball do
       expect(it.fetched?).to be_false
     end
   end
+
+  describe "#install!" do
+    it "should extract the tarball into the install path" do
+      it.expects(:version).at_least_once.returns("1.0.0")
+      it.send(:install_path).expects(:exist?).returns(true)
+      it.send(:install_path).expects(:rmtree)
+      it.send(:install_path).expects(:mkpath)
+      it.expects(:extract_tarball).with(it.send(:tarball_path).to_path, it.send(:install_path).to_path)
+      it.install!
+    end
+  end
 end

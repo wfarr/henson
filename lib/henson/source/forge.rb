@@ -22,13 +22,6 @@ module Henson
         download_module!
       end
 
-      # Public: Installs the module into the path from the cache.
-      def install!
-        install_path.rmtree if install_path.exist?
-        install_path.mkpath
-        extract_tarball cache_path.to_path, install_path.to_path
-      end
-
       # Public: Check if the module has been installed.
       #
       # Returns True if the module exists in the install path, otherwise False.
