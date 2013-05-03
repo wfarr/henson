@@ -115,4 +115,16 @@ describe Henson::Source::Tarball do
       Zlib::GzipReader.unstub(:open)
     end
   end
+
+  describe "#cache_dir" do
+    it "should return a Pathname object" do
+      expect(it.send(:cache_dir)).to be_a(Pathname)
+    end
+
+    it "should return the path on disk to the tarball directory" do
+      path = Pathname.new(Henson.settings[:cache_path]) + "tarball"
+
+      expect(it.send(:cache_dir)).to eq(path)
+    end
+  end
 end

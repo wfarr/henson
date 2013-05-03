@@ -75,6 +75,18 @@ module Henson
           end
         end
       end
+
+      # Internal: Return the path where the module tarballs will be cached.
+      #
+      # Returns the Pathname object for the directory.
+      def cache_dir
+        @cache_dir ||=
+          Pathname.new(Henson.settings[:cache_path]) + source_class.downcase
+      end
+
+      def source_class
+        @source_class ||= self.class.name.rpartition("::").last
+      end
     end
   end
 end

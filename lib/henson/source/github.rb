@@ -53,13 +53,6 @@ module Henson
         @api.download_tag_for_repo repo, version, cache_path.to_path
       end
 
-      # Internal: Return the path where the module tarballs will be cached.
-      #
-      # Returns the Pathname object for the directory.
-      def cache_dir
-        @cache_dir ||= Pathname.new(Henson.settings[:cache_path]) + "github_tarball"
-      end
-
       # Internal: Return the path where the tarball for this version of the
       # module will be stored.
       #
