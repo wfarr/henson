@@ -65,17 +65,22 @@ describe Henson::Source::Tarball do
     let(:install_path) { mock }
 
     it "should extract the tarball into the install path" do
-      cache_path.expects(:to_path).returns("cache_path")
-      install_path.expects(:to_path).returns("install_path")
+      cache_path.expects(:to_path).returns("cache_path").times(2)
+      install_path.expects(:to_path).returns("install_path").times(2)
 
-      it.expects(:install_path).returns(install_path).at_least(3)
+      it.expects(:install_path).returns(install_path).times(5)
+
+      it.expects(:cache_path).returns(cache_path).times(3)
+
       it.expects(:version).at_least_once.returns("1.0.0")
+
       install_path.expects(:exist?).returns(true)
       install_path.expects(:rmtree)
       install_path.expects(:mkpath)
+
       it.expects(:extract_tarball).with(
-        '/Users/wfarr/src/henson/.henson/cache/tarball/foo-1.0.0.tar.gz',
-        'install_path'
+        it.send(:cache_path).to_path,
+        it.send(:install_path).to_path
       )
 
       it.install!
