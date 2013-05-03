@@ -131,7 +131,11 @@ describe Henson::Source::Tarball do
     let(:ui) { mock }
 
     before do
-      Henson.ui = ui
+      Henson.stubs(:ui).returns(ui)
+    end
+
+    after do
+      Henson.unstub(:ui)
     end
 
     it "should be able to extract files" do
@@ -174,11 +178,6 @@ describe Henson::Source::Tarball do
   end
 
   describe "#cache_dir" do
-    before do
-      Henson.expects(:settings).
-        returns({ :no_cache => false, :cache_path => "/cache_path" })
-    end
-
     it "should return a Pathname object" do
       expect(it.send(:cache_dir)).to be_a(Pathname)
     end
@@ -228,10 +227,6 @@ describe Henson::Source::Tarball do
   end
 
   describe "#install_path" do
-    before do
-
-    end
-
     it "should return a Pathname object" do
       expect(it.send(:install_path)).to be_a(Pathname)
     end

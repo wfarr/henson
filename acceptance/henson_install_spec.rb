@@ -28,7 +28,7 @@ describe "henson install" do
   end
 
   it "should have ssh module" do
-    expect(Pathname.new("#{project}/shared/ssh")).to be_directory
+    expect(Pathname.new("#{project}/shared/ssh")).to be_symlink
   end
 
   it "should have stdlib module" do

@@ -5,7 +5,7 @@ module Henson
     class Path < Generic
       attr_reader :path, :name
 
-      def initialize(name, path)
+      def initialize name, path
         @path = path
         @name = name
 
@@ -21,9 +21,8 @@ module Henson
       end
 
       def install!
-        Henson.ui.debug "Installing #{name} from #{path} into #{Henson.settings[:path]}..."
-        Henson.ui.info  "Installing #{name} from #{path}..."
-        FileUtils.cp_r path, Henson.settings[:path]
+        Henson.ui.debug "Symlinking #{path} to #{install_path}"
+        FileUtils.ln_sf path, install_path.to_path
       end
 
       def versions
@@ -39,6 +38,10 @@ module Henson
 
       def path_exists?
         path && File.directory?(path)
+      end
+
+      def install_path
+        @install_path ||= Pathname.new(Henson.settings[:path]) + name
       end
 
       def version_from_modulefile
