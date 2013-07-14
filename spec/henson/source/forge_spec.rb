@@ -31,7 +31,7 @@ describe Henson::Source::Forge do
   end
 
   describe "#download!" do
-    let(:ui) { mock }
+    let(:ui) { double("UI") }
 
     before do
       Henson.stubs(:ui).returns(ui)

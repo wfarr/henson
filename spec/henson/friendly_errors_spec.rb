@@ -14,7 +14,7 @@ describe "Henson.friendly_errors" do
       Henson::GitHubDownloadError,
     ]
 
-  let(:ui) { mock }
+  let(:ui) { double("UI") }
 
   before do
     Henson.stubs(:ui).returns(ui)

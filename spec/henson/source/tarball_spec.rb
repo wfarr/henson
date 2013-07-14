@@ -41,8 +41,8 @@ describe Henson::Source::Tarball do
   end
 
   describe "#fetched?" do
-    let(:file) { mock }
-    let(:dir)  { mock }
+    let(:file) { double("File") }
+    let(:dir)  { double("Dir") }
 
     it "should return true if the tarball exists on disk" do
       it.expects(:version).returns("1.0.0")
@@ -60,7 +60,7 @@ describe Henson::Source::Tarball do
   end
 
   describe "#fetch!" do
-    let(:dir) { mock }
+    let(:dir) { double("Dir") }
 
     it "should download the tarball" do
       it.expects(:cache_dir).returns(dir)
@@ -73,8 +73,8 @@ describe Henson::Source::Tarball do
   end
 
   describe "#install!" do
-    let(:cache_path)   { mock }
-    let(:install_path) { mock }
+    let(:cache_path)   { double("CachePath") }
+    let(:install_path) { double("InstallPath") }
 
     it "should extract the tarball into the install path" do
       cache_path.expects(:to_path).returns("cache_path").times(2)
@@ -128,7 +128,7 @@ describe Henson::Source::Tarball do
   end
 
   describe "#extract_tarball" do
-    let(:ui) { mock }
+    let(:ui) { double("UI") }
 
     before do
       Henson.stubs(:ui).returns(ui)
@@ -139,7 +139,7 @@ describe Henson::Source::Tarball do
     end
 
     it "should be able to extract files" do
-      stubbed_file = stub(
+      stubbed_file = double("File",
         :file?     => true,
         :full_name => "bar-foo-124351ab/manifests/test.pp",
         :read      => "file contents",
@@ -158,7 +158,7 @@ describe Henson::Source::Tarball do
     end
 
     it "should be able to create directories" do
-      stubbed_dir = stub(
+      stubbed_dir = double("Dir",
         :file?      => false,
         :directory? => true,
         :full_name  => "bar-foo-125234a/manifests/foo",
@@ -204,7 +204,7 @@ describe Henson::Source::Tarball do
   end
 
   describe "#clean_up_old_cached_versions" do
-    let(:cache_path) { mock }
+    let(:cache_path) { double("CachePath") }
     let(:files)      { ["/cache_path/tarball/foo-0.0.1.tar.gz"] }
 
     it "should remove tarballs for this module only" do

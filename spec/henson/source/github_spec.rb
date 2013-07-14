@@ -24,7 +24,7 @@ describe Henson::Source::GitHub do
   end
 
   describe "#fetch_versions_from_api" do
-    let(:ui) { mock }
+    let(:ui) { double("UI") }
 
     let(:tags) do
       [
@@ -69,7 +69,7 @@ describe Henson::Source::GitHub do
   end
 
   describe "#download!" do
-    let(:ui) { mock }
+    let(:ui) { double("UI") }
 
     before do
       Henson.stubs(:ui).returns(ui)

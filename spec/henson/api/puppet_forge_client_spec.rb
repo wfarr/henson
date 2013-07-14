@@ -19,7 +19,7 @@ describe Henson::API::PuppetForgeClient do
   end
 
   describe "#download_version_for_module" do
-    let(:response) { mock }
+    let(:response) { double("Response") }
 
     before do
       client.expects(:get_module).with("wfarr/osx_defaults", {}).

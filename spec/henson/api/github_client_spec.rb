@@ -25,7 +25,7 @@ describe Henson::API::GitHubClient do
   end
 
   describe "#download_tag_for_repo" do
-    let(:response) { mock }
+    let(:response) { double("Response") }
 
     before do
       client.expects(:tags_for_repo).with("wfarr/puppet-foo").

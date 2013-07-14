@@ -2,7 +2,7 @@ require "spec_helper"
 
 describe Henson::DSL::Puppetfile do
   subject(:it) { described_class.new }
-  let(:ui)     { mock }
+  let(:ui)     { double("UI") }
 
   before do
     Henson.stubs(:ui).returns(ui)

@@ -32,7 +32,7 @@ describe Henson::Source::Path do
   end
 
   context "#install!" do
-    let(:ui) { mock }
+    let(:ui) { double("UI") }
 
     before do
       Henson.stubs(:ui).returns(ui)

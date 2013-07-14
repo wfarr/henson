@@ -17,7 +17,7 @@ describe Henson::API::Client do
   end
 
   describe "#handle" do
-    let(:response) { mock }
+    let(:response) { double("Response") }
 
     describe "successful response status" do
       it "returns a sane Hash if the response body is empty" do
