@@ -37,26 +37,22 @@ describe Henson::CLI do
 
     context "options" do
       it "sets local if --local" do
-        ARGV = ["install", "--local"]
-        Henson::CLI.start
+        Henson::CLI.start([:install, "--local"])
         expect(Henson.settings[:local]).to be_true
       end
 
       it "sets no_cache if --no-cache" do
-        ARGV = ["install", "--no-cache"]
-        Henson::CLI.start
+        Henson::CLI.start([:install, "--no-cache"])
         expect(Henson.settings[:no_cache]).to be_true
       end
 
       it "sets clean if --clean" do
-        ARGV = ["install", "--clean"]
-        Henson::CLI.start
+        Henson::CLI.start([:install, "--clean"])
         expect(Henson.settings[:clean]).to be_true
       end
 
       it "sets path if --path" do
-        ARGV = ["install", "--path", "spec/fixtures/shared"]
-        Henson::CLI.start
+        Henson::CLI.start([:install, "--path", "spec/fixtures/shared"])
         expect(Henson.settings[:path]).to eq("spec/fixtures/shared")
       end
     end
