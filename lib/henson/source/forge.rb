@@ -10,7 +10,7 @@ module Henson
       # requirement - The Gem::Requirement used to satisfy versions.
       # forge       - The String hostname of the Puppet Forge.
       def initialize name, requirement, forge
-        @api   = Henson.api_clients.puppet_forge forge
+        @api = Henson.api_clients.puppet_forge forge
 
         super
       end
