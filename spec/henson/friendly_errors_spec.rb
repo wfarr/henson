@@ -19,7 +19,8 @@ describe "Henson.friendly_errors" do
   before do
     Henson.stubs(:ui).returns(ui)
 
-    ui.expects(:warn)
+    ui.expects(:warning)
+    ui.expects(:error)
   end
 
   after do
@@ -30,7 +31,7 @@ describe "Henson.friendly_errors" do
     it "rescues #{error.name}" do
       expect {
         Henson.with_friendly_errors { raise error }
-      }.to_not raise_error(error)
+      }.to raise_error(SystemExit)
     end
   end
 end
